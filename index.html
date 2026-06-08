@@ -33,6 +33,7 @@
       padding: 2rem 1.5rem;
     }
 
+    /* main container */
     .app-container {
       max-width: 1400px;
       margin: 0 auto;
@@ -44,6 +45,7 @@
       transition: all 0.2s;
     }
 
+    /* header */
     .hero {
       text-align: center;
       margin-bottom: 2rem;
@@ -74,19 +76,8 @@
       font-weight: 500;
       margin-top: 0.8rem;
     }
-    .cors-warning {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 0.8rem 1rem;
-      margin-bottom: 1.5rem;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      color: #856404;
-      display: none;
-    }
-    .cors-warning.show {
-      display: block;
-    }
+
+    /* calendar toolbar */
     .calendar-nav {
       display: flex;
       align-items: center;
@@ -133,6 +124,8 @@
     .today-btn:hover {
       background: #1f2f50;
     }
+
+    /* calendar grid */
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -199,6 +192,8 @@
       pointer-events: none;
       opacity: 0.5;
     }
+
+    /* match panel (details) */
     .match-detail-panel {
       background: white;
       border-radius: 2rem;
@@ -314,16 +309,6 @@
       background: none;
       border: none;
     }
-    .retry-btn {
-      background: #2c3e66;
-      color: white;
-      border: none;
-      padding: 0.5rem 1.2rem;
-      border-radius: 40px;
-      margin-top: 0.8rem;
-      cursor: pointer;
-      font-size: 0.8rem;
-    }
   </style>
 </head>
 <body>
@@ -335,21 +320,22 @@
     <div class="date-badge" id="liveDateBadge">loading schedule...</div>
   </div>
 
-  <div class="cors-warning" id="corsWarning">
-    ⚠️ CORS restriction detected. Using fallback proxy to load match data. Some features may be limited.
-  </div>
-
+  <!-- calendar toolbar -->
   <div class="calendar-nav">
     <div class="month-year" id="monthYearDisplay">June 2026</div>
     <div class="nav-buttons">
-      <button class="nav-btn" id="prevMonthBtn" aria-label="Previous month">◀ Prev</button>
+      <button class="nav-btn" id="prevMonthBtn" aria-label="Previous month">◀  Prev</button>
       <button class="nav-btn today-btn" id="goTodayBtn" aria-label="Go to today">📅 Today</button>
-      <button class="nav-btn" id="nextMonthBtn" aria-label="Next month">Next ▶</button>
+      <button class="nav-btn" id="nextMonthBtn" aria-label="Next month">Next  ▶</button>
     </div>
   </div>
 
-  <div class="calendar-grid" id="calendarGrid"></div>
+  <!-- weekday headers -->
+  <div class="calendar-grid" id="calendarGrid">
+    <!-- Mon, Tue ... injected via JS -->
+  </div>
 
+  <!-- match details panel -->
   <div class="match-detail-panel" id="matchPanel">
     <div class="panel-header">
       <h3>⚡ Match details</h3>
@@ -360,10 +346,11 @@
     </div>
   </div>
   <div class="footer-credit">
-    FIFA World Cup 2026 · All group & knockout fixtures · data via official API
+    FIFA World Cup 2026 · All group & knockout fixtures · live data via official feed
   </div>
 </div>
 
+<!-- JSON-LD Structured Data for SEO & Rich Results -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -386,11 +373,11 @@
 </script>
 
 <script>
+  // ---------- GLOBALS ----------
   let allMatches = [];
   let matchesByDate = new Map();
   let currentDisplayDate = new Date();
   let selectedDate = new Date();
-  let fallbackProxyUsed = false;
 
   function formatYMD(date) {
     let y = date.getFullYear();
@@ -429,81 +416,39 @@
     return map;
   }
 
-  function enrichMatches(matches) {
-    matches.forEach(m => {
-      m.homeTeamDisplay = m.home_team_name_en || m.home_team_label || (m.home_team_id !== "0" ? "Team" : "TBD");
-      m.awayTeamDisplay = m.away_team_name_en || m.away_team_label || (m.away_team_id !== "0" ? "Team" : "TBD");
-      if (m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
-      else if (m.type === 'r32') m.stageLabel = `Round of 32`;
-      else if (m.type === 'r16') m.stageLabel = `Round of 16`;
-      else if (m.type === 'qf') m.stageLabel = `Quarter-final`;
-      else if (m.type === 'sf') m.stageLabel = `Semi-final`;
-      else if (m.type === 'final') m.stageLabel = `FINAL 🏆`;
-      else if (m.type === 'third') m.stageLabel = `3rd place play-off`;
-      else m.stageLabel = m.group ? `Group ${m.group}` : (m.type?.toUpperCase() || 'Match');
-    });
-    return matches;
-  }
-
-  async function fetchWithCorsProxy(url) {
-    const proxyUrls = [
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-      `https://cors-anywhere.herokuapp.com/${url}`,
-      `https://thingproxy.freeboard.io/fetch/${url}`
-    ];
-    
-    for (const proxyUrl of proxyUrls) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
-        const response = await fetch(proxyUrl, { signal: controller.signal });
-        clearTimeout(timeoutId);
-        if (response.ok) {
-          const text = await response.text();
-          return JSON.parse(text);
-        }
-      } catch (e) {
-        console.warn(`Proxy ${proxyUrl} failed:`, e.message);
-      }
-    }
-    throw new Error('All CORS proxies failed');
-  }
-
   async function fetchWorldCupMatches() {
-    const targetUrl = 'https://worldcup26.ir/get/games';
-    const warningEl = document.getElementById('corsWarning');
-    
     try {
-      // Try direct fetch first (will work if CORS headers are added server-side)
-      const response = await fetch(targetUrl, { mode: 'cors' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      // Use the Cloudflare Worker as a CORS proxy
+      const workerUrl = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/games';
+      const response = await fetch(workerUrl);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       if (data && data.games && Array.isArray(data.games)) {
-        allMatches = enrichMatches(data.games);
-        matchesByDate = groupMatchesByDate(allMatches);
-        warningEl.classList.remove('show');
-        fallbackProxyUsed = false;
-        return true;
+        allMatches = data.games;
+      } else {
+        console.warn("No games array found");
+        allMatches = [];
       }
-      throw new Error('Invalid data structure');
-    } catch (directError) {
-      console.warn('Direct fetch failed (CORS likely):', directError.message);
-      warningEl.classList.add('show');
-      
-      try {
-        // Try proxy fallback
-        const data = await fetchWithCorsProxy(targetUrl);
-        if (data && data.games && Array.isArray(data.games)) {
-          allMatches = enrichMatches(data.games);
-          matchesByDate = groupMatchesByDate(allMatches);
-          fallbackProxyUsed = true;
-          return true;
-        }
-        throw new Error('Proxy returned invalid data');
-      } catch (proxyError) {
-        console.error('All fetch methods failed:', proxyError);
-        throw new Error('Unable to load match data. Please check your connection or try again later.');
-      }
+      allMatches.forEach(m => {
+        m.homeTeamDisplay = m.home_team_name_en || m.home_team_label || (m.home_team_id !== "0" ? "Team" : "TBD");
+        m.awayTeamDisplay = m.away_team_name_en || m.away_team_label || (m.away_team_id !== "0" ? "Team" : "TBD");
+        if (m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
+        else if (m.type === 'r32') m.stageLabel = `Round of 32`;
+        else if (m.type === 'r16') m.stageLabel = `Round of 16`;
+        else if (m.type === 'qf') m.stageLabel = `Quarter-final`;
+        else if (m.type === 'sf') m.stageLabel = `Semi-final`;
+        else if (m.type === 'final') m.stageLabel = `FINAL 🏆`;
+        else if (m.type === 'third') m.stageLabel = `3rd place play-off`;
+        else m.stageLabel = m.group ? `Group ${m.group}` : (m.type?.toUpperCase() || 'Match');
+      });
+      matchesByDate = groupMatchesByDate(allMatches);
+      renderCalendar(currentDisplayDate);
+      updateSelectedDatePanel(selectedDate);
+      updateLiveDateBadge();
+    } catch (err) {
+      console.error("Error fetching matches:", err);
+      document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Could not load matches. Please check network or try later.<br><button onclick="location.reload()" style="margin-top:1rem; padding:0.5rem 1rem; background:#2c3e66; color:white; border:none; border-radius:40px; cursor:pointer;">⟳ Retry</button></div>`;
+      document.getElementById("liveDateBadge").innerText = "⚠️ Schedule offline";
     }
   }
 
@@ -529,11 +474,9 @@
     const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     let gridHtml = weekdays.map(day => `<div class="weekday">${day}</div>`).join('');
     const todayYMD = formatYMD(new Date());
-    
     for (let i = 0; i < startOffset; i++) {
       gridHtml += `<div class="cal-day empty-day"></div>`;
     }
-    
     for (let d = 1; d <= daysInMonth; d++) {
       const cellDate = new Date(year, month, d);
       const ymd = formatYMD(cellDate);
@@ -544,7 +487,6 @@
       else if (hasMatch) additionalClass = "has-match";
       const matchCount = hasMatch ? matchesByDate.get(ymd).length : 0;
       const matchIndicator = hasMatch ? `<div class="match-indicator">⚽ ${matchCount}</div>` : '';
-      
       gridHtml += `
         <div class="cal-day ${additionalClass}" data-date="${ymd}" role="button" tabindex="0" aria-label="Matches on ${ymd}">
           <div class="day-number">${d}</div>
@@ -552,11 +494,9 @@
         </div>
       `;
     }
-    
     calendarGrid.innerHTML = gridHtml;
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     document.getElementById("monthYearDisplay").innerText = `${monthNames[month]} ${year}`;
-    
     document.querySelectorAll('.cal-day[data-date]').forEach(dayEl => {
       dayEl.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -595,12 +535,10 @@
     const selectedLabelSpan = document.getElementById("selectedDateLabel");
     const formattedDisplay = selectedDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     selectedLabelSpan.innerText = formattedDisplay;
-    
     if (matchesTodayList.length === 0) {
       container.innerHTML = `<div class="no-matches">📭 No matches scheduled on ${formattedDisplay}.<br>📅 Explore other dates.</div>`;
       return;
     }
-    
     let matchesHtml = "";
     matchesTodayList.forEach(match => {
       const matchDateTime = parseMatchDate(match.local_date);
@@ -617,7 +555,6 @@
       if (match.finished === "TRUE" || (match.home_score !== "0" && match.away_score !== "0")) {
         scoreDisplay = `<strong> ${match.home_score || 0} : ${match.away_score || 0} </strong>`;
       }
-      
       matchesHtml += `
         <div class="match-card" data-match-id="${match.id || Math.random()}" data-home="${homeTeam}" data-away="${awayTeam}">
           <div class="match-teams">
@@ -634,7 +571,6 @@
       `;
     });
     container.innerHTML = matchesHtml;
-    
     document.querySelectorAll('.match-card').forEach(card => {
       card.addEventListener('click', (e) => {
         const matchIdAttr = card.getAttribute('data-match-id');
@@ -686,32 +622,14 @@
     }, 50);
   }
 
-  async function initApp() {
-    const container = document.getElementById("matchesContainer");
-    container.innerHTML = `<div class="no-matches">⏳ Loading World Cup schedule...</div>`;
-    
-    try {
-      await fetchWorldCupMatches();
-      const now = new Date();
-      currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
-      selectedDate = new Date(now);
-      renderCalendar(currentDisplayDate);
-      updateSelectedDatePanel(selectedDate);
-      updateLiveDateBadge();
-    } catch (err) {
-      console.error("Init failed:", err);
-      container.innerHTML = `<div class="no-matches">
-        ⚠️ Unable to load match data. Please check your connection.<br>
-        <button class="retry-btn" onclick="location.reload()">⟳ Retry</button>
-      </div>`;
-      document.getElementById("liveDateBadge").innerHTML = "⚠️ Connection error";
-      document.getElementById("corsWarning").classList.add('show');
-      document.getElementById("corsWarning").innerHTML = '⚠️ Unable to fetch match data. The API may be unavailable or blocking requests. Please try again later.';
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    initApp();
+  window.addEventListener('DOMContentLoaded', async () => {
+    await fetchWorldCupMatches();
+    const now = new Date();
+    currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    selectedDate = new Date(now);
+    renderCalendar(currentDisplayDate);
+    updateSelectedDatePanel(selectedDate);
+    updateLiveDateBadge();
     document.getElementById("prevMonthBtn").addEventListener("click", goPrevMonth);
     document.getElementById("nextMonthBtn").addEventListener("click", goNextMonth);
     document.getElementById("goTodayBtn").addEventListener("click", goToday);
