@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Official FIFA World Cup 2026 match schedule, live calendar, fixtures, results, and knockout bracket. Track every match, group stage to final, with interactive calendar.">
+  <meta name="keywords" content="World Cup 2026, FIFA 2026, match schedule, football calendar, World Cup fixtures, group stage, knockout, final, USA 2026, soccer calendar">
+  <meta name="author" content="World Cup 2026 Hub">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+  <link rel="canonical" href="https://worldcup2026.05-ankitarora.workers.dev/">
+  <meta property="og:title" content="World Cup 2026 Official Match Calendar | FIFA World Cup Schedule">
+  <meta property="og:description" content="Complete World Cup 2026 schedule with interactive calendar, daily matches, group standings, and knockout stages. Never miss a match.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://worldcup2026.05-ankitarora.workers.dev/">
+  <meta property="og:image" content="https://worldcup2026.05-ankitarora.workers.dev/fifa-worldcup.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="World Cup 2026 Match Calendar">
+  <meta name="twitter:description" content="Track every World Cup 2026 match with elegant interactive calendar. Today's matches highlighted.">
+  <meta name="theme-color" content="#1a2a3f">
+  <title>World Cup 2026 · Official Match Calendar & Schedule | FIFA World Cup</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f0f4fa 0%, #e2eaf5 100%);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    /* main container */
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(2px);
+      border-radius: 3rem;
+      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+      padding: 1.8rem 2rem 2.5rem;
+      transition: all 0.2s;
+    }
+
+    /* header */
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1a2a3f, #2c3e66);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+    .hero p {
+      color: #2c3e50;
+      margin-top: 0.5rem;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .date-badge {
+      background: #1f2e45e0;
+      display: inline-block;
+      backdrop-filter: blur(8px);
+      padding: 0.3rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      color: white;
+      font-weight: 500;
+      margin-top: 0.8rem;
+    }
+
+    /* calendar toolbar */
+    .calendar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 80px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+    .month-year {
+      font-weight: 700;
+      font-size: 1.4rem;
+      background: #fff;
+      padding: 0 0.4rem;
+      color: #1a2a3f;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .nav-btn {
+      background: #eef2f7;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #1e2f41;
+    }
+    .nav-btn:hover {
+      background: #cbdde9;
+      transform: scale(0.96);
+    }
+    .today-btn {
+      background: #2c3e66;
+      color: white;
+      box-shadow: 0 2px 8px rgba(44,62,102,0.3);
+    }
+    .today-btn:hover {
+      background: #1f2f50;
+    }
+
+    /* calendar grid */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .weekday {
+      text-align: center;
+      font-weight: 600;
+      padding: 0.6rem 0;
+      color: #2c3e66;
+      background: #ffffffc9;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .cal-day {
+      background: white;
+      border-radius: 1.2rem;
+      padding: 0.7rem 0.2rem 0.4rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .cal-day:hover {
+      transform: translateY(-3px);
+      background: #fafcff;
+      border-color: #bdd4e7;
+      box-shadow: 0 12px 20px -12px rgba(0,0,0,0.15);
+    }
+    .day-number {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1f2e45;
+    }
+    .match-indicator {
+      font-size: 0.7rem;
+      background: #eef3fc;
+      border-radius: 30px;
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      margin-top: 0.3rem;
+      font-weight: 600;
+      color: #2c5a7a;
+    }
+    .cal-day.today {
+      background: linear-gradient(135deg, #ffe6b3, #ffd966);
+      border: 2px solid #d4a11e;
+      box-shadow: 0 6px 14px rgba(218,165,32,0.2);
+    }
+    .cal-day.today .day-number {
+      color: #b45309;
+    }
+    .cal-day.has-match {
+      background: #eef2fc;
+      border-left: 4px solid #3b82f6;
+    }
+    .empty-day {
+      background: transparent;
+      box-shadow: none;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* match panel (details) */
+    .match-detail-panel {
+      background: white;
+      border-radius: 2rem;
+      padding: 1.4rem 1.8rem;
+      margin-top: 1rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      transition: 0.2s;
+      border: 1px solid #e9edf2;
+    }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #eef2fa;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .panel-header h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0e293b;
+    }
+    .selected-date {
+      font-weight: 500;
+      background: #eef3ff;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+    }
+    .matches-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .match-card {
+      background: #f9fbfe;
+      border-radius: 1.5rem;
+      padding: 1rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      transition: 0.1s;
+      border-left: 6px solid #3b82f6;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .match-card:hover {
+      background: #f1f5fd;
+      transform: scale(1.01);
+    }
+    .match-teams {
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: baseline;
+    }
+    .team {
+      background: white;
+      padding: 0.2rem 0.7rem;
+      border-radius: 60px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .vs {
+      font-weight: 500;
+      color: #6c757d;
+    }
+    .match-meta {
+      text-align: right;
+    }
+    .match-time {
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: #e4e9f2;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      display: inline-block;
+    }
+    .group-stage {
+      font-size: 0.7rem;
+      background: #cbdde9;
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      margin-left: 0.5rem;
+    }
+    .no-matches {
+      text-align: center;
+      padding: 2rem;
+      color: #59748f;
+      font-weight: 500;
+    }
+    .footer-credit {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: #5d7184;
+    }
+    .structured-data {
+      display: none;
+    }
+    @media (max-width: 780px) {
+      body { padding: 1rem; }
+      .app-container { padding: 1rem; }
+      .calendar-grid { gap: 0.4rem; }
+      .day-number { font-size: 1rem; }
+      .match-card { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+      .match-meta { text-align: left; }
+    }
+    button {
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="hero">
+    <h1>⚽ WORLD CUP 2026 · Match Tracker</h1>
+    <p>🗓️ Interactive calendar · tap any date to see matches · today’s matches highlighted</p>
+    <div class="date-badge" id="liveDateBadge">loading schedule...</div>
+  </div>
+
+  <!-- calendar toolbar -->
+  <div class="calendar-nav">
+    <div class="month-year" id="monthYearDisplay">June 2026</div>
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevMonthBtn" aria-label="Previous month">◀  Prev</button>
+      <button class="nav-btn today-btn" id="goTodayBtn" aria-label="Go to today">📅 Today</button>
+      <button class="nav-btn" id="nextMonthBtn" aria-label="Next month">Next  ▶</button>
+    </div>
+  </div>
+
+  <!-- weekday headers -->
+  <div class="calendar-grid" id="calendarGrid">
+    <!-- Mon, Tue ... injected via JS -->
+  </div>
+
+  <!-- match details panel -->
+  <div class="match-detail-panel" id="matchPanel">
+    <div class="panel-header">
+      <h3>⚡ Match details</h3>
+      <span class="selected-date" id="selectedDateLabel">Select a date</span>
+    </div>
+    <div id="matchesContainer" class="matches-list">
+      <div class="no-matches">✨ Tap any day on the calendar to see matches</div>
+    </div>
+  </div>
+  <div class="footer-credit">
+    FIFA World Cup 2026 · All group & knockout fixtures · live data via official feed
+  </div>
+</div>
+
+<!-- JSON-LD Structured Data for SEO & Rich Results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsEvent",
+  "name": "FIFA World Cup 2026",
+  "startDate": "2026-06-11",
+  "endDate": "2026-07-19",
+  "location": {
+    "@type": "Country",
+    "name": "United States, Canada, Mexico"
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "FIFA",
+    "url": "https://www.fifa.com"
+  },
+  "description": "Complete match schedule for the FIFA World Cup 2026 featuring 104 matches across group stage, round of 32, round of 16, quarterfinals, semifinals, and final.",
+  "url": "https://worldcup2026.05-ankitarora.workers.dev/"
+}
+</script>
+
+<script>
+  // ---------- GLOBALS ----------
+  let allMatches = [];
+  let matchesByDate = new Map();
+  let currentDisplayDate = new Date();
+  let selectedDate = new Date();
+
+  function formatYMD(date) {
+    let y = date.getFullYear();
+    let m = String(date.getMonth() + 1).padStart(2, '0');
+    let d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  function parseMatchDate(localDateStr) {
+    if (!localDateStr) return new Date(NaN);
+    let [datePart, timePart] = localDateStr.split(' ');
+    if (!datePart) return new Date(NaN);
+    let [month, day, year] = datePart.split('/').map(Number);
+    let [hour = 0, minute = 0] = timePart ? timePart.split(':').map(Number) : [0, 0];
+    return new Date(year, month - 1, day, hour, minute);
+  }
+
+  function groupMatchesByDate(matches) {
+    const map = new Map();
+    matches.forEach(match => {
+      const rawDate = match.local_date;
+      if (!rawDate) return;
+      const matchDateObj = parseMatchDate(rawDate);
+      if (isNaN(matchDateObj.getTime())) return;
+      const ymd = formatYMD(matchDateObj);
+      if (!map.has(ymd)) map.set(ymd, []);
+      map.get(ymd).push(match);
+    });
+    for (let [key, matchList] of map.entries()) {
+      matchList.sort((a,b) => {
+        let timeA = parseMatchDate(a.local_date).getTime();
+        let timeB = parseMatchDate(b.local_date).getTime();
+        return timeA - timeB;
+      });
+    }
+    return map;
+  }
+
+  async function fetchWorldCupMatches() {
+    try {
+      const response = await fetch('https://worldcup26.ir/get/games');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      if (data && data.games && Array.isArray(data.games)) {
+        allMatches = data.games;
+      } else {
+        console.warn("No games array found");
+        allMatches = [];
+      }
+      allMatches.forEach(m => {
+        m.homeTeamDisplay = m.home_team_name_en || m.home_team_label || (m.home_team_id !== "0" ? "Team" : "TBD");
+        m.awayTeamDisplay = m.away_team_name_en || m.away_team_label || (m.away_team_id !== "0" ? "Team" : "TBD");
+        if (m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
+        else if (m.type === 'r32') m.stageLabel = `Round of 32`;
+        else if (m.type === 'r16') m.stageLabel = `Round of 16`;
+        else if (m.type === 'qf') m.stageLabel = `Quarter-final`;
+        else if (m.type === 'sf') m.stageLabel = `Semi-final`;
+        else if (m.type === 'final') m.stageLabel = `FINAL 🏆`;
+        else if (m.type === 'third') m.stageLabel = `3rd place play-off`;
+        else m.stageLabel = m.group ? `Group ${m.group}` : (m.type?.toUpperCase() || 'Match');
+      });
+      matchesByDate = groupMatchesByDate(allMatches);
+      renderCalendar(currentDisplayDate);
+      updateSelectedDatePanel(selectedDate);
+      updateLiveDateBadge();
+    } catch (err) {
+      console.error("Error fetching matches:", err);
+      document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Could not load matches. Please check network or try later.</div>`;
+      document.getElementById("liveDateBadge").innerText = "⚠️ Schedule offline";
+    }
+  }
+
+  function updateLiveDateBadge() {
+    const today = new Date();
+    const ymdToday = formatYMD(today);
+    const matchesToday = matchesByDate.get(ymdToday) || [];
+    const count = matchesToday.length;
+    const badgeSpan = document.getElementById("liveDateBadge");
+    if (badgeSpan) {
+      badgeSpan.innerHTML = `📆 ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year:'numeric' })} · ${count} match${count !== 1 ? 'es' : ''} today`;
+    }
+  }
+
+  function renderCalendar(currentMonthDate) {
+    const year = currentMonthDate.getFullYear();
+    const month = currentMonthDate.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    const startWeekday = firstDayOfMonth.getDay();
+    let startOffset = startWeekday === 0 ? 6 : startWeekday - 1;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const calendarGrid = document.getElementById("calendarGrid");
+    const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+    let gridHtml = weekdays.map(day => `<div class="weekday">${day}</div>`).join('');
+    const todayYMD = formatYMD(new Date());
+    for (let i = 0; i < startOffset; i++) {
+      gridHtml += `<div class="cal-day empty-day"></div>`;
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cellDate = new Date(year, month, d);
+      const ymd = formatYMD(cellDate);
+      const hasMatch = matchesByDate.has(ymd) && matchesByDate.get(ymd).length > 0;
+      const isToday = (ymd === todayYMD);
+      let additionalClass = "";
+      if (isToday) additionalClass = "today";
+      else if (hasMatch) additionalClass = "has-match";
+      const matchCount = hasMatch ? matchesByDate.get(ymd).length : 0;
+      const matchIndicator = hasMatch ? `<div class="match-indicator">⚽ ${matchCount}</div>` : '';
+      gridHtml += `
+        <div class="cal-day ${additionalClass}" data-date="${ymd}" role="button" tabindex="0" aria-label="Matches on ${ymd}">
+          <div class="day-number">${d}</div>
+          ${matchIndicator}
+        </div>
+      `;
+    }
+    calendarGrid.innerHTML = gridHtml;
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    document.getElementById("monthYearDisplay").innerText = `${monthNames[month]} ${year}`;
+    document.querySelectorAll('.cal-day[data-date]').forEach(dayEl => {
+      dayEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const dateStr = dayEl.getAttribute('data-date');
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const clickedDate = new Date(y, m-1, d);
+        selectedDate = clickedDate;
+        updateSelectedDatePanel(selectedDate);
+        renderCalendar(currentDisplayDate);
+        const newSelectedCell = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
+        if(newSelectedCell) {
+          newSelectedCell.style.transition = "0.1s";
+          newSelectedCell.style.background = "#d9e6ff";
+          newSelectedCell.style.border = "2px solid #1e4d8f";
+          setTimeout(() => {
+            if(newSelectedCell) {
+              newSelectedCell.style.background = "";
+              newSelectedCell.style.border = "";
+            }
+          }, 400);
+        }
+      });
+      dayEl.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dayEl.click();
+        }
+      });
+    });
+  }
+
+  function updateSelectedDatePanel(selectedDateObj) {
+    const ymd = formatYMD(selectedDateObj);
+    const matchesTodayList = matchesByDate.get(ymd) || [];
+    const container = document.getElementById("matchesContainer");
+    const selectedLabelSpan = document.getElementById("selectedDateLabel");
+    const formattedDisplay = selectedDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    selectedLabelSpan.innerText = formattedDisplay;
+    if (matchesTodayList.length === 0) {
+      container.innerHTML = `<div class="no-matches">📭 No matches scheduled on ${formattedDisplay}.<br>📅 Explore other dates.</div>`;
+      return;
+    }
+    let matchesHtml = "";
+    matchesTodayList.forEach(match => {
+      const matchDateTime = parseMatchDate(match.local_date);
+      let timeStr = "";
+      if (!isNaN(matchDateTime.getTime())) {
+        timeStr = matchDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      } else {
+        timeStr = "Time TBD";
+      }
+      const homeTeam = match.homeTeamDisplay;
+      const awayTeam = match.awayTeamDisplay;
+      const groupBadge = match.stageLabel ? `<span class="group-stage">${match.stageLabel}</span>` : '';
+      let scoreDisplay = `<span>vs</span>`;
+      if (match.finished === "TRUE" || (match.home_score !== "0" && match.away_score !== "0")) {
+        scoreDisplay = `<strong> ${match.home_score || 0} : ${match.away_score || 0} </strong>`;
+      }
+      matchesHtml += `
+        <div class="match-card" data-match-id="${match.id || Math.random()}" data-home="${homeTeam}" data-away="${awayTeam}">
+          <div class="match-teams">
+            <span class="team">🏟️ ${homeTeam}</span>
+            <span class="vs"> ${scoreDisplay} </span>
+            <span class="team">${awayTeam}</span>
+            ${groupBadge}
+          </div>
+          <div class="match-meta">
+            <span class="match-time">⏱️ ${timeStr}</span>
+            <div style="font-size:0.7rem; margin-top:4px;">🏟️ Stadium ${match.stadium_id || '—'}</div>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = matchesHtml;
+    document.querySelectorAll('.match-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const matchIdAttr = card.getAttribute('data-match-id');
+        const matchObj = matchesTodayList.find(m => String(m.id) === matchIdAttr);
+        if (matchObj) {
+          let scorersInfo = "No scorers yet";
+          if (matchObj.home_scorers && matchObj.home_scorers !== "null") scorersInfo = `⚽ Home: ${matchObj.home_scorers}`;
+          if (matchObj.away_scorers && matchObj.away_scorers !== "null") scorersInfo += ` | Away: ${matchObj.away_scorers}`;
+          alert(`📋 ${matchObj.homeTeamDisplay} vs ${matchObj.awayTeamDisplay}\n⏱️ ${matchObj.local_date}\n🏆 ${matchObj.stageLabel}\n📊 Status: ${matchObj.finished === "TRUE" ? "Finished" : "Upcoming"}\n${scorersInfo}`);
+        } else {
+          alert("Match details: tap calendar to explore more fixtures.");
+        }
+      });
+    });
+  }
+
+  function goPrevMonth() {
+    let newDate = new Date(currentDisplayDate);
+    newDate.setMonth(currentDisplayDate.getMonth() - 1);
+    currentDisplayDate = newDate;
+    renderCalendar(currentDisplayDate);
+    updateSelectedDatePanel(selectedDate);
+    updateLiveDateBadge();
+  }
+
+  function goNextMonth() {
+    let newDate = new Date(currentDisplayDate);
+    newDate.setMonth(currentDisplayDate.getMonth() + 1);
+    currentDisplayDate = newDate;
+    renderCalendar(currentDisplayDate);
+    updateSelectedDatePanel(selectedDate);
+    updateLiveDateBadge();
+  }
+
+  function goToday() {
+    const today = new Date();
+    currentDisplayDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    selectedDate = new Date(today);
+    renderCalendar(currentDisplayDate);
+    updateSelectedDatePanel(selectedDate);
+    updateLiveDateBadge();
+    setTimeout(() => {
+      const todayYMD = formatYMD(today);
+      const todayTile = document.querySelector(`.cal-day[data-date="${todayYMD}"]`);
+      if(todayTile) {
+        todayTile.style.transform = "scale(1.02)";
+        setTimeout(() => { if(todayTile) todayTile.style.transform = ""; }, 300);
+      }
+    }, 50);
+  }
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    await fetchWorldCupMatches();
+    const now = new Date();
+    currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    selectedDate = new Date(now);
+    renderCalendar(currentDisplayDate);
+    updateSelectedDatePanel(selectedDate);
+    updateLiveDateBadge();
+    document.getElementById("prevMonthBtn").addEventListener("click", goPrevMonth);
+    document.getElementById("nextMonthBtn").addEventListener("click", goNextMonth);
+    document.getElementById("goTodayBtn").addEventListener("click", goToday);
+  });
+</script>
+</body>
+</html>
