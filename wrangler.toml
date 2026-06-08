@@ -1,0 +1,6 @@
+name = "worldcup2026"
+main = "src/index.js"
+compatibility_date = "2026-06-08"
+
+[vars]
+# No variables needed for this Worker
