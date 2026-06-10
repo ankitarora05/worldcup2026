@@ -413,6 +413,20 @@
     return map;
   }
 
+  async function getGameID(gameId) {
+    const gameIdUrl = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/game/${gameId}`;
+    const response = await fetch(gameIdUrl);
+    const gameInfo = await response.json();
+    return gameInfo;
+  }
+
+  async function getStadiumID(stadium_id) {
+    const stadiumIdUrl = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadium_id}`
+    const response = await fetch(stadiumIdUrl);
+    const stadiumInfo = await response.json();
+    return stadiumInfo;
+  }
+
   async function fetchWorldCupMatches() {
     try {
       // Use the Cloudflare Worker as a CORS proxy
@@ -569,14 +583,15 @@
     });
     container.innerHTML = matchesHtml;
     document.querySelectorAll('.match-card').forEach(card => {
-      card.addEventListener('click', (e) => {
+      card.addEventListener('click', async (e) => {
         const matchIdAttr = card.getAttribute('data-match-id');
         const matchObj = matchesTodayList.find(m => String(m.id) === matchIdAttr);
         if (matchObj) {
+          let stadiumDetails = await getStadiumID(matchObj.stadium_id);
           let scorersInfo = "No scorers yet";
           if (matchObj.home_scorers && matchObj.home_scorers !== "null") scorersInfo = `⚽ Home: ${matchObj.home_scorers}`;
           if (matchObj.away_scorers && matchObj.away_scorers !== "null") scorersInfo += ` | Away: ${matchObj.away_scorers}`;
-          alert(`📋 ${matchObj.homeTeamDisplay} vs ${matchObj.awayTeamDisplay}\n⏱️ ${matchObj.local_date}\n🏆 ${matchObj.stageLabel}\n📊 Status: ${matchObj.finished === "TRUE" ? "Finished" : "Upcoming"}\n${scorersInfo}`);
+          alert(`📋 ${matchObj.homeTeamDisplay} vs ${matchObj.awayTeamDisplay}\n⏱️ ${matchObj.local_date}\n🏆 ${matchObj.stageLabel}\n📊 Status: ${matchObj.finished === "TRUE" ? "Finished" : "Upcoming"}\n${scorersInfo}\nStadium: ${stadiumDetails?.stadium.name_en}, ${stadiumDetails?.stadium.fifa_name}, ${stadiumDetails?.stadium.city_en}`);
         } else {
           alert("Match details: tap calendar to explore more fixtures.");
         }
