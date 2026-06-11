@@ -1,638 +1,512 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="description" content="Official FIFA World Cup 2026 match schedule, live calendar, fixtures, results, and knockout bracket. Track every match, group stage to final, with interactive calendar.">
-  <meta name="keywords" content="World Cup 2026, FIFA 2026, match schedule, football calendar, World Cup fixtures, group stage, knockout, final, USA 2026, soccer calendar">
-  <meta name="author" content="World Cup 2026 Hub">
-  <meta name="google-site-verification" content="J84fgY7LrlzavldMhBg4UcBYTxue0Z3VFH20vS_GaEI" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="Interactive Calendar for FIFA WORLD CUP 2026 & On This Day Daily Feed">
+  <meta name="keywords" content="World Cup 2026, FIFA 2026, On This Day, today in history, events, match calendar, interactive calendar, football schedule, world cup schedule, world cup 2026 schedule, schedule world cup, 2026 schedule, world cup, Interactive Calendar, for FIFA WORLD CUP 2026, game fifa, all fifa world cup 2026, world cup match,world cup game, On This Day, follow Daily Feed, free daily feed">
+  <meta name="author" content="World Cup History Hub">
   <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow">
   <link rel="canonical" href="https://worldcup2026.05-ankitarora.workers.dev/">
-  <meta property="og:title" content="World Cup 2026 Official Match Calendar | FIFA World Cup Schedule">
-  <meta property="og:description" content="Complete World Cup 2026 schedule with interactive calendar, daily matches, group standings, and knockout stages. Never miss a match.">
+  <meta property="og:title" content="World Cup 2026 & On This Day">
+  <meta property="og:description" content="World Cup 2026 game calendar & daily 'On This Day' feed">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://worldcup2026.05-ankitarora.workers.dev/">
   <meta property="og:image" content="https://ankitarora05.github.io/worldcup2026/fifa-worldcup.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="World Cup 2026 Match Calendar">
-  <meta name="twitter:description" content="Track every World Cup 2026 match with elegant interactive calendar. Today's matches highlighted.">
-  <meta name="theme-color" content="#1a2a3f">
-  <title>World Cup 2026 · Official Match Calendar & Schedule | Ankit Arora</title>
+  <meta name="twitter:title" content="World Cup 2026 & On This Day Daily Feed">
+  <meta name="theme-color" content="#0f2b3d">
+  <title>World Cup 2026 & On This Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, 'Segoe UI', 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-size: 16px; }
     body {
-      background: linear-gradient(145deg, #f0f4fa 0%, #e2eaf5 100%);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f0f4fa 0%, #e2eaf5 100%);
       min-height: 100vh;
-      padding: 2rem 1.5rem;
+      padding: 1.5rem;
+      font-size: 20px;
     }
-
-    /* main container */
     .app-container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
-      background: rgba(255,255,255,0.65);
-      backdrop-filter: blur(2px);
-      border-radius: 3rem;
-      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
-      padding: 1.8rem 2rem 2.5rem;
-      transition: all 0.2s;
-    }
-
-    /* header */
-    .hero {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .hero h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-    }
-    .hero p {
-      color: #2c3e50;
-      margin-top: 0.5rem;
-      font-weight: 500;
-      opacity: 0.8;
-    }
-    .date-badge {
-      background: #1f2e45e0;
-      display: inline-block;
-      backdrop-filter: blur(8px);
-      padding: 0.3rem 1.2rem;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      color: white;
-      font-weight: 500;
-      margin-top: 0.8rem;
-    }
-
-    /* calendar toolbar */
-    .calendar-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      background: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 80px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-    }
-    .month-year {
-      font-weight: 700;
-      font-size: 1.4rem;
-      background: #fff;
-      padding: 0 0.4rem;
-      color: #1a2a3f;
-    }
-    .nav-buttons {
-      display: flex;
-      gap: 0.8rem;
-    }
-    .nav-btn {
-      background: #eef2f7;
-      border: none;
-      font-size: 1.2rem;
-      font-weight: bold;
-      padding: 0.4rem 1rem;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: 0.2s;
-      color: #1e2f41;
-    }
-    .nav-btn:hover {
-      background: #cbdde9;
-      transform: scale(0.96);
-    }
-    .today-btn {
-      background: #2c3e66;
-      color: white;
-      box-shadow: 0 2px 8px rgba(44,62,102,0.3);
-    }
-    .today-btn:hover {
-      background: #1f2f50;
-    }
-
-    /* calendar grid */
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.6rem;
-      margin-bottom: 2rem;
-    }
-    .weekday {
-      text-align: center;
-      font-weight: 600;
-      padding: 0.6rem 0;
-      color: #2c3e66;
-      background: #ffffffc9;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .cal-day {
-      background: white;
-      border-radius: 1.2rem;
-      padding: 0.7rem 0.2rem 0.4rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .cal-day:hover {
-      transform: translateY(-3px);
-      background: #fafcff;
-      border-color: #bdd4e7;
-      box-shadow: 0 12px 20px -12px rgba(0,0,0,0.15);
-    }
-    .day-number {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #1f2e45;
-    }
-    .match-indicator {
-      font-size: 0.7rem;
-      background: #eef3fc;
-      border-radius: 30px;
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      margin-top: 0.3rem;
-      font-weight: 600;
-      color: #2c5a7a;
-    }
-    .cal-day.today {
-      background: linear-gradient(135deg, #ffe6b3, #ffd966);
-      border: 2px solid #d4a11e;
-      box-shadow: 0 6px 14px rgba(218,165,32,0.2);
-    }
-    .cal-day.today .day-number {
-      color: #b45309;
-    }
-    .cal-day.has-match {
-      background: #eef2fc;
-      border-left: 4px solid #3b82f6;
-    }
-    .empty-day {
-      background: transparent;
-      box-shadow: none;
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    /* match panel (details) */
-    .match-detail-panel {
-      background: white;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(4px);
       border-radius: 2rem;
-      padding: 1.4rem 1.8rem;
-      margin-top: 1rem;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-      transition: 0.2s;
-      border: 1px solid #e9edf2;
+      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0a1a2a, #1a3a4f);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero h1 { font-size: 2rem; font-weight: 700; color: white; }
+    .hero h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); background-clip: text; -webkit-background-clip: text; color: transparent; font-size: 2rem;}
+    .hero p { color: rgba(255,255,255,0.85); margin-top: 0.5rem; }
+    .badge-row { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+    .date-badge, .history-badge {
+      background: rgba(255,255,255,0.12);
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      color: white;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .calendar-nav {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+      background: white; margin: 1.5rem 1.5rem 0; padding: 0.6rem 1.2rem;
+      border-radius: 80px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .month-year { font-weight: 700; font-size: 1.2rem; color: #1e293b; }
+    .nav-btn {
+      background: #f1f5f9; border: none; padding: 0.4rem 1rem; border-radius: 40px;
+      font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+      color: #1e293b;
+    }
+    .nav-btn:hover { background: #e2e8f0; transform: translateY(-1px); }
+    .today-btn { background: #1e3a5f; color: white; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; padding: 1.5rem; }
+    .weekday { text-align: center; font-weight: 600; padding: 0.4rem; font-size: 0.7rem; color: #475569; text-transform: uppercase; }
+    .cal-day {
+      background: white; border-radius: 1rem; padding: 0.6rem 0.2rem; text-align: center;
+      cursor: pointer; transition: all 0.2s; border: 1px solid #e9edf2;
+    }
+    .cal-day:hover { transform: translateY(-2px); border-color: #3b82f6; box-shadow: 0 6px 12px -6px rgba(0,0,0,0.1); }
+    .day-number { font-size: 1.1rem; font-weight: 600; color: #1e293b; }
+    .match-indicator { font-size: 0.6rem; background: #eef2ff; border-radius: 30px; display: inline-block; padding: 0.1rem 0.5rem; margin-top: 0.2rem; font-weight: 600; color: #2563eb; }
+    .cal-day.today { background: #fef9e3; border: 2px solid #f59e0b; }
+    .cal-day.has-match { background: #eff6ff; border-left: 3px solid #3b82f6; }
+    .empty-day { background: transparent; opacity: 0.3; pointer-events: none; }
+    .double-panel { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 0 1.5rem 1.5rem; }
+    .match-panel, .history-panel {
+      flex: 1; min-width: 340px; background: white; border-radius: 1.2rem;
+      padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      border: 1px solid #edf2f7;
     }
     .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      border-bottom: 2px solid #eef2fa;
-      padding-bottom: 0.8rem;
-      margin-bottom: 1.2rem;
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;
+      gap: 0.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.6rem; margin-bottom: 1rem;
     }
-    .panel-header h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #0e293b;
-    }
-    .selected-date {
-      font-weight: 500;
-      background: #eef3ff;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      font-size: 0.85rem;
-    }
-    .matches-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .panel-header h3 { font-size: 1.1rem; font-weight: 600; color: #0f172a; display: flex; align-items: center; gap: 6px; }
+    .selected-date { background: #f1f5f9; padding: 0.2rem 0.8rem; border-radius: 40px; font-size: 0.7rem; font-weight: 500; }
+    .matches-list, .history-scroll { max-height: 520px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.7rem; padding-right: 0.2rem; }
+    .matches-list::-webkit-scrollbar, .history-scroll::-webkit-scrollbar { width: 4px; }
     .match-card {
-      background: #f9fbfe;
-      border-radius: 1.5rem;
-      padding: 1rem 1.4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      transition: 0.1s;
-      border-left: 6px solid #3b82f6;
-      cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      background: #fafcff; border-radius: 0.8rem; padding: 0.7rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      cursor: pointer; border-left: 3px solid #3b82f6; transition: all 0.2s;
+      gap: 0.5rem; border: 1px solid #edf2f7;
     }
-    .match-card:hover {
-      background: #f1f5fd;
-      transform: scale(1.01);
+    .match-card:hover { background: #f8fafc; transform: translateX(3px); }
+    .match-teams { font-weight: 600; font-size: 0.85rem; display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: baseline; }
+    .team { background: #f1f5f9; padding: 0.1rem 0.5rem; border-radius: 40px; font-size: 0.8rem; }
+    .match-time { font-size: 0.65rem; background: #f1f5f9; padding: 0.2rem 0.6rem; border-radius: 40px; font-weight: 500; }
+    .group-stage { font-size: 0.6rem; background: #e2e8f0; border-radius: 20px; padding: 0.1rem 0.4rem; }
+    .history-card {
+      background: #fefaf5; border-radius: 0.8rem; padding: 0.8rem;
+      border-left: 3px solid #e2b868; transition: all 0.2s;
+      border: 1px solid #f0e7db;
     }
-    .match-teams {
-      font-weight: 700;
-      font-size: 1.1rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      align-items: baseline;
+    .history-card:hover { background: #fef7ec; transform: translateX(3px); }
+    .history-year { font-weight: 700; font-size: 0.7rem; color: #b45309; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+    .history-text { font-size: 0.8rem; line-height: 1.4; color: #334155; margin-bottom: 4px; }
+    .history-link { font-size: 0.65rem; text-decoration: none; color: #2563eb; font-weight: 500; }
+    .history-link:hover { text-decoration: underline; }
+    .history-img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #e2e8f0;
+      flex-shrink: 0;
     }
-    .team {
-      background: white;
-      padding: 0.2rem 0.7rem;
-      border-radius: 60px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    .vs {
-      font-weight: 500;
-      color: #6c757d;
-    }
-    .match-meta {
-      text-align: right;
-    }
-    .match-time {
-      font-weight: 600;
-      font-size: 0.85rem;
-      background: #e4e9f2;
-      padding: 0.2rem 0.9rem;
-      border-radius: 40px;
-      display: inline-block;
-    }
-    .group-stage {
-      font-size: 0.7rem;
-      background: #cbdde9;
-      border-radius: 20px;
-      padding: 0.2rem 0.7rem;
-      margin-left: 0.5rem;
-    }
-    .no-matches {
-      text-align: center;
-      padding: 2rem;
-      color: #59748f;
-      font-weight: 500;
-    }
-    .footer-credit {
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 0.75rem;
-      color: #5d7184;
-    }
-    .structured-data {
-      display: none;
-    }
-    @media (max-width: 780px) {
-      body { padding: 1rem; }
-      .app-container { padding: 1rem; }
-      .calendar-grid { gap: 0.4rem; }
-      .day-number { font-size: 1rem; }
-      .match-card { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
-      .match-meta { text-align: left; }
-    }
-    button {
-      background: none;
-      border: none;
+    .history-card.with-image { display: flex; gap: 0.8rem; align-items: flex-start; }
+    .section-title { font-size: 0.7rem; font-weight: 700; margin: 0.6rem 0 0.4rem; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+    .no-matches, .loader { text-align: center; padding: 1.5rem; color: #64748b; font-size: 0.8rem; }
+    .loader { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .footer-credit { text-align: center; padding: 1rem; font-size: 0.7rem; color: #64748b; border-top: 1px solid #eef2f6; background: rgba(255,255,255,0.6); }
+    @media (max-width: 760px) {
+      body { padding: 0.8rem; }
+      .hero h1 { font-size: 1.3rem; }
+      .calendar-grid { gap: 0.3rem; padding: 1rem; }
+      .day-number { font-size: 0.9rem; }
+      .match-card { flex-direction: column; align-items: flex-start; }
+      .history-card.with-image { flex-direction: column; }
+      .history-img { width: 100%; height: 100px; object-fit: cover; }
     }
   </style>
 </head>
 <body>
-
 <div class="app-container">
   <div class="hero">
-    <h1>🇺🇸🇨🇦🇲🇽🏆 ⚽ WORLD CUP 2026 · Daily Match Tracker</h1>
-    <p>🗓️ Interactive calendar · tap any date to see matches · today’s matches highlighted</p>
-    <div class="date-badge" id="liveDateBadge">loading schedule...</div>
+    <h1>🇺🇸🇨🇦🇲🇽🏆 ⚽ <span> WORLD CUP 2026 · Daily On This Day <span></h1>
+    <p>Interactive Calendar for FIFA WORLD CUP 2026 Games & On This Day Daily Feed</p>
+    <div class="badge-row">
+      <div class="date-badge" id="liveDateBadge">📅 Loading schedule...</div>
+    </div>
   </div>
 
-  <!-- calendar toolbar -->
   <div class="calendar-nav">
     <div class="month-year" id="monthYearDisplay">June 2026</div>
     <div class="nav-buttons">
-      <button class="nav-btn" id="prevMonthBtn" aria-label="Previous month">◀  Prev</button>
-      <button class="nav-btn today-btn" id="goTodayBtn" aria-label="Go to today">📅 Today</button>
-      <button class="nav-btn" id="nextMonthBtn" aria-label="Next month">Next  ▶</button>
+      <button class="nav-btn" id="prevMonthBtn">◀ Prev</button>
+      <button class="nav-btn today-btn" id="goTodayBtn">Today</button>
+      <button class="nav-btn" id="nextMonthBtn">Next ▶</button>
     </div>
   </div>
 
-  <!-- weekday headers -->
-  <div class="calendar-grid" id="calendarGrid">
-    <!-- Mon, Tue ... injected via JS -->
-  </div>
+  <div class="calendar-grid" id="calendarGrid"></div>
 
-  <!-- match details panel -->
-  <div class="match-detail-panel" id="matchPanel">
-    <div class="panel-header">
-      <h3>⚡ Match details</h3>
-      <span class="selected-date" id="selectedDateLabel">Select a date</span>
+  <div class="double-panel">
+    <div class="match-panel">
+      <div class="panel-header">
+        <h3>⚽ World Cup Games</h3>
+        <span class="selected-date" id="selectedDateLabel">Select a date</span>
+      </div>
+      <div id="matchesContainer" class="matches-list"><div class="no-matches">📅 Tap any day to see match schedule</div></div>
     </div>
-    <div id="matchesContainer" class="matches-list">
-      <div class="no-matches">✨ Tap any day on the calendar to see matches</div>
+    <div class="history-panel">
+      <div class="panel-header">
+        <h3>📜 On This Day </h3>
+        <span class="selected-date" id="historyDateLabel">—</span>
+      </div>
+      <div id="historyContainer" class="history-scroll"><div class="loader">📖 Select a date to load full data: selected events, on this day</div></div>
     </div>
   </div>
   <div class="footer-credit">
-    FIFA World Cup 2026 · All group & knockout fixtures · Ankit Arora
+    FIFA World Cup 2026 · On This Day · Ankit Arora
   </div>
 </div>
 
-<!-- JSON-LD Structured Data for SEO & Rich Results -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SportsEvent",
-  "name": "FIFA World Cup 2026",
-  "startDate": "2026-06-11",
-  "endDate": "2026-07-19",
-  "location": {
-    "@type": "Country",
-    "name": "United States, Canada, Mexico"
-  },
-  "organizer": {
-    "@type": "Organization",
-    "name": "FIFA",
-    "url": "https://www.fifa.com"
-  },
-  "description": "Complete match schedule for the FIFA World Cup 2026 featuring 104 matches across group stage, round of 32, round of 16, quarterfinals, semifinals, and final.",
-  "url": "https://worldcup2026.05-ankitarora.workers.dev/"
-}
-</script>
-
 <script>
-  // ---------- GLOBALS ----------
+  // ======================= WORLD CUP DATA =======================
   let allMatches = [];
   let matchesByDate = new Map();
   let currentDisplayDate = new Date();
   let selectedDate = new Date();
+  const stadiumCache = new Map();
 
   function formatYMD(date) {
     let y = date.getFullYear();
-    let m = String(date.getMonth() + 1).padStart(2, '0');
-    let d = String(date.getDate()).padStart(2, '0');
+    let m = String(date.getMonth()+1).padStart(2,'0');
+    let d = String(date.getDate()).padStart(2,'0');
     return `${y}-${m}-${d}`;
   }
 
-  function parseMatchDate(localDateStr) {
-    if (!localDateStr) return new Date(NaN);
+  function parseMatchDateTime(localDateStr) {
+    if (!localDateStr) return null;
     let [datePart, timePart] = localDateStr.split(' ');
-    if (!datePart) return new Date(NaN);
+    if (!datePart) return null;
     let [month, day, year] = datePart.split('/').map(Number);
-    let [hour = 0, minute = 0] = timePart ? timePart.split(':').map(Number) : [0, 0];
-    return new Date(year, month - 1, day, hour, minute);
+    let [hour=0, minute=0] = timePart ? timePart.split(':').map(Number) : [0,0];
+    return new Date(year, month-1, day, hour, minute);
+  }
+
+  async function getStadiumName(stadiumId) {
+    if (!stadiumId || stadiumId === '0' || stadiumId === 'null') return 'TBD';
+    if (stadiumCache.has(stadiumId)) return stadiumCache.get(stadiumId);
+    try {
+      const url = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadiumId}`;
+      const resp = await fetch(url);
+      if (resp.ok) {
+        const data = await resp.json();
+        let name = data?.stadium?.name_en?.split(',')[0] || `Stadium ${stadiumId}`;
+        stadiumCache.set(stadiumId, name);
+        return name;
+      }
+    } catch(e) {}
+    return `Stadium ${stadiumId}`;
   }
 
   function groupMatchesByDate(matches) {
     const map = new Map();
-    matches.forEach(match => {
-      const rawDate = match.local_date;
-      if (!rawDate) return;
-      const matchDateObj = parseMatchDate(rawDate);
-      if (isNaN(matchDateObj.getTime())) return;
-      const ymd = formatYMD(matchDateObj);
-      if (!map.has(ymd)) map.set(ymd, []);
-      map.get(ymd).push(match);
+    matches.forEach(m => {
+      const raw = m.local_date;
+      if(!raw) return;
+      const matchDate = parseMatchDateTime(raw);
+      if(!matchDate) return;
+      const ymd = formatYMD(matchDate);
+      if(!map.has(ymd)) map.set(ymd, []);
+      map.get(ymd).push(m);
     });
-    for (let [key, matchList] of map.entries()) {
-      matchList.sort((a,b) => {
-        let timeA = parseMatchDate(a.local_date).getTime();
-        let timeB = parseMatchDate(b.local_date).getTime();
-        return timeA - timeB;
-      });
+    for(let list of map.values()) {
+      list.sort((a,b) => (parseMatchDateTime(a.local_date)?.getTime()||0) - (parseMatchDateTime(b.local_date)?.getTime()||0));
     }
     return map;
   }
 
-  async function getGameID(gameId) {
-    const gameIdUrl = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/game/${gameId}`;
-    const response = await fetch(gameIdUrl);
-    const gameInfo = await response.json();
-    return gameInfo;
-  }
-
-  async function getStadiumID(stadium_id) {
-    const stadiumIdUrl = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadium_id}`
-    const response = await fetch(stadiumIdUrl);
-    const stadiumInfo = await response.json();
-    return stadiumInfo;
-  }
-
   async function fetchWorldCupMatches() {
     try {
-      // Use the Cloudflare Worker as a CORS proxy
       const workerUrl = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/games';
-      const response = await fetch(workerUrl);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      if (data && data.games && Array.isArray(data.games)) {
-        allMatches = data.games;
-      } else {
-        console.warn("No games array found");
-        allMatches = [];
+      const resp = await fetch(workerUrl);
+      if(!resp.ok) throw new Error();
+      const data = await resp.json();
+      if(data?.games && Array.isArray(data.games)) allMatches = data.games;
+      else allMatches = [];
+      for(let m of allMatches) {
+        m.homeTeamDisplay = m.home_team_name_en || (m.home_team_id !== "0" ? `Team ${m.home_team_id}` : 'TBD');
+        m.awayTeamDisplay = m.away_team_name_en || (m.away_team_id !== "0" ? `Team ${m.away_team_id}` : 'TBD');
+        if(m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
+        else if(m.type === 'r32') m.stageLabel = 'Round of 32';
+        else if(m.type === 'r16') m.stageLabel = 'Round of 16';
+        else if(m.type === 'qf') m.stageLabel = 'Quarter-final';
+        else if(m.type === 'sf') m.stageLabel = 'Semi-final';
+        else if(m.type === 'final') m.stageLabel = 'Final';
+        else m.stageLabel = m.group ? `Group ${m.group}` : 'Match';
       }
-      allMatches.forEach(m => {
-        m.homeTeamDisplay = m.home_team_name_en || m.home_team_label || (m.home_team_id !== "0" ? "Team" : "TBD");
-        m.awayTeamDisplay = m.away_team_name_en || m.away_team_label || (m.away_team_id !== "0" ? "Team" : "TBD");
-        if (m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
-        else if (m.type === 'r32') m.stageLabel = `Round of 32`;
-        else if (m.type === 'r16') m.stageLabel = `Round of 16`;
-        else if (m.type === 'qf') m.stageLabel = `Quarter-final`;
-        else if (m.type === 'sf') m.stageLabel = `Semi-final`;
-        else if (m.type === 'final') m.stageLabel = `FINAL 🏆`;
-        else if (m.type === 'third') m.stageLabel = `3rd place play-off`;
-        else m.stageLabel = m.group ? `Group ${m.group}` : (m.type?.toUpperCase() || 'Match');
-      });
       matchesByDate = groupMatchesByDate(allMatches);
       renderCalendar(currentDisplayDate);
-      updateSelectedDatePanel(selectedDate);
+      await updateSelectedDatePanel(selectedDate);
       updateLiveDateBadge();
-    } catch (err) {
-      console.error("Error fetching matches:", err);
-      document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Could not load matches. Please check network or try later.<br><button onclick="location.reload()" style="margin-top:1rem; padding:0.5rem 1rem; background:#2c3e66; color:white; border:none; border-radius:40px; cursor:pointer;">⟳ Retry</button></div>`;
-      document.getElementById("liveDateBadge").innerText = "⚠️ Schedule offline";
+    } catch(e) {
+      document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Unable to load match data. Please refresh.</div>`;
+      document.getElementById("liveDateBadge").innerText = "📅 Schedule offline";
     }
   }
 
-  function updateLiveDateBadge() {
-    const today = new Date();
-    const ymdToday = formatYMD(today);
-    const matchesToday = matchesByDate.get(ymdToday) || [];
-    const count = matchesToday.length;
-    const badgeSpan = document.getElementById("liveDateBadge");
-    if (badgeSpan) {
-      badgeSpan.innerHTML = `📆 ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year:'numeric' })} · ${count} match${count !== 1 ? 'es' : ''} today`;
+  async function updateSelectedDatePanel(dateObj) {
+    const ymd = formatYMD(dateObj);
+    const matches = matchesByDate.get(ymd) || [];
+    const container = document.getElementById("matchesContainer");
+    const labelSpan = document.getElementById("selectedDateLabel");
+    const formatted = dateObj.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    labelSpan.innerText = formatted;
+    if(matches.length === 0) {
+      container.innerHTML = `<div class="no-matches">⚽ No games scheduled on ${formatted}.</div>`;
+      return;
+    }
+    let html = '';
+    for(let match of matches) {
+      const matchDate = parseMatchDateTime(match.local_date);
+      let timeStr = matchDate ? matchDate.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12:true }) : "TBD";
+      const home = match.homeTeamDisplay;
+      const away = match.awayTeamDisplay;
+      const isFinished = match.finished === "TRUE";
+      let scoreDisplay = `<span>vs</span>`;
+      if(isFinished || (match.home_score && match.home_score !== "0")) {
+        scoreDisplay = `<strong> ${match.home_score || 0} : ${match.away_score || 0} </strong>`;
+      }
+      const stadium = await getStadiumName(match.stadium_id);
+      html += `<div class="match-card" data-detail='${JSON.stringify({home, away, dateTime:match.local_date, stage:match.stageLabel, stadium, homeScore:match.home_score||'0', awayScore:match.away_score||'0', homeScorers:match.home_scorers||'—', awayScorers:match.away_scorers||'—', finished:isFinished})}'>
+        <div class="match-teams"><span class="team">${home}</span> ${scoreDisplay} <span class="team">${away}</span> <span class="group-stage">${match.stageLabel}</span></div>
+        <div class="match-meta"><span class="match-time">⏱️ ${timeStr}</span><div style="font-size:0.6rem; color:#475569;">${stadium}</div></div>
+      </div>`;
+    }
+    container.innerHTML = html;
+    document.querySelectorAll('.match-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const raw = card.getAttribute('data-detail');
+        if(raw) {
+          const m = JSON.parse(raw);
+          alert(`📋 ${m.home} vs ${m.away}\n🕒 ${m.dateTime}\n🏆 ${m.stage}\n🏟️ ${m.stadium}\n📊 ${m.finished ? "Finished" : "Upcoming"}\n⚽ ${m.homeScore} - ${m.awayScore}\n🥅 Scorers: ${m.homeScorers} | ${m.awayScorers}`);
+        }
+      });
+    });
+  }
+
+  // ======================= COMPLETE ON THIS DAY (FULL /all/ API) =======================
+  const onThisDayCache = new Map();
+
+  async function fetchCompleteOnThisDay(month, day) {
+    const key = `${month}-${day}`;
+    if (onThisDayCache.has(key)) return onThisDayCache.get(key);
+    try {
+      const url = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
+      const resp = await fetch(url, { headers: { 'Api-User-Agent': 'WorldCupHistoryApp/3.0 (contact@example.com)' } });
+      if (resp.ok) {
+        const data = await resp.json();
+        onThisDayCache.set(key, data);
+        return data;
+      } else {
+        return { selected: [], events: [], births: [], deaths: [], holidays: [] };
+      }
+    } catch(e) {
+      console.warn("Failed to fetch on this day", e);
+      return { selected: [], events: [], births: [], deaths: [], holidays: [] };
     }
   }
 
+  function getBestImageFromPage(page) {
+    if (!page) return null;
+    if (page.thumbnail?.source) return page.thumbnail.source;
+    if (page.originalimage?.source) return page.originalimage.source;
+    return null;
+  }
+
+  async function renderCompleteOnThisDay(dateObj) {
+    const container = document.getElementById("historyContainer");
+    const labelSpan = document.getElementById("historyDateLabel");
+    if (!dateObj) {
+      labelSpan.innerText = "—";
+      container.innerHTML = `<div class="loader">📅 Select a date to explore complete On This Day data</div>`;
+      return;
+    }
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    labelSpan.innerText = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    container.innerHTML = `<div class="loader">📖 Loading data on this day...</div>`;
+    
+    const data = await fetchCompleteOnThisDay(month, day);
+    let html = '';
+
+    // 1. SELECTED / FEATURED ANNIVERSARIES (from /all/ -> selected array)
+    if (data.selected && data.selected.length > 0) {
+      html += `<div class="section-title">🌟 Selected Anniversaries</div>`;
+      for (let item of data.selected) {
+        const firstPage = item.pages?.[0];
+        const imgUrl = firstPage ? getBestImageFromPage(firstPage) : null;
+        const link = firstPage?.content_urls?.desktop?.page || '#';
+        if (imgUrl) {
+          html += `<div class="history-card with-image">
+            <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="image">
+            <div class="history-content">
+              <div class="history-year">📅 ${item.year}</div>
+              <div class="history-text">${item.text.substring(0, 220)}${item.text.length > 220 ? '…' : ''}</div>
+              <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
+            </div>
+          </div>`;
+        } else {
+          html += `<div class="history-card">
+            <div class="history-year">📅 ${item.year}</div>
+            <div class="history-text">${item.text.substring(0, 220)}${item.text.length > 220 ? '…' : ''}</div>
+            <a href="${link}" target="_blank" rel="noopener" class="history-link">Read more →</a>
+          </div>`;
+        }
+      }
+    }
+
+    // 2. HOLIDAYS & OBSERVANCES
+    if (data.holidays && data.holidays.length > 0) {
+      html += `<div class="section-title">🎉 Holidays & Observances</div>`;
+      for (let hol of data.holidays) {
+        const displayText = hol.text || hol.display || 'Observance';
+        html += `<div class="history-card" style="border-left-color:#d4a373;"><div class="history-text">🎈 ${displayText}</div></div>`;
+      }
+    }
+
+    // 3. EVENTS
+    if (data.events && data.events.length > 0) {
+      html += `<div class="section-title">⚡ Events</div>`;
+      for (let ev of data.events) {
+        const page = ev.pages?.[0];
+        const imgUrl = page ? getBestImageFromPage(page) : null;
+        if (imgUrl) {
+          html += `<div class="history-card with-image">
+            <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Event image">
+            <div class="history-content">
+              <div class="history-year">📆 ${ev.year}</div>
+              <div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div>
+            </div>
+          </div>`;
+        } else {
+          html += `<div class="history-card"><div class="history-year">📆 ${ev.year}</div><div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div></div>`;
+        }
+      }
+      if (data.events.length > 7) html += `<div style="font-size:0.65rem; text-align:center; color:#64748b;">+ ${data.events.length - 7} more events</div>`;
+    }
+
+    // 4. BIRTHS
+    if (data.births && data.births.length > 0) {
+      html += `<div class="section-title">🎂 Notable Births</div>`;
+      for (let b of data.births) {
+        const page = b.pages?.[0];
+        const imgUrl = page ? getBestImageFromPage(page) : null;
+        const name = b.text?.split(',')[0] || 'Notable figure';
+        const description = page?.extract?.substring(0, 110) || (b.text?.substring(0, 100) || 'figure');
+        if (imgUrl) {
+          html += `<div class="history-card with-image">
+            <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Portrait">
+            <div class="history-content"><div class="history-year">🎂 ${name} (born ${b.year})</div><div class="history-text">${description}</div></div>
+          </div>`;
+        } else {
+          html += `<div class="history-card"><div class="history-year">🎂 ${name} (${b.year})</div><div class="history-text">${description}</div></div>`;
+        }
+      }
+    }
+
+    // 5. DEATHS
+    if (data.deaths && data.deaths.length > 0) {
+      html += `<div class="section-title">🕯️ Anniversaries of Passing</div>`;
+      for (let d of data.deaths) {
+        const page = d.pages?.[0];
+        const imgUrl = page ? getBestImageFromPage(page) : null;
+        const name = d.text?.split(',')[0] || '';
+        if (imgUrl) {
+          html += `<div class="history-card with-image">
+            <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Memorial">
+            <div class="history-content"><div class="history-year">📖 ${name} († ${d.year})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div></div>
+          </div>`;
+        } else {
+          html += `<div class="history-card"><div class="history-year">📖 ${name} († ${d.year})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div></div>`;
+        }
+      }
+    }
+
+    if (!html) {
+      html = `<div class="no-matches">📭 No records found for this date. Try another day.</div>`;
+    }
+    container.innerHTML = html;
+  }
+
+  // ======================= CALENDAR RENDER =======================
   function renderCalendar(currentMonthDate) {
     const year = currentMonthDate.getFullYear();
     const month = currentMonthDate.getMonth();
-    const firstDayOfMonth = new Date(year, month, 1);
-    const startWeekday = firstDayOfMonth.getDay();
-    let startOffset = startWeekday === 0 ? 6 : startWeekday - 1;
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const calendarGrid = document.getElementById("calendarGrid");
-    const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-    let gridHtml = weekdays.map(day => `<div class="weekday">${day}</div>`).join('');
+    const firstDay = new Date(year, month, 1);
+    let startOffset = (firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1);
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const grid = document.getElementById("calendarGrid");
+    const weekdays = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+    let html = weekdays.map(d => `<div class="weekday">${d}</div>`).join('');
     const todayYMD = formatYMD(new Date());
-    for (let i = 0; i < startOffset; i++) {
-      gridHtml += `<div class="cal-day empty-day"></div>`;
-    }
-    for (let d = 1; d <= daysInMonth; d++) {
+    for(let i=0; i<startOffset; i++) html += `<div class="cal-day empty-day"></div>`;
+    for(let d=1; d<=daysInMonth; d++) {
       const cellDate = new Date(year, month, d);
       const ymd = formatYMD(cellDate);
       const hasMatch = matchesByDate.has(ymd) && matchesByDate.get(ymd).length > 0;
       const isToday = (ymd === todayYMD);
-      let additionalClass = "";
-      if (isToday) additionalClass = "today";
-      else if (hasMatch) additionalClass = "has-match";
+      let cls = "";
+      if(isToday) cls = "today";
+      else if(hasMatch) cls = "has-match";
       const matchCount = hasMatch ? matchesByDate.get(ymd).length : 0;
-      const matchIndicator = hasMatch ? `<div class="match-indicator">⚽ ${matchCount}</div>` : '';
-      gridHtml += `
-        <div class="cal-day ${additionalClass}" data-date="${ymd}" role="button" tabindex="0" aria-label="Matches on ${ymd}">
-          <div class="day-number">${d}</div>
-          ${matchIndicator}
-        </div>
-      `;
+      const indicator = hasMatch ? `<div class="match-indicator">⚽ ${matchCount}</div>` : '';
+      html += `<div class="cal-day ${cls}" data-date="${ymd}"><div class="day-number">${d}</div>${indicator}</div>`;
     }
-    calendarGrid.innerHTML = gridHtml;
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    document.getElementById("monthYearDisplay").innerText = `${monthNames[month]} ${year}`;
-    document.querySelectorAll('.cal-day[data-date]').forEach(dayEl => {
-      dayEl.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const dateStr = dayEl.getAttribute('data-date');
-        const [y, m, d] = dateStr.split('-').map(Number);
-        const clickedDate = new Date(y, m-1, d);
-        selectedDate = clickedDate;
-        updateSelectedDatePanel(selectedDate);
+    grid.innerHTML = html;
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    document.getElementById("monthYearDisplay").innerHTML = `${monthNames[month]} ${year}`;
+
+    document.querySelectorAll('.cal-day[data-date]').forEach(el => {
+      el.addEventListener('click', async () => {
+        const dateStr = el.getAttribute('data-date');
+        const [y,m,d] = dateStr.split('-').map(Number);
+        const clicked = new Date(y, m-1, d);
+        selectedDate = clicked;
+        await updateSelectedDatePanel(selectedDate);
+        await renderCompleteOnThisDay(selectedDate);
         renderCalendar(currentDisplayDate);
-        const newSelectedCell = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
-        if(newSelectedCell) {
-          newSelectedCell.style.transition = "0.1s";
-          newSelectedCell.style.background = "#d9e6ff";
-          newSelectedCell.style.border = "2px solid #1e4d8f";
-          setTimeout(() => {
-            if(newSelectedCell) {
-              newSelectedCell.style.background = "";
-              newSelectedCell.style.border = "";
-            }
-          }, 400);
-        }
-      });
-      dayEl.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          dayEl.click();
-        }
+        const tile = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
+        if(tile) tile.style.transform = "scale(0.97)";
+        setTimeout(() => { if(tile) tile.style.transform = ""; }, 150);
       });
     });
   }
 
-  function updateSelectedDatePanel(selectedDateObj) {
-    const ymd = formatYMD(selectedDateObj);
-    const matchesTodayList = matchesByDate.get(ymd) || [];
-    const container = document.getElementById("matchesContainer");
-    const selectedLabelSpan = document.getElementById("selectedDateLabel");
-    const formattedDisplay = selectedDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    selectedLabelSpan.innerText = formattedDisplay;
-    if (matchesTodayList.length === 0) {
-      container.innerHTML = `<div class="no-matches">📭 No matches scheduled on ${formattedDisplay}.<br>📅 Explore other dates.</div>`;
-      return;
-    }
-    let matchesHtml = "";
-    matchesTodayList.forEach(match => {
-      const matchDateTime = parseMatchDate(match.local_date);
-      let timeStr = "";
-      if (!isNaN(matchDateTime.getTime())) {
-        timeStr = matchDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-      } else {
-        timeStr = "Time TBD";
-      }
-      const homeTeam = match.homeTeamDisplay;
-      const awayTeam = match.awayTeamDisplay;
-      const groupBadge = match.stageLabel ? `<span class="group-stage">${match.stageLabel}</span>` : '';
-      let scoreDisplay = `<span>vs</span>`;
-      if (match.finished === "TRUE" || (match.home_score !== "0" && match.away_score !== "0")) {
-        scoreDisplay = `<strong> ${match.home_score || 0} : ${match.away_score || 0} </strong>`;
-      }
-      matchesHtml += `
-        <div class="match-card" data-match-id="${match.id || Math.random()}" data-home="${homeTeam}" data-away="${awayTeam}">
-          <div class="match-teams">
-            <span class="team">🏟️ ${homeTeam}</span>
-            <span class="vs"> ${scoreDisplay} </span>
-            <span class="team">${awayTeam}</span>
-            ${groupBadge}
-          </div>
-          <div class="match-meta">
-            <span class="match-time">⏱️ ${timeStr}</span>
-            <div style="font-size:0.7rem; margin-top:4px;">🏟️ Stadium ${match.stadium_id || '—'}</div>
-          </div>
-        </div>
-      `;
-    });
-    container.innerHTML = matchesHtml;
-    document.querySelectorAll('.match-card').forEach(card => {
-      card.addEventListener('click', async (e) => {
-        const matchIdAttr = card.getAttribute('data-match-id');
-        const matchObj = matchesTodayList.find(m => String(m.id) === matchIdAttr);
-        if (matchObj) {
-          let stadiumDetails = await getStadiumID(matchObj.stadium_id);
-          let scorersInfo = "No scorers yet";
-          if (matchObj.home_scorers && matchObj.home_scorers !== "null") scorersInfo = `⚽ Home: ${matchObj.home_scorers}`;
-          if (matchObj.away_scorers && matchObj.away_scorers !== "null") scorersInfo += ` | Away: ${matchObj.away_scorers}`;
-          alert(`📋 ${matchObj.homeTeamDisplay} vs ${matchObj.awayTeamDisplay}\n⏱️ ${matchObj.local_date}\n🏆 ${matchObj.stageLabel}\n📊 Status: ${matchObj.finished === "TRUE" ? "Finished" : "Upcoming"}\n${scorersInfo}\nStadium: ${stadiumDetails?.stadium.name_en}, ${stadiumDetails?.stadium.fifa_name}, ${stadiumDetails?.stadium.city_en}`);
-        } else {
-          alert("Match details: tap calendar to explore more fixtures.");
-        }
-      });
-    });
-  }
-
-  function goPrevMonth() {
-    let newDate = new Date(currentDisplayDate);
-    newDate.setMonth(currentDisplayDate.getMonth() - 1);
-    currentDisplayDate = newDate;
-    renderCalendar(currentDisplayDate);
-    updateSelectedDatePanel(selectedDate);
-    updateLiveDateBadge();
-  }
-
-  function goNextMonth() {
-    let newDate = new Date(currentDisplayDate);
-    newDate.setMonth(currentDisplayDate.getMonth() + 1);
-    currentDisplayDate = newDate;
-    renderCalendar(currentDisplayDate);
-    updateSelectedDatePanel(selectedDate);
-    updateLiveDateBadge();
-  }
-
-  function goToday() {
+  function updateLiveDateBadge() {
     const today = new Date();
-    currentDisplayDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    selectedDate = new Date(today);
-    renderCalendar(currentDisplayDate);
-    updateSelectedDatePanel(selectedDate);
-    updateLiveDateBadge();
-    setTimeout(() => {
-      const todayYMD = formatYMD(today);
-      const todayTile = document.querySelector(`.cal-day[data-date="${todayYMD}"]`);
-      if(todayTile) {
-        todayTile.style.transform = "scale(1.02)";
-        setTimeout(() => { if(todayTile) todayTile.style.transform = ""; }, 300);
-      }
-    }, 50);
+    const ymd = formatYMD(today);
+    const count = matchesByDate.get(ymd)?.length || 0;
+    const badge = document.getElementById("liveDateBadge");
+    if(badge) badge.innerHTML = `📅 ${today.toLocaleDateString('en-US',{ month:'long', day:'numeric' })} · ${count} match${count!==1 ? 'es' : ''}`;
+    document.getElementById("historyBadge").innerHTML = `📖 On this day daily feed`;
   }
+
+  function goPrevMonth() { let nd = new Date(currentDisplayDate); nd.setMonth(currentDisplayDate.getMonth()-1); currentDisplayDate = nd; renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); }
+  function goNextMonth() { let nd = new Date(currentDisplayDate); nd.setMonth(currentDisplayDate.getMonth()+1); currentDisplayDate = nd; renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); }
+  function goToday() { const today = new Date(); currentDisplayDate = new Date(today.getFullYear(), today.getMonth(), 1); selectedDate = new Date(today); renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); renderCompleteOnThisDay(selectedDate); updateLiveDateBadge(); }
 
   window.addEventListener('DOMContentLoaded', async () => {
     await fetchWorldCupMatches();
@@ -640,7 +514,8 @@
     currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
     selectedDate = new Date(now);
     renderCalendar(currentDisplayDate);
-    updateSelectedDatePanel(selectedDate);
+    await updateSelectedDatePanel(selectedDate);
+    await renderCompleteOnThisDay(selectedDate);
     updateLiveDateBadge();
     document.getElementById("prevMonthBtn").addEventListener("click", goPrevMonth);
     document.getElementById("nextMonthBtn").addEventListener("click", goNextMonth);
