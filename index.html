@@ -1,9 +1,11 @@
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta name="description" content="Interactive Calendar for FIFA WORLD CUP 2026 & On This Day Daily Feed">
-  <meta name="keywords" content="World Cup 2026, FIFA 2026, On This Day, today in history, events, match calendar, interactive calendar, football schedule, world cup schedule, world cup 2026 schedule, schedule world cup, 2026 schedule, world cup, Interactive Calendar, for FIFA WORLD CUP 2026, game fifa, all fifa world cup 2026, world cup match,world cup game, On This Day, follow Daily Feed, free daily feed">
+  <meta name="keywords"
+    content="World Cup 2026, FIFA 2026, On This Day, today in history, events, match calendar, interactive calendar, football schedule, world cup schedule, world cup 2026 schedule, schedule world cup, 2026 schedule, world cup, Interactive Calendar, for FIFA WORLD CUP 2026, game fifa, all fifa world cup 2026, world cup match,world cup game, On This Day, follow Daily Feed, free daily feed">
   <meta name="author" content="World Cup History Hub">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://worldcup2026.05-ankitarora.workers.dev/">
@@ -16,104 +18,340 @@
   <meta name="twitter:title" content="World Cup 2026 & On This Day Daily Feed">
   <meta name="theme-color" content="#0f2b3d">
   <title>World Cup 2026 & On This Day</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-size: 16px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: linear-gradient(135deg, #f0f4fa 0%, #e2eaf5 100%);
       min-height: 100vh;
-      padding: 1.5rem;
+      padding: 5px;
       font-size: 20px;
     }
+
     .app-container {
-      max-width: 1440px;
+      width: 100%;
       margin: 0 auto;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(4px);
-      border-radius: 2rem;
-      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
       overflow: hidden;
     }
+
     .hero {
       background: linear-gradient(135deg, #0a1a2a, #1a3a4f);
       padding: 2rem 1.5rem;
       text-align: center;
       position: relative;
     }
-    .hero h1 { font-size: 2rem; font-weight: 700; color: white; }
-    .hero h1 span { background: linear-gradient(135deg, #FFD700, #FFA500); background-clip: text; -webkit-background-clip: text; color: transparent; font-size: 2rem;}
-    .hero p { color: rgba(255,255,255,0.85); margin-top: 0.5rem; }
-    .badge-row { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
-    .date-badge, .history-badge {
-      background: rgba(255,255,255,0.12);
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      font-size: 2rem;
+      display: block;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 0.5rem;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .date-badge,
+    .history-badge {
+      background: rgba(255, 255, 255, 0.12);
       padding: 0.4rem 1.2rem;
       border-radius: 60px;
       font-size: 0.8rem;
       color: white;
       font-weight: 500;
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
+
     .calendar-nav {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-      background: white; margin: 1.5rem 1.5rem 0; padding: 0.6rem 1.2rem;
-      border-radius: 80px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: white;
+      margin: 1.5rem 1.5rem 0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 80px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
-    .month-year { font-weight: 700; font-size: 1.2rem; color: #1e293b; }
-    .nav-btn {
-      background: #f1f5f9; border: none; padding: 0.4rem 1rem; border-radius: 40px;
-      font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+
+    .month-year {
+      font-weight: 700;
+      font-size: 1.2rem;
       color: #1e293b;
     }
-    .nav-btn:hover { background: #e2e8f0; transform: translateY(-1px); }
-    .today-btn { background: #1e3a5f; color: white; }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; padding: 1.5rem; }
-    .weekday { text-align: center; font-weight: 600; padding: 0.4rem; font-size: 0.7rem; color: #475569; text-transform: uppercase; }
-    .cal-day {
-      background: white; border-radius: 1rem; padding: 0.6rem 0.2rem; text-align: center;
-      cursor: pointer; transition: all 0.2s; border: 1px solid #e9edf2;
+
+    .nav-btn {
+      background: #f1f5f9;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #1e293b;
     }
-    .cal-day:hover { transform: translateY(-2px); border-color: #3b82f6; box-shadow: 0 6px 12px -6px rgba(0,0,0,0.1); }
-    .day-number { font-size: 1.1rem; font-weight: 600; color: #1e293b; }
-    .match-indicator { font-size: 0.6rem; background: #eef2ff; border-radius: 30px; display: inline-block; padding: 0.1rem 0.5rem; margin-top: 0.2rem; font-weight: 600; color: #2563eb; }
-    .cal-day.today { background: #fef9e3; border: 2px solid #f59e0b; }
-    .cal-day.has-match { background: #eff6ff; border-left: 3px solid #3b82f6; }
-    .empty-day { background: transparent; opacity: 0.3; pointer-events: none; }
-    .double-panel { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 0 1.5rem 1.5rem; }
-    .match-panel, .history-panel {
-      flex: 1; min-width: 340px; background: white; border-radius: 1.2rem;
-      padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+
+    .nav-btn:hover {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+    }
+
+    .today-btn {
+      background: #1e3a5f;
+      color: white;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      padding: 1.5rem;
+    }
+
+    .weekday {
+      text-align: center;
+      font-weight: 600;
+      padding: 0.4rem;
+      font-size: 0.7rem;
+      color: #475569;
+      text-transform: uppercase;
+    }
+
+    .cal-day {
+      background: white;
+      border-radius: 1rem;
+      padding: 0.6rem 0.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #e9edf2;
+    }
+
+    .cal-day:hover {
+      transform: translateY(-2px);
+      border-color: #3b82f6;
+      box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    .day-number {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .match-indicator {
+      font-size: 0.6rem;
+      background: #eef2ff;
+      border-radius: 30px;
+      display: inline-block;
+      padding: 0.1rem 0.5rem;
+      margin-top: 0.2rem;
+      font-weight: 600;
+      color: #2563eb;
+    }
+
+    .cal-day.today {
+      background: #fef9e3;
+      border: 2px solid #f59e0b;
+    }
+
+    .cal-day.has-match {
+      background: #eff6ff;
+      border-bottom: 3px solid #3b82f6;
+    }
+
+    .empty-day {
+      background: transparent;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .double-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .match-panel,
+    .history-panel {
+      flex: 1;
+      min-width: 340px;
+      background: white;
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
       border: 1px solid #edf2f7;
     }
+
     .panel-header {
-      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;
-      gap: 0.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.6rem; margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
     }
-    .panel-header h3 { font-size: 1.1rem; font-weight: 600; color: #0f172a; display: flex; align-items: center; gap: 6px; }
-    .selected-date { background: #f1f5f9; padding: 0.2rem 0.8rem; border-radius: 40px; font-size: 0.7rem; font-weight: 500; }
-    .matches-list, .history-scroll { max-height: 520px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.7rem; padding-right: 0.2rem; }
-    .matches-list::-webkit-scrollbar, .history-scroll::-webkit-scrollbar { width: 4px; }
+
+    .panel-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .selected-date {
+      background: #f1f5f9;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .matches-list,
+    .history-scroll {
+      max-height: 520px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      padding-right: 0.2rem;
+    }
+
+    .matches-list::-webkit-scrollbar,
+    .history-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
     .match-card {
-      background: #fafcff; border-radius: 0.8rem; padding: 0.7rem;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-      cursor: pointer; border-left: 3px solid #3b82f6; transition: all 0.2s;
-      gap: 0.5rem; border: 1px solid #edf2f7;
+      background: #fafcff;
+      border-radius: 0.8rem;
+      padding: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      cursor: pointer;
+      border-bottom: 3px solid #3b82f6;
+      transition: all 0.2s;
+      gap: 0.5rem;
+      border: 1px solid #edf2f7;
     }
-    .match-card:hover { background: #f8fafc; transform: translateX(3px); }
-    .match-teams { font-weight: 600; font-size: 0.85rem; display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: baseline; }
-    .team { background: #f1f5f9; padding: 0.1rem 0.5rem; border-radius: 40px; font-size: 0.8rem; }
-    .match-time { font-size: 0.65rem; background: #f1f5f9; padding: 0.2rem 0.6rem; border-radius: 40px; font-weight: 500; }
-    .group-stage { font-size: 0.6rem; background: #e2e8f0; border-radius: 20px; padding: 0.1rem 0.4rem; }
+
+    .match-card:hover {
+      background: #f8fafc;
+      transform: translateX(3px);
+    }
+
+    .match-teams {
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+
+    .team {
+      background: #f1f5f9;
+      padding: 0.1rem 0.5rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+    }
+
+    .match-time {
+      font-size: 0.65rem;
+      background: #f1f5f9;
+      padding: 0.2rem 0.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+    }
+
+    .group-stage {
+      font-size: 0.6rem;
+      background: #e2e8f0;
+      border-radius: 20px;
+      padding: 0.1rem 0.4rem;
+    }
+
     .history-card {
-      background: #fefaf5; border-radius: 0.8rem; padding: 0.8rem;
-      border-left: 3px solid #e2b868; transition: all 0.2s;
+      background: #fefaf5;
+      border-radius: 0.8rem;
+      padding: 0.8rem;
+      border-bottom: 3px solid #e2b868;
+      transition: all 0.2s;
       border: 1px solid #f0e7db;
     }
-    .history-card:hover { background: #fef7ec; transform: translateX(3px); }
-    .history-year { font-weight: 700; font-size: 0.7rem; color: #b45309; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-    .history-text { font-size: 0.8rem; line-height: 1.4; color: #334155; margin-bottom: 4px; }
-    .history-link { font-size: 0.65rem; text-decoration: none; color: #2563eb; font-weight: 500; }
-    .history-link:hover { text-decoration: underline; }
+
+    .history-card:hover {
+      background: #fef7ec;
+      transform: translateX(3px);
+    }
+
+    .history-year {
+      font-weight: 700;
+      font-size: 0.7rem;
+      color: #b45309;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .history-text {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    .history-link {
+      font-size: 0.65rem;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+      display: table;
+    }
+
+    .history-link:hover {
+      text-decoration: underline;
+    }
+
     .history-img {
       width: 56px;
       height: 56px;
@@ -122,405 +360,509 @@
       background: #e2e8f0;
       flex-shrink: 0;
     }
-    .history-card.with-image { display: flex; gap: 0.8rem; align-items: flex-start; }
-    .section-title { font-size: 0.7rem; font-weight: 700; margin: 0.6rem 0 0.4rem; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
-    .no-matches, .loader { text-align: center; padding: 1.5rem; color: #64748b; font-size: 0.8rem; }
-    .loader { animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
-    .footer-credit { text-align: center; padding: 1rem; font-size: 0.7rem; color: #64748b; border-top: 1px solid #eef2f6; background: rgba(255,255,255,0.6); }
+
+    .history-card.with-image {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin: 0.6rem 0 0.4rem;
+      color: #92400e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .no-matches,
+    .loader {
+      text-align: center;
+      padding: 1.5rem;
+      color: #64748b;
+      font-size: 0.8rem;
+    }
+
+    .loader {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    .footer-credit {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.7rem;
+      color: #64748b;
+      border-top: 1px solid #eef2f6;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
     @media (max-width: 760px) {
-      body { padding: 0.8rem; }
-      .hero h1 { font-size: 1.3rem; }
-      .calendar-grid { gap: 0.3rem; padding: 1rem; }
-      .day-number { font-size: 0.9rem; }
-      .match-card { flex-direction: column; align-items: flex-start; }
-      .history-card.with-image { flex-direction: column; }
-      .history-img { width: 100%; height: 100px; object-fit: cover; }
+      body {
+        padding: 0.8rem;
+      }
+
+      .hero h1 {
+        font-size: 1.3rem;
+      }
+
+      .calendar-grid {
+        gap: 0.3rem;
+        padding: 1rem;
+      }
+
+      .day-number {
+        font-size: 0.9rem;
+      }
+
+      .match-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .history-card.with-image {
+        flex-direction: column;
+      }
+
+      .history-img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+      }
     }
   </style>
 </head>
+
 <body>
-<div class="app-container">
-  <div class="hero">
-    <h1>🇺🇸🇨🇦🇲🇽🏆 ⚽ <span> WORLD CUP 2026 · Daily On This Day <span></h1>
-    <p>Interactive Calendar for FIFA WORLD CUP 2026 Games & On This Day Daily Feed</p>
-    <div class="badge-row">
-      <div class="date-badge" id="liveDateBadge">📅 Loading schedule...</div>
-    </div>
-  </div>
-
-  <div class="calendar-nav">
-    <div class="month-year" id="monthYearDisplay">June 2026</div>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="prevMonthBtn">◀ Prev</button>
-      <button class="nav-btn today-btn" id="goTodayBtn">Today</button>
-      <button class="nav-btn" id="nextMonthBtn">Next ▶</button>
-    </div>
-  </div>
-
-  <div class="calendar-grid" id="calendarGrid"></div>
-
-  <div class="double-panel">
-    <div class="match-panel">
-      <div class="panel-header">
-        <h3>⚽ World Cup Games</h3>
-        <span class="selected-date" id="selectedDateLabel">Select a date</span>
+  <div class="app-container">
+    <div class="hero">
+      <h1>⚽ 🇺🇸 🇨🇦 🇲🇽 🏆  <span> WORLD CUP 2026 · Daily On This Day <span></h1>
+      <p>Interactive Calendar for Official FIFA World Cup 2026 Games & On This Day Daily Feed</p>
+      <div class="badge-row">
+        <div class="date-badge" id="liveDateBadge">📅 Loading schedule...</div>
       </div>
-      <div id="matchesContainer" class="matches-list"><div class="no-matches">📅 Tap any day to see match schedule</div></div>
     </div>
-    <div class="history-panel">
-      <div class="panel-header">
-        <h3>📜 On This Day </h3>
-        <span class="selected-date" id="historyDateLabel">—</span>
+
+    <div class="calendar-nav">
+      <div class="month-year" id="monthYearDisplay"></div>
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevMonthBtn">◀ Prev</button>
+        <button class="nav-btn today-btn" id="goTodayBtn">Today</button>
+        <button class="nav-btn" id="nextMonthBtn">Next ▶</button>
       </div>
-      <div id="historyContainer" class="history-scroll"><div class="loader">📖 Select a date to load full data: selected events, on this day</div></div>
+    </div>
+
+    <div class="calendar-grid" id="calendarGrid"></div>
+
+    <div class="double-panel">
+      <div class="match-panel">
+        <div class="panel-header">
+          <h3>⚽ World Cup Games</h3>
+          <span class="selected-date" id="selectedDateLabel">Select a date</span>
+        </div>
+        <div id="matchesContainer" class="matches-list">
+          <div class="no-matches">📅 Tap any day to see match schedule</div>
+        </div>
+      </div>
+      <div class="history-panel">
+        <div class="panel-header">
+          <h3>📜 On This Day </h3>
+          <span class="selected-date" id="historyDateLabel">—</span>
+        </div>
+        <div id="historyContainer" class="history-scroll">
+          <div class="loader">📖 Select a date to load full data: selected events, on this day</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-credit">
+      FIFA World Cup 2026 · On This Day · Ankit Arora
     </div>
   </div>
-  <div class="footer-credit">
-    FIFA World Cup 2026 · On This Day · Ankit Arora
-  </div>
-</div>
 
-<script>
-  // ======================= WORLD CUP DATA =======================
-  let allMatches = [];
-  let matchesByDate = new Map();
-  let currentDisplayDate = new Date();
-  let selectedDate = new Date();
-  const stadiumCache = new Map();
+  <script>
+    // ======================= WORLD CUP DATA =======================
+    let allMatches = [];
+    let matchesByDate = new Map();
+    let currentDisplayDate = new Date();
+    let selectedDate = new Date();
+    const stadiumCache = new Map();
 
-  function formatYMD(date) {
-    let y = date.getFullYear();
-    let m = String(date.getMonth()+1).padStart(2,'0');
-    let d = String(date.getDate()).padStart(2,'0');
-    return `${y}-${m}-${d}`;
-  }
+    function formatYMD(date) {
+      let y = date.getFullYear();
+      let m = String(date.getMonth() + 1).padStart(2, '0');
+      let d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
 
-  function parseMatchDateTime(localDateStr) {
-    if (!localDateStr) return null;
-    let [datePart, timePart] = localDateStr.split(' ');
-    if (!datePart) return null;
-    let [month, day, year] = datePart.split('/').map(Number);
-    let [hour=0, minute=0] = timePart ? timePart.split(':').map(Number) : [0,0];
-    return new Date(year, month-1, day, hour, minute);
-  }
+    function parseMatchDateTime(localDateStr) {
+      if (!localDateStr) return null;
+      let [datePart, timePart] = localDateStr.split(' ');
+      if (!datePart) return null;
+      let [month, day, year] = datePart.split('/').map(Number);
+      let [hour = 0, minute = 0] = timePart ? timePart.split(':').map(Number) : [0, 0];
+      return new Date(year, month - 1, day, hour, minute);
+    }
 
-  async function getStadiumName(stadiumId) {
-    if (!stadiumId || stadiumId === '0' || stadiumId === 'null') return 'TBD';
-    if (stadiumCache.has(stadiumId)) return stadiumCache.get(stadiumId);
-    try {
-      const url = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadiumId}`;
-      const resp = await fetch(url);
-      if (resp.ok) {
+    async function getStadiumName(stadiumId) {
+      if (!stadiumId || stadiumId === '0' || stadiumId === 'null') return 'TBD';
+      if (stadiumCache.has(stadiumId)) return stadiumCache.get(stadiumId);
+      try {
+        const url = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadiumId}`;
+        const resp = await fetch(url);
+        if (resp.ok) {
+          const data = await resp.json();
+          let name = data?.stadium?.name_en?.split(',')[0] || `Stadium ${stadiumId}`;
+          stadiumCache.set(stadiumId, name);
+          return name;
+        }
+      } catch (e) { }
+      return `Stadium ${stadiumId}`;
+    }
+
+    function groupMatchesByDate(matches) {
+      const map = new Map();
+      matches.forEach(m => {
+        const raw = m.local_date;
+        if (!raw) return;
+        const matchDate = parseMatchDateTime(raw);
+        if (!matchDate) return;
+        const ymd = formatYMD(matchDate);
+        if (!map.has(ymd)) map.set(ymd, []);
+        map.get(ymd).push(m);
+      });
+      for (let list of map.values()) {
+        list.sort((a, b) => (parseMatchDateTime(a.local_date)?.getTime() || 0) - (parseMatchDateTime(b.local_date)?.getTime() || 0));
+      }
+      return map;
+    }
+
+    async function fetchWorldCupMatches() {
+      try {
+        renderCalendar(currentDisplayDate);
+        const workerUrl = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/games';
+        const resp = await fetch(workerUrl);
+        if (!resp.ok) throw new Error();
         const data = await resp.json();
-        let name = data?.stadium?.name_en?.split(',')[0] || `Stadium ${stadiumId}`;
-        stadiumCache.set(stadiumId, name);
-        return name;
+        if (data?.games && Array.isArray(data.games)) allMatches = data.games;
+        else allMatches = [];
+        for (let m of allMatches) {
+          m.homeTeamDisplay = m.home_team_name_en || (m.home_team_id !== "0" ? `Team ${m.home_team_id}` : 'TBD');
+          m.awayTeamDisplay = m.away_team_name_en || (m.away_team_id !== "0" ? `Team ${m.away_team_id}` : 'TBD');
+          if (m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
+          else if (m.type === 'r32') m.stageLabel = 'Round of 32';
+          else if (m.type === 'r16') m.stageLabel = 'Round of 16';
+          else if (m.type === 'qf') m.stageLabel = 'Quarter-final';
+          else if (m.type === 'sf') m.stageLabel = 'Semi-final';
+          else if (m.type === 'final') m.stageLabel = 'Final';
+          else m.stageLabel = m.group ? `Group ${m.group}` : 'Match';
+        }
+        matchesByDate = groupMatchesByDate(allMatches);
+        updateSelectedDatePanel(selectedDate);
+        updateLiveDateBadge();
+      } catch (e) {
+        document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Unable to load match data. Please refresh.</div>`;
+        document.getElementById("liveDateBadge").innerText = "📅 Scheduling";
       }
-    } catch(e) {}
-    return `Stadium ${stadiumId}`;
-  }
-
-  function groupMatchesByDate(matches) {
-    const map = new Map();
-    matches.forEach(m => {
-      const raw = m.local_date;
-      if(!raw) return;
-      const matchDate = parseMatchDateTime(raw);
-      if(!matchDate) return;
-      const ymd = formatYMD(matchDate);
-      if(!map.has(ymd)) map.set(ymd, []);
-      map.get(ymd).push(m);
-    });
-    for(let list of map.values()) {
-      list.sort((a,b) => (parseMatchDateTime(a.local_date)?.getTime()||0) - (parseMatchDateTime(b.local_date)?.getTime()||0));
     }
-    return map;
-  }
 
-  async function fetchWorldCupMatches() {
-    try {
-      const workerUrl = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/games';
-      const resp = await fetch(workerUrl);
-      if(!resp.ok) throw new Error();
-      const data = await resp.json();
-      if(data?.games && Array.isArray(data.games)) allMatches = data.games;
-      else allMatches = [];
-      for(let m of allMatches) {
-        m.homeTeamDisplay = m.home_team_name_en || (m.home_team_id !== "0" ? `Team ${m.home_team_id}` : 'TBD');
-        m.awayTeamDisplay = m.away_team_name_en || (m.away_team_id !== "0" ? `Team ${m.away_team_id}` : 'TBD');
-        if(m.type === 'group') m.stageLabel = `Group ${m.group || ''}`;
-        else if(m.type === 'r32') m.stageLabel = 'Round of 32';
-        else if(m.type === 'r16') m.stageLabel = 'Round of 16';
-        else if(m.type === 'qf') m.stageLabel = 'Quarter-final';
-        else if(m.type === 'sf') m.stageLabel = 'Semi-final';
-        else if(m.type === 'final') m.stageLabel = 'Final';
-        else m.stageLabel = m.group ? `Group ${m.group}` : 'Match';
+    async function updateSelectedDatePanel(dateObj) {
+      const ymd = formatYMD(dateObj);
+      const matches = matchesByDate.get(ymd) || [];
+      const container = document.getElementById("matchesContainer");
+      const labelSpan = document.getElementById("selectedDateLabel");
+      const formatted = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      labelSpan.innerText = formatted;
+      if (matches.length === 0) {
+        container.innerHTML = `<div class="no-matches">⚽ No games scheduled on ${formatted}.</div>`;
+        return;
       }
-      matchesByDate = groupMatchesByDate(allMatches);
-      renderCalendar(currentDisplayDate);
-      await updateSelectedDatePanel(selectedDate);
-      updateLiveDateBadge();
-    } catch(e) {
-      document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Unable to load match data. Please refresh.</div>`;
-      document.getElementById("liveDateBadge").innerText = "📅 Schedule offline";
-    }
-  }
+      let html = '';
+      for (let match of matches) {
+        const matchDate = parseMatchDateTime(match.local_date);
+        let timeStr = matchDate ? matchDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : "TBD";
+        const home = match?.homeTeamDisplay || '';
+        const away = match?.awayTeamDisplay || '';
+        const isFinished = match?.finished === "TRUE" || '';
+        let scoreDisplay = `<span>vs</span>`;
+        if (isFinished || (match?.home_score && match?.home_score !== "0")) {
+          scoreDisplay = `<strong> ${match?.home_score || 0} : ${match?.away_score || 0} </strong>`;
+        }
+        const stadium = await getStadiumName(match.stadium_id);
+        const detailData = JSON.stringify({ home, away, dateTime: match.local_date, stage: match.stageLabel, stadium, homeScore: match?.home_score || '0', awayScore: match?.away_score || '0', homeScorers: match?.home_scorers || '—', awayScorers: match?.away_scorers || '—', finished: isFinished });
+        const escapedDetail = detailData.replace(/"/g, '&quot;');
 
-  async function updateSelectedDatePanel(dateObj) {
-    const ymd = formatYMD(dateObj);
-    const matches = matchesByDate.get(ymd) || [];
-    const container = document.getElementById("matchesContainer");
-    const labelSpan = document.getElementById("selectedDateLabel");
-    const formatted = dateObj.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-    labelSpan.innerText = formatted;
-    if(matches.length === 0) {
-      container.innerHTML = `<div class="no-matches">⚽ No games scheduled on ${formatted}.</div>`;
-      return;
-    }
-    let html = '';
-    for(let match of matches) {
-      const matchDate = parseMatchDateTime(match.local_date);
-      let timeStr = matchDate ? matchDate.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12:true }) : "TBD";
-      const home = match.homeTeamDisplay;
-      const away = match.awayTeamDisplay;
-      const isFinished = match.finished === "TRUE";
-      let scoreDisplay = `<span>vs</span>`;
-      if(isFinished || (match.home_score && match.home_score !== "0")) {
-        scoreDisplay = `<strong> ${match.home_score || 0} : ${match.away_score || 0} </strong>`;
-      }
-      const stadium = await getStadiumName(match.stadium_id);
-      html += `<div class="match-card" data-detail='${JSON.stringify({home, away, dateTime:match.local_date, stage:match.stageLabel, stadium, homeScore:match.home_score||'0', awayScore:match.away_score||'0', homeScorers:match.home_scorers||'—', awayScorers:match.away_scorers||'—', finished:isFinished})}'>
-        <div class="match-teams"><span class="team">${home}</span> ${scoreDisplay} <span class="team">${away}</span> <span class="group-stage">${match.stageLabel}</span></div>
+        html += `<div class="match-card" data-detail="${escapedDetail}">
+        <div class="match-teams"><span class="team">${home}</span> ${scoreDisplay} <span class="team">${away}</span> <span class="group-stage">${match?.stageLabel}</span></div>
         <div class="match-meta"><span class="match-time">⏱️ ${timeStr}</span><div style="font-size:0.6rem; color:#475569;">${stadium}</div></div>
       </div>`;
-    }
-    container.innerHTML = html;
-    document.querySelectorAll('.match-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const raw = card.getAttribute('data-detail');
-        if(raw) {
-          const m = JSON.parse(raw);
-          alert(`📋 ${m.home} vs ${m.away}\n🕒 ${m.dateTime}\n🏆 ${m.stage}\n🏟️ ${m.stadium}\n📊 ${m.finished ? "Finished" : "Upcoming"}\n⚽ ${m.homeScore} - ${m.awayScore}\n🥅 Scorers: ${m.homeScorers} | ${m.awayScorers}`);
-        }
+      }
+      container.innerHTML = html;
+      document.querySelectorAll('.match-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const raw = card.getAttribute('data-detail');
+          if (raw) {
+            const m = JSON.parse(raw);
+            alert(`📋 ${m?.home} vs ${m?.away}\n🕒 ${m?.dateTime}\n🏆 ${m?.stage}\n🏟️ ${m?.stadium}\n📊 ${m?.finished ? "Finished" : "Upcoming"}\n⚽ ${m?.homeScore} - ${m?.awayScore}\n🥅 Scorers: ${m?.homeScorers} | ${m?.awayScorers}`);
+          }
+        });
       });
-    });
-  }
+    }
 
-  // ======================= COMPLETE ON THIS DAY (FULL /all/ API) =======================
-  const onThisDayCache = new Map();
+    // ======================= COMPLETE ON THIS DAY (FULL /all/ API) =======================
+    const onThisDayCache = new Map();
 
-  async function fetchCompleteOnThisDay(month, day) {
-    const key = `${month}-${day}`;
-    if (onThisDayCache.has(key)) return onThisDayCache.get(key);
-    try {
-      const url = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
-      const resp = await fetch(url, { headers: { 'Api-User-Agent': 'WorldCupHistoryApp/3.0 (contact@example.com)' } });
-      if (resp.ok) {
-        const data = await resp.json();
-        onThisDayCache.set(key, data);
-        return data;
-      } else {
+    async function fetchCompleteOnThisDay(month, day) {
+      const key = `${month}-${day}`;
+      if (onThisDayCache.has(key)) return onThisDayCache.get(key);
+      try {
+        const url = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
+        const resp = await fetch(url, { headers: { 'Api-User-Agent': 'WorldCupHistoryApp/3.0 (contact@example.com)' } });
+        if (resp.ok) {
+          const data = await resp.json();
+          onThisDayCache.set(key, data);
+          return data;
+        } else {
+          return { selected: [], events: [], births: [], deaths: [], holidays: [] };
+        }
+      } catch (e) {
+        console.warn("Failed to fetch on this day", e);
         return { selected: [], events: [], births: [], deaths: [], holidays: [] };
       }
-    } catch(e) {
-      console.warn("Failed to fetch on this day", e);
-      return { selected: [], events: [], births: [], deaths: [], holidays: [] };
     }
-  }
 
-  function getBestImageFromPage(page) {
-    if (!page) return null;
-    if (page.thumbnail?.source) return page.thumbnail.source;
-    if (page.originalimage?.source) return page.originalimage.source;
-    return null;
-  }
-
-  async function renderCompleteOnThisDay(dateObj) {
-    const container = document.getElementById("historyContainer");
-    const labelSpan = document.getElementById("historyDateLabel");
-    if (!dateObj) {
-      labelSpan.innerText = "—";
-      container.innerHTML = `<div class="loader">📅 Select a date to explore complete On This Day data</div>`;
-      return;
+    function getBestImageFromPage(page) {
+      if (!page) return null;
+      if (page.thumbnail?.source) return page.thumbnail.source;
+      if (page.originalimage?.source) return page.originalimage.source;
+      return null;
     }
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    labelSpan.innerText = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    container.innerHTML = `<div class="loader">📖 Loading data on this day...</div>`;
-    
-    const data = await fetchCompleteOnThisDay(month, day);
-    let html = '';
 
-    // 1. SELECTED / FEATURED ANNIVERSARIES (from /all/ -> selected array)
-    if (data.selected && data.selected.length > 0) {
-      html += `<div class="section-title">🌟 Selected Anniversaries</div>`;
-      for (let item of data.selected) {
-        const firstPage = item.pages?.[0];
-        const imgUrl = firstPage ? getBestImageFromPage(firstPage) : null;
-        const link = firstPage?.content_urls?.desktop?.page || '#';
-        if (imgUrl) {
-          html += `<div class="history-card with-image">
+    async function renderCompleteOnThisDay(dateObj) {
+      const container = document.getElementById("historyContainer");
+      const labelSpan = document.getElementById("historyDateLabel");
+      if (!dateObj) {
+        labelSpan.innerText = "—";
+        container.innerHTML = `<div class="loader">📅 Select a date to explore complete On This Day data</div>`;
+        return;
+      }
+      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      labelSpan.innerText = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      container.innerHTML = `<div class="loader">📖 Loading data on this day ${labelSpan.innerText}...</div>`;
+
+      const data = await fetchCompleteOnThisDay(month, day);
+      let html = '';
+
+      // 1. SELECTED / FEATURED ANNIVERSARIES (from /all/ -> selected array)
+      if (data.selected && data.selected.length > 0) {
+        html += `<div class="section-title">🌟 Selected Anniversaries</div>`;
+        for (let item of data.selected) {
+          const firstPage = item.pages?.[0];
+          const imgUrl = firstPage ? getBestImageFromPage(firstPage) : null;
+          const link = firstPage?.content_urls?.desktop?.page || '#';
+          if (imgUrl) {
+            html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="image">
             <div class="history-content">
-              <div class="history-year">📅 ${item.year}</div>
+              <div class="history-year">📅 ${firstPage?.normalizedtitle}</div>
               <div class="history-text">${item.text.substring(0, 220)}${item.text.length > 220 ? '…' : ''}</div>
               <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
             </div>
           </div>`;
-        } else {
-          html += `<div class="history-card">
-            <div class="history-year">📅 ${item.year}</div>
+          } else {
+            html += `<div class="history-card">
+            <div class="history-year">📅 ${item?.normalizedtitle}</div>
             <div class="history-text">${item.text.substring(0, 220)}${item.text.length > 220 ? '…' : ''}</div>
             <a href="${link}" target="_blank" rel="noopener" class="history-link">Read more →</a>
           </div>`;
+          }
         }
       }
-    }
 
-    // 2. HOLIDAYS & OBSERVANCES
-    if (data.holidays && data.holidays.length > 0) {
-      html += `<div class="section-title">🎉 Holidays & Observances</div>`;
-      for (let hol of data.holidays) {
-        const displayText = hol.text || hol.display || 'Observance';
-        html += `<div class="history-card" style="border-left-color:#d4a373;"><div class="history-text">🎈 ${displayText}</div></div>`;
-      }
-    }
-
-    // 3. EVENTS
-    if (data.events && data.events.length > 0) {
-      html += `<div class="section-title">⚡ Events</div>`;
-      for (let ev of data.events) {
-        const page = ev.pages?.[0];
-        const imgUrl = page ? getBestImageFromPage(page) : null;
-        if (imgUrl) {
-          html += `<div class="history-card with-image">
-            <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Event image">
+      // 2. HOLIDAYS & OBSERVANCES
+      if (data.holidays && data.holidays.length > 0) {
+        html += `<div class="section-title">🎉 Holidays & Observances</div>`;
+        for (let hol of data.holidays) {
+          const link = hol?.pages[0].content_urls?.desktop?.page || '#';
+          const imageUrl = hol?.pages[0]?.thumbnail?.source;
+          const displayText = hol.text || hol.display || 'Observance';
+          if (imageUrl) {
+            html += `<div class="history-card with-image">
+            <img src="${imageUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="image">
             <div class="history-content">
-              <div class="history-year">📆 ${ev.year}</div>
-              <div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div>
+              <div class="history-year">📅 ${hol?.pages[0]?.normalizedtitle}</div>
+              <div class="history-text">${hol?.pages[0]?.extract.substring(0, 220)}${hol?.pages[0]?.extract.length > 220 ? '…' : ''}</div>
+              <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
             </div>
           </div>`;
-        } else {
-          html += `<div class="history-card"><div class="history-year">📆 ${ev.year}</div><div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div></div>`;
+          } else {
+            html += `<div class="history-card" style="border-left-color:#d4a373;"><div class="history-text"><div class="history-year">${hol?.pages[0]?.normalizedtitle}</div> ${displayText} <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a> </div></div>
+        `;
+          }
+
         }
       }
-      if (data.events.length > 7) html += `<div style="font-size:0.65rem; text-align:center; color:#64748b;">+ ${data.events.length - 7} more events</div>`;
-    }
 
-    // 4. BIRTHS
-    if (data.births && data.births.length > 0) {
-      html += `<div class="section-title">🎂 Notable Births</div>`;
-      for (let b of data.births) {
-        const page = b.pages?.[0];
-        const imgUrl = page ? getBestImageFromPage(page) : null;
-        const name = b.text?.split(',')[0] || 'Notable figure';
-        const description = page?.extract?.substring(0, 110) || (b.text?.substring(0, 100) || 'figure');
-        if (imgUrl) {
-          html += `<div class="history-card with-image">
+      // 3. EVENTS
+      if (data.events && data.events.length > 0) {
+
+        html += `<div class="section-title">⚡ Events</div>`;
+        for (let ev of data.events) {
+          const page = ev.pages?.[0];
+          const link = page.content_urls?.desktop?.page || '#';
+          const imgUrl = page ? getBestImageFromPage(page) : null;
+          if (imgUrl) {
+            html += `<div class="history-card with-image">
+            <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Event image">
+            <div class="history-content">
+              <div class="history-year">📆 ${page?.normalizedtitle}</div>
+              <div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div>
+              <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
+            </div>
+          </div>`;
+          } else {
+            html += `<div class="history-card"><div class="history-year">📆 ${page?.normalizedtitle}</div><div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
+          }
+        }
+        if (data.events.length > 7) html += `<div style="font-size:0.65rem; text-align:center; color:#64748b;">+ ${data.events.length - 7} more events</div>`;
+      }
+
+      // 4. BIRTHS
+      if (data.births && data.births.length > 0) {
+        html += `<div class="section-title">🎂 Births</div>`;
+        for (let b of data.births) {
+          const page = b.pages?.[0];
+          const link = page.content_urls?.desktop?.page || '#';
+          const imgUrl = page ? getBestImageFromPage(page) : null;
+          const name = b.text?.split(',')[0] || 'Notable figure';
+          const description = page?.extract?.substring(0, 110) || (b.text?.substring(0, 100) || 'figure');
+          if (imgUrl) {
+            html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Portrait">
-            <div class="history-content"><div class="history-year">🎂 ${name} (born ${b.year})</div><div class="history-text">${description}</div></div>
+            <div class="history-content"><div class="history-year">🎂 ${name} (born ${page?.normalizedtitle})</div><div class="history-text">${description}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>
           </div>`;
-        } else {
-          html += `<div class="history-card"><div class="history-year">🎂 ${name} (${b.year})</div><div class="history-text">${description}</div></div>`;
+          } else {
+            html += `<div class="history-card"><div class="history-year">🎂 ${name} (${page?.normalizedtitle})</div><div class="history-text">${description}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
+          }
         }
       }
-    }
 
-    // 5. DEATHS
-    if (data.deaths && data.deaths.length > 0) {
-      html += `<div class="section-title">🕯️ Anniversaries of Passing</div>`;
-      for (let d of data.deaths) {
-        const page = d.pages?.[0];
-        const imgUrl = page ? getBestImageFromPage(page) : null;
-        const name = d.text?.split(',')[0] || '';
-        if (imgUrl) {
-          html += `<div class="history-card with-image">
+      // 5. DEATHS
+      if (data.deaths && data.deaths.length > 0) {
+        html += `<div class="section-title">🕯️ Anniversaries of Passing</div>`;
+        for (let d of data.deaths) {
+          const page = d.pages?.[0];
+          const link = page.content_urls?.desktop?.page || '#';
+          const imgUrl = page ? getBestImageFromPage(page) : null;
+          const name = d.text?.split(',')[0] || '';
+          if (imgUrl) {
+            html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Memorial">
-            <div class="history-content"><div class="history-year">📖 ${name} († ${d.year})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div></div>
+            <div class="history-content"><div class="history-year">📖 ${name} († ${page?.normalizedtitle})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>
+            
           </div>`;
-        } else {
-          html += `<div class="history-card"><div class="history-year">📖 ${name} († ${d.year})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div></div>`;
+          } else {
+            html += `<div class="history-card"><div class="history-year">📖 ${name} († ${page?.normalizedtitle})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
+          }
         }
       }
+
+      if (!html) {
+        html = `<div class="no-matches">📭 No records found for this date. Try another day.</div>`;
+      }
+      container.innerHTML = html;
     }
 
-    if (!html) {
-      html = `<div class="no-matches">📭 No records found for this date. Try another day.</div>`;
-    }
-    container.innerHTML = html;
-  }
+    // ======================= CALENDAR RENDER =======================
+    function renderCalendar(currentMonthDate) {
+      const year = currentMonthDate.getFullYear();
+      const month = currentMonthDate.getMonth();
+      const firstDay = new Date(year, month, 1);
+      let startOffset = (firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const grid = document.getElementById("calendarGrid");
+      const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+      let html = weekdays.map(d => `<div class="weekday">${d}</div>`).join('');
+      const todayYMD = formatYMD(new Date());
+      for (let i = 0; i < startOffset; i++) html += `<div class="cal-day empty-day"></div>`;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cellDate = new Date(year, month, d);
+        const ymd = formatYMD(cellDate);
+        const hasMatch = matchesByDate.has(ymd) && matchesByDate.get(ymd).length > 0;
+        const isToday = (ymd === todayYMD);
+        let cls = "";
+        if (isToday) cls = "today";
+        else if (hasMatch) cls = "has-match";
+        const matchCount = hasMatch ? matchesByDate.get(ymd).length : 0;
+        const indicator = hasMatch ? `<div class="match-indicator">⚽ ${matchCount}</div>` : '';
+        html += `<div class="cal-day ${cls}" data-date="${ymd}"><div class="day-number">${d}</div>${indicator}</div>`;
+      }
+      grid.innerHTML = html;
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      document.getElementById("monthYearDisplay").innerHTML = `${monthNames[month]} ${year}`;
 
-  // ======================= CALENDAR RENDER =======================
-  function renderCalendar(currentMonthDate) {
-    const year = currentMonthDate.getFullYear();
-    const month = currentMonthDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    let startOffset = (firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1);
-    const daysInMonth = new Date(year, month+1, 0).getDate();
-    const grid = document.getElementById("calendarGrid");
-    const weekdays = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
-    let html = weekdays.map(d => `<div class="weekday">${d}</div>`).join('');
-    const todayYMD = formatYMD(new Date());
-    for(let i=0; i<startOffset; i++) html += `<div class="cal-day empty-day"></div>`;
-    for(let d=1; d<=daysInMonth; d++) {
-      const cellDate = new Date(year, month, d);
-      const ymd = formatYMD(cellDate);
-      const hasMatch = matchesByDate.has(ymd) && matchesByDate.get(ymd).length > 0;
-      const isToday = (ymd === todayYMD);
-      let cls = "";
-      if(isToday) cls = "today";
-      else if(hasMatch) cls = "has-match";
-      const matchCount = hasMatch ? matchesByDate.get(ymd).length : 0;
-      const indicator = hasMatch ? `<div class="match-indicator">⚽ ${matchCount}</div>` : '';
-      html += `<div class="cal-day ${cls}" data-date="${ymd}"><div class="day-number">${d}</div>${indicator}</div>`;
-    }
-    grid.innerHTML = html;
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("monthYearDisplay").innerHTML = `${monthNames[month]} ${year}`;
-
-    document.querySelectorAll('.cal-day[data-date]').forEach(el => {
-      el.addEventListener('click', async () => {
-        const dateStr = el.getAttribute('data-date');
-        const [y,m,d] = dateStr.split('-').map(Number);
-        const clicked = new Date(y, m-1, d);
-        selectedDate = clicked;
-        await updateSelectedDatePanel(selectedDate);
-        await renderCompleteOnThisDay(selectedDate);
-        renderCalendar(currentDisplayDate);
-        const tile = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
-        if(tile) tile.style.transform = "scale(0.97)";
-        setTimeout(() => { if(tile) tile.style.transform = ""; }, 150);
+      document.querySelectorAll('.cal-day[data-date]').forEach(el => {
+        el.addEventListener('click', async () => {
+          const dateStr = el.getAttribute('data-date');
+          const [y, m, d] = dateStr.split('-').map(Number);
+          const clicked = new Date(y, m - 1, d);
+          selectedDate = clicked;
+          const [panelResult, renderResult] = await Promise.all([
+            updateSelectedDatePanel(selectedDate),
+            renderCompleteOnThisDay(selectedDate)
+          ]);
+          renderCalendar(currentDisplayDate);
+          const tile = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
+          if (tile) tile.style.transform = "scale(0.97)";
+          setTimeout(() => { if (tile) tile.style.transform = ""; }, 150);
+        });
       });
+    }
+
+    function updateLiveDateBadge() {
+      const today = new Date();
+      const ymd = formatYMD(today);
+      const count = matchesByDate.get(ymd)?.length || 0;
+      const badge = document.getElementById("liveDateBadge");
+      if (badge) badge.innerHTML = `📅 ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} · ${count} match${count !== 1 ? 'es' : ''}`;
+      //document.getElementById("historyBadge")?.innerHTML = `📖 On this day daily feed`;
+    }
+
+    function goPrevMonth() { let nd = new Date(currentDisplayDate); nd.setMonth(currentDisplayDate.getMonth() - 1); currentDisplayDate = nd; renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); }
+    function goNextMonth() { let nd = new Date(currentDisplayDate); nd.setMonth(currentDisplayDate.getMonth() + 1); currentDisplayDate = nd; renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); }
+    function goToday() { const today = new Date(); currentDisplayDate = new Date(today.getFullYear(), today.getMonth(), 1); selectedDate = new Date(today); renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); renderCompleteOnThisDay(selectedDate); updateLiveDateBadge(); }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await fetchWorldCupMatches();
+      const now = new Date();
+      currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      selectedDate = new Date(now);
+      renderCalendar(currentDisplayDate);
+      const [panelResult, renderResult] = await Promise.all([
+        updateSelectedDatePanel(selectedDate),
+        renderCompleteOnThisDay(selectedDate)
+      ]);
+      updateLiveDateBadge();
+      document.getElementById("prevMonthBtn").addEventListener("click", goPrevMonth);
+      document.getElementById("nextMonthBtn").addEventListener("click", goNextMonth);
+      document.getElementById("goTodayBtn").addEventListener("click", goToday);
     });
-  }
-
-  function updateLiveDateBadge() {
-    const today = new Date();
-    const ymd = formatYMD(today);
-    const count = matchesByDate.get(ymd)?.length || 0;
-    const badge = document.getElementById("liveDateBadge");
-    if(badge) badge.innerHTML = `📅 ${today.toLocaleDateString('en-US',{ month:'long', day:'numeric' })} · ${count} match${count!==1 ? 'es' : ''}`;
-    document.getElementById("historyBadge").innerHTML = `📖 On this day daily feed`;
-  }
-
-  function goPrevMonth() { let nd = new Date(currentDisplayDate); nd.setMonth(currentDisplayDate.getMonth()-1); currentDisplayDate = nd; renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); }
-  function goNextMonth() { let nd = new Date(currentDisplayDate); nd.setMonth(currentDisplayDate.getMonth()+1); currentDisplayDate = nd; renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); }
-  function goToday() { const today = new Date(); currentDisplayDate = new Date(today.getFullYear(), today.getMonth(), 1); selectedDate = new Date(today); renderCalendar(currentDisplayDate); updateSelectedDatePanel(selectedDate); renderCompleteOnThisDay(selectedDate); updateLiveDateBadge(); }
-
-  window.addEventListener('DOMContentLoaded', async () => {
-    await fetchWorldCupMatches();
-    const now = new Date();
-    currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    selectedDate = new Date(now);
-    renderCalendar(currentDisplayDate);
-    await updateSelectedDatePanel(selectedDate);
-    await renderCompleteOnThisDay(selectedDate);
-    updateLiveDateBadge();
-    document.getElementById("prevMonthBtn").addEventListener("click", goPrevMonth);
-    document.getElementById("nextMonthBtn").addEventListener("click", goNextMonth);
-    document.getElementById("goTodayBtn").addEventListener("click", goToday);
-  });
-</script>
+  </script>
 </body>
+
 </html>
