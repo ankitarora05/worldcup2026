@@ -30,8 +30,7 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: linear-gradient(135deg, #f0f4fa 0%, #e2eaf5 100%);
       min-height: 100vh;
-      padding: 5px;
-      font-size: 20px;
+      font-size: 21px;
     }
 
     .app-container {
@@ -39,7 +38,6 @@
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(4px);
-      border-radius: 4px;
       box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
       overflow: hidden;
     }
@@ -97,9 +95,7 @@
       flex-wrap: wrap;
       gap: 1rem;
       background: white;
-      margin: 1.5rem 1.5rem 0;
-      padding: 0.6rem 1.2rem;
-      border-radius: 80px;
+      padding: 1rem 0.5rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
@@ -135,7 +131,8 @@
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 0.5rem;
-      padding: 1.5rem;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
     }
 
     .weekday {
@@ -148,13 +145,18 @@
     }
 
     .cal-day {
+      min-height: 4rem;
       background: white;
-      border-radius: 1rem;
-      padding: 0.6rem 0.2rem;
+      border-radius: 4px;
+      padding: 0.5rem;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
       border: 1px solid #e9edf2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
     .cal-day:hover {
@@ -199,8 +201,8 @@
     .double-panel {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
-      padding: 0 1.5rem 1.5rem;
+      gap: 1rem;
+      padding: 0 0.5rem;
     }
 
     .match-panel,
@@ -208,8 +210,8 @@
       flex: 1;
       min-width: 340px;
       background: white;
-      border-radius: 1.2rem;
-      padding: 1.2rem;
+      border-radius: 0.2rem;
+      padding: 1rem;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
       border: 1px solid #edf2f7;
     }
@@ -412,6 +414,11 @@
       background: rgba(255, 255, 255, 0.6);
     }
 
+    .footer-credit a { 
+      font-size: 0.7rem;
+      color: #3b82f6;
+    }
+
     @media (max-width: 760px) {
       body {
         padding: 0.8rem;
@@ -454,7 +461,7 @@
       <h1>⚽ 🇺🇸 🇨🇦 🇲🇽 🏆  <span> WORLD CUP 2026 · Daily On This Day <span></h1>
       <p>Interactive Calendar for Official FIFA World Cup 2026 Games & On This Day Daily Feed</p>
       <div class="badge-row">
-        <div class="date-badge" id="liveDateBadge">📅 Loading schedule...</div>
+        <div class="date-badge" id="liveDateBadge"> Loading schedule...</div>
       </div>
     </div>
 
@@ -473,10 +480,10 @@
       <div class="match-panel">
         <div class="panel-header">
           <h3>⚽ World Cup Games</h3>
-          <span class="selected-date" id="selectedDateLabel">Select a date</span>
+          <span class="selected-date" id="selectedDateLabel"></span>
         </div>
         <div id="matchesContainer" class="matches-list">
-          <div class="no-matches">📅 Tap any day to see match schedule</div>
+          <div class="no-matches"> Tap any day to see match schedule</div>
         </div>
       </div>
       <div class="history-panel">
@@ -490,7 +497,7 @@
       </div>
     </div>
     <div class="footer-credit">
-      FIFA World Cup 2026 · On This Day · Ankit Arora
+      Official FIFA World Cup 2026 · On This Day Feed · <a href="https://ankitarora05.github.io/worldcup2026/document.pdf" target="_blank">Ankit Arora</a>
     </div>
   </div>
 
@@ -554,6 +561,12 @@
     async function fetchWorldCupMatches() {
       try {
         renderCalendar(currentDisplayDate);
+        document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">Loading match details for ${currentDisplayDate.toLocaleDateString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+})}...</div>`;
         const workerUrl = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/games';
         const resp = await fetch(workerUrl);
         if (!resp.ok) throw new Error();
@@ -576,7 +589,7 @@
         updateLiveDateBadge();
       } catch (e) {
         document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Unable to load match data. Please refresh.</div>`;
-        document.getElementById("liveDateBadge").innerText = "📅 Scheduling";
+        document.getElementById("liveDateBadge").innerText = " Scheduling";
       }
     }
 
@@ -608,7 +621,7 @@
 
         html += `<div class="match-card" data-detail="${escapedDetail}">
         <div class="match-teams"><span class="team">${home}</span> ${scoreDisplay} <span class="team">${away}</span> <span class="group-stage">${match?.stageLabel}</span></div>
-        <div class="match-meta"><span class="match-time">⏱️ ${timeStr}</span><div style="font-size:0.6rem; color:#475569;">${stadium}</div></div>
+        <div class="match-meta"><span class="match-time">⏱️ ${timeStr}</span><div style="font-size:0.6rem; color:#475569;text-align: center; margin-top: 3px;">${stadium}</div></div>
       </div>`;
       }
       container.innerHTML = html;
@@ -621,6 +634,9 @@
           }
         });
       });
+
+      document.getElementById("monthYearDisplay").innerHTML = `${document.getElementById("selectedDateLabel").innerHTML}`;
+
     }
 
     // ======================= COMPLETE ON THIS DAY (FULL /all/ API) =======================
@@ -657,14 +673,14 @@
       const labelSpan = document.getElementById("historyDateLabel");
       if (!dateObj) {
         labelSpan.innerText = "—";
-        container.innerHTML = `<div class="loader">📅 Select a date to explore complete On This Day data</div>`;
+        container.innerHTML = `<div class="loader"> Select a date to explore complete On This Day data</div>`;
         return;
       }
       const month = String(dateObj.getMonth() + 1).padStart(2, '0');
       const day = String(dateObj.getDate()).padStart(2, '0');
-      labelSpan.innerText = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      labelSpan.innerText = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
       container.innerHTML = `<div class="loader">📖 Loading data on this day ${labelSpan.innerText}...</div>`;
-
+    
       const data = await fetchCompleteOnThisDay(month, day);
       let html = '';
 
@@ -679,14 +695,14 @@
             html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="image">
             <div class="history-content">
-              <div class="history-year">📅 ${firstPage?.normalizedtitle}</div>
+              <div class="history-year"> ${firstPage?.normalizedtitle || ''}</div>
               <div class="history-text">${item.text.substring(0, 220)}${item.text.length > 220 ? '…' : ''}</div>
               <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
             </div>
           </div>`;
           } else {
             html += `<div class="history-card">
-            <div class="history-year">📅 ${item?.normalizedtitle}</div>
+            <div class="history-year"> ${item?.normalizedtitle || ''}</div>
             <div class="history-text">${item.text.substring(0, 220)}${item.text.length > 220 ? '…' : ''}</div>
             <a href="${link}" target="_blank" rel="noopener" class="history-link">Read more →</a>
           </div>`;
@@ -698,20 +714,20 @@
       if (data.holidays && data.holidays.length > 0) {
         html += `<div class="section-title">🎉 Holidays & Observances</div>`;
         for (let hol of data.holidays) {
-          const link = hol?.pages[0].content_urls?.desktop?.page || '#';
+          const link = hol?.pages[0]?.content_urls?.desktop?.page || '#';
           const imageUrl = hol?.pages[0]?.thumbnail?.source;
           const displayText = hol.text || hol.display || 'Observance';
           if (imageUrl) {
             html += `<div class="history-card with-image">
             <img src="${imageUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="image">
             <div class="history-content">
-              <div class="history-year">📅 ${hol?.pages[0]?.normalizedtitle}</div>
+              <div class="history-year"> ${hol?.pages[0]?.normalizedtitle || ''}</div>
               <div class="history-text">${hol?.pages[0]?.extract.substring(0, 220)}${hol?.pages[0]?.extract.length > 220 ? '…' : ''}</div>
               <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
             </div>
           </div>`;
           } else {
-            html += `<div class="history-card" style="border-left-color:#d4a373;"><div class="history-text"><div class="history-year">${hol?.pages[0]?.normalizedtitle}</div> ${displayText} <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a> </div></div>
+            html += `<div class="history-card" style="border-left-color:#d4a373;"><div class="history-text"><div class="history-year">${hol?.pages[0]?.normalizedtitle || ''}</div> ${displayText} <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a> </div></div>
         `;
           }
 
@@ -730,13 +746,13 @@
             html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Event image">
             <div class="history-content">
-              <div class="history-year">📆 ${page?.normalizedtitle}</div>
+              <div class="history-year">📆 ${page?.normalizedtitle || ''}</div>
               <div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div>
               <a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a>
             </div>
           </div>`;
           } else {
-            html += `<div class="history-card"><div class="history-year">📆 ${page?.normalizedtitle}</div><div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
+            html += `<div class="history-card"><div class="history-year">📆 ${page?.normalizedtitle || ''}</div><div class="history-text">${ev.text.substring(0, 180)}${ev.text.length > 180 ? '…' : ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
           }
         }
         if (data.events.length > 7) html += `<div style="font-size:0.65rem; text-align:center; color:#64748b;">+ ${data.events.length - 7} more events</div>`;
@@ -754,10 +770,10 @@
           if (imgUrl) {
             html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Portrait">
-            <div class="history-content"><div class="history-year">🎂 ${name} (born ${page?.normalizedtitle})</div><div class="history-text">${description}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>
+            <div class="history-content"><div class="history-year">🎂 ${name} (born ${page?.normalizedtitle || ''})</div><div class="history-text">${description}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>
           </div>`;
           } else {
-            html += `<div class="history-card"><div class="history-year">🎂 ${name} (${page?.normalizedtitle})</div><div class="history-text">${description}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
+            html += `<div class="history-card"><div class="history-year">🎂 ${name} (${page?.normalizedtitle || ''})</div><div class="history-text">${description}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
           }
         }
       }
@@ -773,11 +789,11 @@
           if (imgUrl) {
             html += `<div class="history-card with-image">
             <img src="${imgUrl}" class="history-img" loading="lazy" onerror="this.style.display='none'" alt="Memorial">
-            <div class="history-content"><div class="history-year">📖 ${name} († ${page?.normalizedtitle})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>
+            <div class="history-content"><div class="history-year">📖 ${name} († ${page?.normalizedtitle || ''})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>
             
           </div>`;
           } else {
-            html += `<div class="history-card"><div class="history-year">📖 ${name} († ${page?.normalizedtitle})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
+            html += `<div class="history-card"><div class="history-year">📖 ${name} († ${page?.normalizedtitle || ''})</div><div class="history-text">${d.text?.substring(0, 120) || ''}</div><a href="${link}" target="_blank" rel="noopener" class="history-link">Read full article →</a></div>`;
           }
         }
       }
@@ -793,6 +809,7 @@
       const year = currentMonthDate.getFullYear();
       const month = currentMonthDate.getMonth();
       const firstDay = new Date(year, month, 1);
+      const labelDate = currentMonthDate;
       let startOffset = (firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1);
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const grid = document.getElementById("calendarGrid");
@@ -814,7 +831,6 @@
       }
       grid.innerHTML = html;
       const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      document.getElementById("monthYearDisplay").innerHTML = `${monthNames[month]} ${year}`;
 
       document.querySelectorAll('.cal-day[data-date]').forEach(el => {
         el.addEventListener('click', async () => {
@@ -832,6 +848,8 @@
           setTimeout(() => { if (tile) tile.style.transform = ""; }, 150);
         });
       });
+
+      document.getElementById("monthYearDisplay").innerHTML = `${document.getElementById("selectedDateLabel").innerHTML}`;
     }
 
     function updateLiveDateBadge() {
@@ -839,7 +857,7 @@
       const ymd = formatYMD(today);
       const count = matchesByDate.get(ymd)?.length || 0;
       const badge = document.getElementById("liveDateBadge");
-      if (badge) badge.innerHTML = `📅 ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} · ${count} match${count !== 1 ? 'es' : ''}`;
+      if (badge) badge.innerHTML = ` ${today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} · ${count} match${count !== 1 ? 'es' : ''}`;
       //document.getElementById("historyBadge")?.innerHTML = `📖 On this day daily feed`;
     }
 
