@@ -414,11 +414,69 @@
       background: rgba(255, 255, 255, 0.6);
     }
 
-    .footer-credit a { 
+    .footer-credit a {
       font-size: 0.7rem;
       color: #3b82f6;
     }
 
+    .calendar-my {
+      width: 100%;
+      text-align: center;
+      margin: 1rem auto;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .calendar-image {
+      width: 100%;
+      margin: 0 auto;
+      background: #2c2c2c;
+      overflow: hidden;
+    }
+
+    .calendar-image img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+
+    .image-loader {
+      inset: 0;
+      background: linear-gradient(90deg, #f3f3f3 25%, #e7e7e7 50%, #f3f3f3 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      height: 400px;
+    }
+
+    #calendarHero {
+      display: none;
+    }
+
+    .image-loader.hidden {
+      display: none;
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: 200% 0;
+      }
+
+      to {
+        background-position: -200% 0;
+      }
+    }
+
+
+    /* Desktop */
+    @media (min-width: 1200px) {
+      .calendar-image {
+        max-width: 800px;
+      }
+    }
+
+    /* Tablet */
     @media (max-width: 760px) {
       .hero h1 {
         font-size: 1.3rem;
@@ -446,6 +504,10 @@
         width: 100px;
         margin: auto;
       }
+
+      .calendar-image {
+        max-width: 600px;
+      }
     }
   </style>
 </head>
@@ -453,7 +515,7 @@
 <body>
   <div class="app-container">
     <div class="hero">
-      <h1>⚽ 🇺🇸 🇨🇦 🇲🇽 🏆  <span> WORLD CUP 2026 · Daily On This Day <span></h1>
+      <h1>⚽ 🇺🇸 🇨🇦 🇲🇽 🏆 <span> WORLD CUP 2026 · Daily On This Day <span></h1>
       <p>Interactive Calendar for Official FIFA World Cup 2026 Games & On This Day Daily Feed</p>
       <div class="badge-row">
         <div class="date-badge" id="liveDateBadge"> Loading schedule...</div>
@@ -468,6 +530,16 @@
         <button class="nav-btn" id="nextMonthBtn">Next ▶</button>
       </div>
     </div>
+
+    <div class="calendar-image">
+      <div class="image-loader"></div>
+      <img id="calendarHero" src="" alt="calendar hero image" loading="lazy" />
+    </div>
+
+    <div class="calendar-my-container">
+      <div class="calendar-my" id="calendarMy"></div>
+    </div>
+
 
     <div class="calendar-grid" id="calendarGrid"></div>
 
@@ -492,7 +564,8 @@
       </div>
     </div>
     <div class="footer-credit">
-      Official FIFA World Cup 2026 · On This Day Feed · <a href="https://ankitarora05.github.io/worldcup2026/document.pdf" target="_blank">Ankit Arora</a>
+      Official FIFA World Cup 2026 · On This Day Feed · <a
+        href="https://ankitarora05.github.io/worldcup2026/document.pdf" target="_blank">Ankit Arora</a>
     </div>
   </div>
 
@@ -518,6 +591,131 @@
       let [month, day, year] = datePart.split('/').map(Number);
       let [hour = 0, minute = 0] = timePart ? timePart.split(':').map(Number) : [0, 0];
       return new Date(year, month - 1, day, hour, minute);
+    }
+
+    function loadRandomImage(target, width = 800, height = 600) {
+      const img =
+        typeof target === "string"
+          ? document.querySelector(target)
+          : target;
+
+      if (!img) return;
+
+      const randomId = Math.floor(Math.random() * 1000);
+
+      img.src = `https://picsum.photos/${width}/${height}?random=${randomId}`;
+
+      img.onerror = () => {
+        img.src = `https://picsum.photos/${width}/${height}`;
+      };
+    }
+
+    async function loadRandomOpenverseImage(
+      target,
+      {
+        retries = 5,
+        pageSize = 20
+      } = {}
+    ) {
+      const img =
+        typeof target === "string"
+          ? document.querySelector(target)
+          : target;
+
+      if (!img) return;
+
+      const loader =
+        img.parentElement.querySelector(".image-loader");
+
+      const keywords = [
+        "America",
+        "Canada",
+        "Mexico",
+        "Today in History",
+        "fifa world cup",
+        "world cup 2026",
+        "people",
+        "nature",
+        "sports",
+        "soccer",
+        "travel",
+        "city",
+        "people",
+        "animals",
+        "landscape",
+        "art",
+        "food",
+        "architecture",
+        "flowers",
+        "ocean",
+        "forest",
+        "sky",
+        "music",
+        "culture"
+      ];
+
+      const maxPage = 5;
+
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+          const query =
+            keywords[Math.floor(Math.random() * keywords.length)];
+
+          const page =
+            Math.floor(Math.random() * maxPage) + 1;
+
+          const response = await fetch(
+            `https://api.openverse.org/v1/images/?q=${query}&page=${page}&page_size=${pageSize}`
+          );
+
+          const data = await response.json();
+
+          if (!data.results?.length) {
+            continue;
+          }
+
+          const candidate =
+            data.results[
+            Math.floor(Math.random() * data.results.length)
+            ];
+
+          // Preload before replacing visible image
+          const preload = new Image();
+
+          await new Promise((resolve, reject) => {
+            preload.onload = resolve;
+            preload.onerror = reject;
+            preload.src = candidate.url;
+          });
+
+          img.src = candidate.url;
+          img.alt = candidate.title || query;
+
+          img.classList.add("loaded");
+
+          img.style.display = "block";
+
+          loader?.classList.add("hidden");
+
+          return;
+        } catch {
+          // Silent retry
+        }
+      }
+
+      // Final fallback
+      const fallback =
+        `https://picsum.photos/800/600?random=${Date.now()}`;
+
+      const preload = new Image();
+
+      preload.onload = () => {
+        img.src = fallback;
+        img.classList.add("loaded");
+        loader?.classList.add("hidden");
+      };
+
+      preload.src = fallback;
     }
 
     async function getStadiumName(stadiumId) {
@@ -555,13 +753,14 @@
 
     async function fetchWorldCupMatches() {
       try {
+        loadRandomOpenverseImage("#calendarHero");
         renderCalendar(currentDisplayDate);
         document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">Loading match details for ${currentDisplayDate.toLocaleDateString('en-US', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-})}...</div>`;
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}...</div>`;
         const workerUrl = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/games';
         const resp = await fetch(workerUrl);
         if (!resp.ok) throw new Error();
@@ -675,7 +874,7 @@
       const day = String(dateObj.getDate()).padStart(2, '0');
       labelSpan.innerText = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
       container.innerHTML = `<div class="loader">📖 Loading data on this day ${labelSpan.innerText}...</div>`;
-    
+
       const data = await fetchCompleteOnThisDay(month, day);
       let html = '';
 
@@ -826,6 +1025,9 @@
       }
       grid.innerHTML = html;
       const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+      document.querySelector("#calendarMy").innerHTML = `${monthNames[month]}, ${year}`;
+      loadRandomOpenverseImage("#calendarHero")
 
       document.querySelectorAll('.cal-day[data-date]').forEach(el => {
         el.addEventListener('click', async () => {
