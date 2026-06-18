@@ -745,6 +745,11 @@
 
     /* Tablet */
     @media (max-width: 760px) {
+      .month-year {
+        font-weight: 700;
+        font-size: 1rem;
+        color: #1e293b;
+      }
       .hero h1 {
         font-size: 1.3rem;
       }
@@ -833,7 +838,7 @@
 
     <div class="ai-panel">
       <div class="ai-panel-title">What is so special about today?</div>
-      <div id="meaningfulText">Generating AI Summary for today...</div>
+      <div id="meaningfulText"><span class="loader">📖 Generating AI Summary for today...</span></div>
     </div>
 
     <div class="footer-credit">
@@ -1178,82 +1183,82 @@ ${getHolidayInfo(today)}`;
           let text = '';
 
           // 1. Headline
-          text += `📅 ${data.date}\n`;
+          text += `<div><center><h2>📅 ${data?.date}\n</h2></center></div>`;
 
           // 2. What's special today
-          text += `🌟 ${data.whatIsSpecialToday.headline}\n\n`;
-          text += `${data.whatIsSpecialToday.emotionalHook}\n\n`;
+          text += `<div>🌟 ${data?.whatIsSpecialToday?.headline}\n\n</div>`;
+          text += `<div>\n${data?.whatIsSpecialToday?.emotionalHook}\n\n</div>`;
 
           // 3. Hero section
-          text += `📖 ${data.hero.title}\n`;
-          text += `${data.hero.subtitle}\n\n`;
+          text += `<div><b>📖 ${data?.hero?.title}\n</b></div>`;
+          text += `<div>${data?.hero?.subtitle}\n\n</div>`;
 
           // 4. Main narrative
-          text += data.storyOfTheDay.narrative;
+          text += data?.storyOfTheDay?.narrative;
 
           // 5. Key turning points
-          text += `🔑 KEY TURNING POINTS:\n\n`;
-          data.storyOfTheDay.keyTurningPoints.forEach((point, i) => {
-            text += `${i + 1}. ${point.year}: ${point.event}\n`;
-            text += `   Why it changed history: ${point.whyItChangedHistory}\n`;
-            text += `   Emotional resonance: ${point.emotionalResonance}\n\n`;
+          text += `<div><b>🔑 KEY TURNING POINTS:\n\n</b></div>`;
+          data?.storyOfTheDay?.keyTurningPoints?.forEach((point, i) => {
+            text += `${i + 1}. ${point?.year}: ${point?.event}\n`;
+            text += `   Why it changed history: ${point?.whyItChangedHistory}\n`;
+            text += `   Emotional resonance: ${point?.emotionalResonance}\n\n`;
           });
 
           // 6. Timeline highlights
-          text += `⏳ TIMELINE HIGHLIGHTS:\n\n`;
-          data.timelineHighlights.forEach(event => {
-            text += `📌 ${event.year} - ${event.title}\n`;
-            text += `   ${event.oneLine}\n`;
-            text += `   Impact: ${event.impact}\n\n`;
+          text += `<div><b>⏳ TIMELINE HIGHLIGHTS:\n\n</b></div>`;
+          data?.timelineHighlights?.forEach(event => {
+            text += `📌 ${event?.year} - ${event?.title}\n`;
+            text += `   ${event?.oneLine}\n`;
+            text += `   Impact: ${event?.impact}\n\n`;
           });
 
           // 7. People spotlight
-          text += `👤 PEOPLE SPOTLIGHT:\n\n`;
+          text += `<div><b>👤 PEOPLE SPOTLIGHT:\n\n</b></div>`;
 
-          if (data.peopleSpotlight.born.length > 0) {
-            text += `Born this day:\n`;
-            data.peopleSpotlight.born.forEach(person => {
-              text += `   • ${person.name} (${person.year}) - ${person.identity}\n`;
-              text += `     ${person.whyImportant}\n`;
-              text += `     💡 ${person.humanDetail}\n\n`;
+          if (data?.peopleSpotlight?.born?.length > 0) {
+            text += `<div><b>Born this day:\n</b></div>`;
+            data?.peopleSpotlight?.born?.forEach(person => {
+              text += `   • ${person?.name} (${person?.year}) - ${person?.identity}\n`;
+              text += `     ${person?.whyImportant}\n`;
+              text += `     💡 ${person?.humanDetail}\n\n`;
             });
           }
 
-          if (data.peopleSpotlight.died.length > 0) {
-            text += `Died this day:\n`;
-            data.peopleSpotlight.died.forEach(person => {
-              text += `   • ${person.name} (${person.year})\n`;
-              text += `     Legacy: ${person.legacy}\n`;
-              text += `     ${person.ironyOrMeaning}\n\n`;
+          if (data?.peopleSpotlight?.died?.length > 0) {
+            text += `<div><b>Died this day:\n</b></div>`;
+            data?.peopleSpotlight?.died?.forEach(person => {
+              text += `   • ${person?.name} (${person?.year})\n`;
+              text += `     Legacy: ${person?.legacy}\n`;
+              text += `     ${person?.ironyOrMeaning}\n\n`;
             });
           }
 
           // 8. Moments of change
-          text += `💫 MOMENTS OF CHANGE:\n\n`;
-          data.momentsOfChange.forEach(moment => {
-            text += `• ${moment.year}: ${moment.title}\n`;
-            text += `  ${moment.description}\n`;
-            text += `  Modern relevance: ${moment.modernRelevance}\n\n`;
+          text += `<div><b>💫 MOMENTS OF CHANGE:\n\n</b></div>`;
+          data?.momentsOfChange?.forEach(moment => {
+            text += `• ${moment?.year}: ${moment?.title}\n`;
+            text += `  ${moment?.description}\n`;
+            text += `  Modern relevance: ${moment?.modernRelevance}\n\n`;
           });
 
           // 9. Did you know
-          text += `🤔 DID YOU KNOW?\n\n`;
-          data.didYouKnow.forEach((fact, i) => {
+          text += `<div><b>🤔 DID YOU KNOW?\n\n</b></div>`;
+          data?.didYouKnow?.forEach((fact, i) => {
             text += `${i + 1}. ${fact}\n`;
           });
           text += `\n`;
 
           // 10. Themes
-          text += `🎯 THEMES:\n`;
-          data.storyOfTheDay.themes.forEach(theme => {
+          text += `<div><b>🎯 THEMES:\n</b></div>`;
+          data?.storyOfTheDay?.themes?.forEach(theme => {
             text += `   • ${theme}\n`;
           });
           text += `\n`;
 
           // 11. Closing reflection
-          text += `💭 ${data.closingReflection.summary}\n\n`;
-          text += `✨ ${data.closingReflection.takeaway}\n`;
-          text += `\n${'='.repeat(50)}`;
+          text += `<div>💭 ${data?.closingReflection?.summary}\n\n</div>`;
+          text += `<div>✨ ${data?.closingReflection?.takeaway}\n</div>`;
+          text += `\n<div><center>${'='.repeat(50)}</center></div>`;
 
           return text;
         } catch (error) {
@@ -1601,7 +1606,7 @@ ${getHolidayInfo(today)}`;
 
         const meaningfulText = combineAIToText(aiResponse?.completion)
 
-        document.getElementById('meaningfulText').textContent = meaningfulText;
+        document.getElementById('meaningfulText').innerHTML = meaningfulText;
 
         let html = '';
 
