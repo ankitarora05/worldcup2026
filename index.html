@@ -527,17 +527,10 @@
     }
 
     .match-card {
-      background: #fafcff;
-      border-radius: 0.8rem;
-      padding: 0.7rem;
-      display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      cursor: pointer;
       border-bottom: 3px solid #3b82f6;
-      transition: all 0.2s;
-      gap: 0.5rem;
       border: 1px solid #edf2f7;
     }
 
@@ -657,7 +650,7 @@
     }
 
     .loader {
-      animation: pulse 1.5s infinite;
+      animation: pulse-text 1.5s infinite;
     }
 
     @keyframes pulse {
@@ -668,7 +661,7 @@
       }
 
       50% {
-        opacity: 0.6;
+        opacity: 0.7;
       }
     }
 
@@ -781,6 +774,493 @@
       .calendar-image {
         max-width: 600px;
       }
+    }
+
+    .match-card.finished {
+      border-left: 4px solid #10b981;
+    }
+
+    .match-card.live {
+      border-left: 4px solid #621f13a4;
+      animation: pulse 2s infinite;
+    }
+
+    .match-card.upcoming {
+      border-left: 4px solid #3b82f6;
+    }
+
+    @keyframes pulse {
+      0% {
+        background-color: rgba(239, 68, 68, 0.05);
+      }
+
+      50% {
+        background-color: rgba(239, 68, 68, 0.15);
+      }
+
+      100% {
+        background-color: rgba(239, 68, 68, 0.05);
+      }
+    }
+
+    .scorers {
+      font-size: 0.65rem;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: normal;
+    }
+
+    /* Main Container */
+    #matchesContainer {
+      padding: 1rem 0;
+    }
+
+    /* Feed Sections */
+    .feed-section {
+      margin-bottom: 2.5rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      color: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header .section-icon {
+      font-size: 1.25rem;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      flex: 1;
+      letter-spacing: 0.5px;
+    }
+
+    .today-date {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+    }
+
+    /* Day Groups */
+    .day-group {
+      margin-bottom: 1.75rem;
+      padding: 0 0.25rem;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    .day-group:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Day Headers */
+    .day-header {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1e293b;
+      padding: 0.75rem 1.25rem;
+      background: #f8fafc;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .day-header::before {
+      content: "📅";
+      font-size: 0.9rem;
+    }
+
+    .day-header .match-count {
+      font-weight: 400;
+      font-size: 0.7rem;
+      color: #94a3b8;
+      background: #e2e8f0;
+      padding: 0.15rem 0.6rem;
+      border-radius: 12px;
+      margin-left: auto;
+      text-transform: none;
+    }
+
+    /* Match Cards */
+    .match-card {
+      background: white;
+      border-radius: 10px;
+      padding: 0.5rem 0.1rem;
+      margin: 0.4rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border-left: 4px solid #e2e8f0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .match-card:last-child {
+      margin-bottom: 0.75rem;
+    }
+
+    .match-card:hover {
+      transform: translateX(6px) scale(1.01);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Match Status Colors */
+    .match-card.finished {
+      border-left-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .match-card.finished:hover {
+      background: #dcfce7;
+    }
+
+    .match-card.live {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+      animation: pulse-border 2s infinite;
+    }
+
+    .match-card.live:hover {
+      background: #fee2e2;
+    }
+
+    .match-card.upcoming {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .match-card.upcoming:hover {
+      background: #dbeafe;
+    }
+
+    @keyframes pulse-border {
+      0% {
+        border-left-color: #ef4444;
+      }
+
+      50% {
+        border-left-color: #fca5a5;
+      }
+
+      100% {
+        border-left-color: #ef4444;
+      }
+    }
+
+    /* Match Header */
+    .match-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .match-time {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+      background: #f1f5f9;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* Match Status Badges */
+    .match-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .match-status.finished {
+      background: #10b981;
+      color: white;
+    }
+
+    .match-status.live {
+      background: #ef4444;
+      color: white;
+      animation: pulse-text 1.5s infinite;
+    }
+
+    .match-status.upcoming {
+      background: #3b82f6;
+      color: white;
+    }
+
+    @keyframes pulse-text {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.7;
+        transform: scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .match-stadium {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-left: auto;
+      background: #f1f5f9;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* Match Teams */
+    .match-teams {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.25rem 0;
+    }
+
+    .team {
+      font-weight: 600;
+      font-size: 0.95rem;
+      flex: 1;
+      color: #0f172a;
+    }
+
+    .team.home {
+      text-align: right;
+      padding-right: 0.5rem;
+    }
+
+    .team.away {
+      text-align: left;
+      padding-left: 0.5rem;
+    }
+
+    /* Score Display */
+    .score {
+      font-weight: 800;
+      font-size: 1.15rem;
+      padding: 0 0.75rem;
+      min-width: 70px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .score.finished {
+      color: #10b981;
+    }
+
+    .score.live {
+      color: #ef4444;
+    }
+
+    .score.upcoming {
+      color: #3b82f6;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Scorers */
+    .scorers {
+      font-size: 0.7rem;
+      color: #64748b;
+      padding: 0.6rem 0 0 0;
+      border-top: 1px dashed #e2e8f0;
+      margin-top: 0.6rem;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .scorers::before {
+      content: "⚽ ";
+    }
+
+    /* Match Group/Stage */
+    .match-group {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: #f1f5f9;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+      width: auto;
+    }
+
+    /* No Matches State */
+    .no-matches {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #94a3b8;
+      font-size: 1.1rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .section-header {
+        padding: 0.6rem 1rem;
+        flex-wrap: wrap;
+      }
+
+      .section-header h3 {
+        font-size: 0.9rem;
+      }
+
+      .today-date {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+      }
+
+      .day-header {
+        font-size: 0.75rem;
+        padding: 0.6rem 1rem;
+      }
+
+      .match-card {
+        padding: 0.75rem 1rem;
+        margin: 0.5rem 0.5rem;
+      }
+
+      .match-teams {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3rem;
+      }
+
+      .team {
+        flex: none;
+        font-size: 0.85rem;
+      }
+
+      .team.home {
+        padding-right: 0.25rem;
+      }
+
+      .team.away {
+        padding-left: 0.25rem;
+      }
+
+      .score {
+        font-size: 1rem;
+        min-width: 60px;
+        padding: 0 0.5rem;
+      }
+
+      .match-header {
+        font-size: 0.7rem;
+        gap: 0.4rem;
+      }
+
+      .match-stadium {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.25rem;
+      }
+
+      .match-group {
+        font-size: 0.6rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .match-card {
+        padding: 0.6rem 0.75rem;
+        margin: 0.4rem 0.25rem;
+      }
+
+      .team {
+        font-size: 0.8rem;
+      }
+
+      .score {
+        font-size: 0.9rem;
+        min-width: 50px;
+      }
+
+      .match-time {
+        font-size: 0.65rem;
+      }
+
+      .match-status {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.5rem;
+      }
+
+      .scorers {
+        font-size: 0.65rem;
+      }
+
+      .day-header {
+        font-size: 0.7rem;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+
+    /* Scrollbar Styling */
+    #matchesContainer::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #matchesContainer::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    #matchesContainer::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    #matchesContainer::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
   </style>
 </head>
@@ -1443,7 +1923,7 @@ ${getHolidayInfo(today)}`;
         try {
           loadRandomOpenverseImage("#calendarHero");
           renderCalendar(currentDisplayDate);
-          document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">Loading match details for ${currentDisplayDate.toLocaleDateString('en-US', {
+          document.getElementById("matchesContainer").innerHTML = `<div class="loader">Loading match details for ${currentDisplayDate.toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -1487,56 +1967,387 @@ ${getHolidayInfo(today)}`;
         return [city, country].filter(Boolean).join(", ") || " ";
       }
 
-      let dailyInfo = '';
+      async function getStadiumName(stadiumId) {
+        if (!stadiumId || stadiumId === "0") return "TBD";
+
+        // Check cache first
+        if (stadiumCache.has(stadiumId)) {
+          return stadiumCache.get(stadiumId);
+        }
+
+        try {
+          const response = await fetch(`/api/stadiums/${stadiumId}`);
+          if (!response.ok) throw new Error('Stadium not found');
+          const data = await response.json();
+          const name = data.name || `Stadium ${stadiumId}`;
+          stadiumCache.set(stadiumId, name);
+          return name;
+        } catch (error) {
+          console.error('Error fetching stadium:', error);
+          return `Stadium ${stadiumId}`;
+        }
+      }
+
+      async function getStadiumName(stadiumId) {
+        if (!stadiumId || stadiumId === "0") return "TBD";
+        if (stadiumCache.has(stadiumId)) {
+          return stadiumCache.get(stadiumId);
+        }
+        try {
+          const response = await fetch(`/api/stadiums/${stadiumId}`);
+          if (!response.ok) throw new Error('Stadium not found');
+          const data = await response.json();
+          const name = data.name || `Stadium ${stadiumId}`;
+          stadiumCache.set(stadiumId, name);
+          return name;
+        } catch (error) {
+          console.error('Error fetching stadium:', error);
+          return `Stadium ${stadiumId}`;
+        }
+      }
+
+      function formatYMD(date) {
+        let y = date.getFullYear();
+        let m = String(date.getMonth() + 1).padStart(2, '0');
+        let d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      function parseScorers(scorersData, teamName) {
+        if (!scorersData || scorersData === "null") return [];
+        try {
+          const parsed = JSON.parse(scorersData);
+          if (Array.isArray(parsed)) {
+            return parsed.map(s => `${teamName}: ${s}`);
+          } else if (typeof parsed === 'object') {
+            return Object.values(parsed).map(s => `${teamName}: ${s}`);
+          }
+        } catch (e) { }
+        return [];
+      }
+
+      function formatMatchTime(dateString) {
+        try {
+          const date = new Date(dateString);
+          return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        } catch {
+          return "TBD";
+        }
+      }
+
+      function getMatchStatus(match) {
+        if (match?.finished === "TRUE") return { status: 'finished', label: '✅ Finished', icon: '✅' };
+        if (match?.time_elapsed === "live") return { status: 'live', label: '🔴 LIVE', icon: '🔴' };
+        return { status: 'upcoming', label: '⏳ Upcoming', icon: '⏳' };
+      }
+
+      async function getStadiumName(stadiumId) {
+        if (!stadiumId || stadiumId === "0") return "TBD";
+        if (stadiumCache.has(stadiumId)) {
+          return stadiumCache.get(stadiumId);
+        }
+        try {
+          const response = await fetch(`/api/stadiums/${stadiumId}`);
+          if (!response.ok) throw new Error('Stadium not found');
+          const data = await response.json();
+          const name = data.name || `Stadium ${stadiumId}`;
+          stadiumCache.set(stadiumId, name);
+          return name;
+        } catch (error) {
+          console.error('Error fetching stadium:', error);
+          return `Stadium ${stadiumId}`;
+        }
+      }
+
+      function formatYMD(date) {
+        let y = date.getFullYear();
+        let m = String(date.getMonth() + 1).padStart(2, '0');
+        let d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      function parseScorers(scorersData, teamName) {
+        if (!scorersData || scorersData === "null") return [];
+        try {
+          const parsed = JSON.parse(scorersData);
+          if (Array.isArray(parsed)) {
+            return parsed.map(s => `${teamName}: ${s}`);
+          } else if (typeof parsed === 'object') {
+            return Object.values(parsed).map(s => `${teamName}: ${s}`);
+          }
+        } catch (e) { }
+        return [];
+      }
+
+      function formatMatchTime(dateString) {
+        try {
+          const date = new Date(dateString);
+          return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        } catch {
+          return "TBD";
+        }
+      }
+
+      function getMatchStatus(match) {
+        if (match?.finished === "TRUE") return { status: 'finished', label: '✅ Finished', icon: '✅' };
+        if (match?.time_elapsed === "live") return { status: 'live', label: '🔴 LIVE', icon: '🔴' };
+        return { status: 'upcoming', label: '⏳ Upcoming', icon: '⏳' };
+      }
 
       async function updateSelectedDatePanel(dateObj, userLocation) {
         const ymd = formatYMD(dateObj);
-        const matches = matchesByDate.get(ymd) || [];
+        const today = new Date();
+        const todayYMD = formatYMD(today);
+        const isToday = ymd === todayYMD;
+
+        // Get all matches and sort them by date
+        const allMatches = [];
+        for (let [date, matches] of matchesByDate) {
+          allMatches.push({ date, matches });
+        }
+        allMatches.sort((a, b) => a.date.localeCompare(b.date));
+
         const container = document.getElementById("matchesContainer");
         const labelSpan = document.getElementById("selectedDateLabel");
         const formatted = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         labelSpan.innerText = formatted;
-        if (matches.length === 0) {
+
+        // Find the position of the selected date
+        const selectedIndex = allMatches.findIndex(d => d.date === ymd);
+        if (selectedIndex === -1) {
           container.innerHTML = `<div class="no-matches">⚽ No games scheduled on ${formatted}.</div>`;
           return;
         }
-        let html = '';
-        for (let match of matches) {
-          const matchDate = parseMatchDateTime(match.local_date);
-          let timeStr = matchDate ? matchDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : "TBD";
-          const home = match?.homeTeamDisplay || '';
-          const away = match?.awayTeamDisplay || '';
-          const isFinished = match?.finished === "TRUE" || '';
-          let scoreDisplay = `<span>vs</span>`;
-          if (isFinished || (match?.home_score && match?.home_score !== "0")) {
-            scoreDisplay = `<strong> ${match?.home_score || 0} : ${match?.away_score || 0} </strong>`;
-          }
-          const stadium = await getStadiumName(match.stadium_id);
-          const detailData = JSON.stringify({ home, away, dateTime: match.local_date, stage: match.stageLabel, stadium, homeScore: match?.home_score || '0', awayScore: match?.away_score || '0', homeScorers: match?.home_scorers || '—', awayScorers: match?.away_scorers || '—', finished: isFinished });
-          const escapedDetail = detailData.replace(/"/g, '&quot;');
 
-          html += `<div class="match-card" data-detail="${escapedDetail}">
-        <div class="match-teams"><span class="team">${home}</span> ${scoreDisplay} <span class="team">${away}</span> <span class="group-stage">${match?.stageLabel}</span></div>
-        <div class="match-meta"><span class="match-time">⏱️ ${timeStr}</span><div style="font-size:0.6rem; color:#475569;text-align: center; margin-top: 3px;">${stadium}</div></div>
-      </div>`;
+        let html = '';
+
+        // Show today's matches
+        const todayMatches = allMatches[selectedIndex]?.matches || [];
+        if (todayMatches.length > 0) {
+          html += `<div class="feed-section today">
+            <div class="section-header">
+                <span class="section-icon">📌</span>
+                <h3>Today's Matches</h3>
+                <span class="today-date">${formatted}</span>
+            </div>
+            <div class="day-group">`;
+
+          for (let match of todayMatches) {
+            const home = match?.homeTeamDisplay || '';
+            const away = match?.awayTeamDisplay || '';
+            const timeStr = formatMatchTime(match.local_date);
+            const status = getMatchStatus(match);
+            const isFinished = match?.finished === "TRUE";
+            const isLive = match?.time_elapsed === "live";
+
+            // Fetch stadium only for today
+            const stadium = isToday ? await getStadiumName(match.stadium_id) : "TBD";
+
+            // Get scorers for finished matches
+            const homeScorers = parseScorers(match.home_scorers, home);
+            const awayScorers = parseScorers(match.away_scorers, away);
+            const allScorers = [...homeScorers, ...awayScorers];
+
+            // Create detail data for click
+            const detailData = JSON.stringify({
+              home,
+              away,
+              dateTime: match.local_date,
+              stage: match.stageLabel,
+              stadium: stadium,
+              homeScore: match?.home_score || '0',
+              awayScore: match?.away_score || '0',
+              homeScorers: match?.home_scorers || '—',
+              awayScorers: match?.away_scorers || '—',
+              finished: isFinished,
+              status: status.label
+            });
+            const escapedDetail = detailData.replace(/"/g, '&quot;');
+
+            html += `<div class="match-card ${status.status}" data-detail="${escapedDetail}">
+                <div class="match-header">
+                    <span class="match-time">${timeStr}</span>
+                    <span class="match-status ${status.status}">${status.label}</span>
+                    ${stadium !== "TBD" ? `<span class="match-stadium">🏟️ ${stadium}</span>` : ''}
+                </div>
+                <div class="match-teams">
+                    <span class="team home">${home}</span>`;
+
+            if (isFinished || isLive) {
+              html += `<span class="score ${status.status}">${match?.home_score || '0'} - ${match?.away_score || '0'}</span>`;
+            } else {
+              html += `<span class="score upcoming">vs</span>`;
+            }
+
+            html += `<span class="team away">${away}</span>
+                </div>
+                ${allScorers.length > 0 ? `<div class="scorers">⚽ ${allScorers.join(' | ')}</div>` : ''}
+                <div class="match-group">${match?.stageLabel || ''}</div>
+            </div>`;
+          }
+
+          html += `</div></div>`;
         }
+
+        // Show previous days (finished matches)
+        if (selectedIndex > 0) {
+          html += `<div class="feed-section">
+            <div class="section-header">
+                <span class="section-icon">📅</span>
+                <h3>Previous Results</h3>
+            </div>`;
+
+          for (let i = 0; i < selectedIndex; i++) {
+            const dayData = allMatches[i];
+            const dayDate = new Date(dayData.date);
+            const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+            html += `<div class="day-group">
+                <div class="day-header">${dayFormatted}</div>`;
+
+            for (let match of dayData.matches) {
+              const home = match?.homeTeamDisplay || '';
+              const away = match?.awayTeamDisplay || '';
+              const timeStr = formatMatchTime(match.local_date);
+              const status = getMatchStatus(match);
+
+              // Get scorers
+              const homeScorers = parseScorers(match.home_scorers, home);
+              const awayScorers = parseScorers(match.away_scorers, away);
+              const allScorers = [...homeScorers, ...awayScorers];
+
+              // Create detail data for click
+              const detailData = JSON.stringify({
+                home,
+                away,
+                dateTime: match.local_date,
+                stage: match.stageLabel,
+                stadium: "TBD",
+                homeScore: match?.home_score || '0',
+                awayScore: match?.away_score || '0',
+                homeScorers: match?.home_scorers || '—',
+                awayScorers: match?.away_scorers || '—',
+                finished: true,
+                status: 'Finished'
+              });
+              const escapedDetail = detailData.replace(/"/g, '&quot;');
+
+              html += `<div class="match-card finished" data-detail="${escapedDetail}">
+                    <div class="match-header">
+                        <span class="match-time">${timeStr}</span>
+                        <span class="match-status ${status.status}">${status.label}</span>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team home">${home}</span>
+                        <span class="score finished">${match?.home_score || '0'} - ${match?.away_score || '0'}</span>
+                        <span class="team away">${away}</span>
+                    </div>
+                    ${allScorers.length > 0 ? `<div class="scorers">⚽ ${allScorers.join(' | ')}</div>` : ''}
+                    <div class="match-group">${match?.stageLabel || ''}</div>
+                </div>`;
+            }
+
+            html += `</div>`;
+          }
+
+          html += `</div>`;
+        }
+
+        // Show upcoming days
+        if (selectedIndex < allMatches.length - 1) {
+          html += `<div class="feed-section upcoming">
+            <div class="section-header">
+                <span class="section-icon">🔮</span>
+                <h3>Upcoming Fixtures</h3>
+            </div>`;
+
+          for (let i = selectedIndex + 1; i < allMatches.length; i++) {
+            const dayData = allMatches[i];
+            const dayDate = new Date(dayData.date);
+            const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+            html += `<div class="day-group">
+                <div class="day-header">${dayFormatted}</div>`;
+
+            for (let match of dayData.matches) {
+              const home = match?.homeTeamDisplay || '';
+              const away = match?.awayTeamDisplay || '';
+              const timeStr = formatMatchTime(match.local_date);
+              const status = getMatchStatus(match);
+
+              // Create detail data for click
+              const detailData = JSON.stringify({
+                home,
+                away,
+                dateTime: match.local_date,
+                stage: match.stageLabel,
+                stadium: "TBD",
+                homeScore: match?.home_score || '0',
+                awayScore: match?.away_score || '0',
+                homeScorers: match?.home_scorers || '—',
+                awayScorers: match?.away_scorers || '—',
+                finished: false,
+                status: 'Upcoming'
+              });
+              const escapedDetail = detailData.replace(/"/g, '&quot;');
+
+              html += `<div class="match-card upcoming" data-detail="${escapedDetail}">
+                    <div class="match-header">
+                        <span class="match-time">${timeStr}</span>
+                        <span class="match-status ${status.status}">${status.label}</span>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team home">${home}</span>
+                        <span class="score upcoming">vs</span>
+                        <span class="team away">${away}</span>
+                    </div>
+                    <div class="match-group">${match?.stageLabel || ''}</div>
+                </div>`;
+            }
+
+            html += `</div>`;
+          }
+
+          html += `</div>`;
+        }
+
         container.innerHTML = html;
+
+        // Add click listeners for match details
         document.querySelectorAll('.match-card').forEach(card => {
-          card.addEventListener('click', () => {
-            const raw = card.getAttribute('data-detail');
+          card.addEventListener('click', function (e) {
+            const raw = this.getAttribute('data-detail');
             if (raw) {
-              const m = JSON.parse(raw);
-              alert(`📋 ${m?.home} vs ${m?.away}\n🕒 ${m?.dateTime}\n🏆 ${m?.stage}\n🏟️ ${m?.stadium}\n📊 ${m?.finished ? "Finished" : "Upcoming"}\n⚽ ${m?.homeScore} - ${m?.awayScore}\n🥅 Scorers: ${m?.homeScorers} | ${m?.awayScorers}`);
+              try {
+                const m = JSON.parse(raw);
+                alert(`📋 ${m.home} vs ${m.away}\n🕒 ${m.dateTime}\n🏆 ${m.stage}\n🏟️ ${m.stadium}\n📊 ${m.status}\n⚽ ${m.homeScore} - ${m.awayScore}\n🥅 Scorers: ${m.homeScorers} | ${m.awayScorers}`);
+              } catch (error) {
+                console.error('Error parsing match detail:', error);
+              }
             }
           });
         });
 
         const location = formatLocation(userLocation);
-
         document.getElementById("monthYearDisplay").innerHTML = `${document.getElementById("selectedDateLabel").innerHTML} | ${location}`;
-
-
       }
+
+      // Helper function to parse match datetime
+      function parseMatchDateTime(dateString) {
+        try {
+          return new Date(dateString);
+        } catch {
+          return null;
+        }
+      }
+
+      // Helper function to format location
+      function formatLocation(userLocation) {
+        if (!userLocation) return '📍 Location Unknown';
+        return `📍 ${userLocation.city || ''}, ${userLocation.country || ''}`.trim();
+      }
+
+
 
       // ======================= COMPLETE ON THIS DAY (FULL /all/ API) =======================
       const onThisDayCache = new Map();
@@ -1594,8 +2405,6 @@ ${getHolidayInfo(today)}`;
 
         const todayInfo = getTodayInfo();
         const combined = `${formatEvents(data?.selected)} ${formatEvents(data?.events)} ${formatEvents(data?.holidays)}`;
-        debugger;
-        console.log(dailyInfo);
         const aiResponse = await fetchAIToday(todayInfo.mainText, combined);
 
         const meaningfulText = combineAIToText(aiResponse?.completion)
