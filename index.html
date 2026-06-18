@@ -17,10 +17,10 @@
   <title>Follow FIFA World Cup 2026 Interactive Calendar | On This Day History, Science & Daily Events</title>
 
   <meta name="description"
-    content="Explore the FIFA World Cup 2026 interactive digital calendar and Storytelling AI Agent On This Day feed featuring historical events, scientific discoveries, football milestones, famous birthdays, world history, and daily educational insights.">
+    content="Follow the FIFA World Cup 2026 with interactive digital calendar and storytelling AI Agent On This Day feed featuring historical events, scientific discoveries, football milestones, famous birthdays, world history, and daily educational insights.">
 
   <meta name="keywords"
-    content="On this day, history story teller, storytelling ai agent, digital ai agent, super-intelligent historian, super-intelligent scientific discover, ai science, CalendarlyAI, FIFA World Cup 2026, World Cup 2026 schedule, FIFA 2026 fixtures, World Cup match calendar, football schedule, soccer schedule, FIFA tournament calendar, interactive calendar, World Cup countdown, football matches, sports events, On This Day, today in history, historical events, history today, scientific discoveries, famous birthdays, anniversaries, daily history facts, world history timeline, sports history, football history, AI historian, AI history assistant, AI science assistant, educational platform, daily knowledge feed, history explorer, science explorer, learning hub">
+    content="World Cup 2026 India time, World Cup 2026 IST timing, FIFA World Cup 2026 schedule, FIFA 2026 IST schedule, World Cup 2026 match time India, World Cup match time India, FIFA 2026 fixtures, World Cup 2026 fixtures, FIFA World Cup 2026 schedule India, World Cup 2026 dates India, FIFA 2026 calendar, World Cup 2026 matches, World Cup 2026 India time zone, FIFA 2026 match schedule, FIFA World Cup 2026 schedule India, World Cup 2026 schedule time India, World Cup 2026 kickoff times India, World Cup 2026 match tracker, World Cup 2026 countdown, World Cup 2026 tournament calendar, World Cup 2026 live India, FIFA 2026 streaming India, World Cup 2026 live streaming India, World Cup 2026 TV channels India, how to watch World Cup 2026 India, FIFA World Cup 2026 broadcast India, football live India World Cup 2026, World Cup 2026 streaming guide India, World Cup 2026 live scores India, World Cup 2026 watch online India, World Cup 2026 teams and groups, World Cup 2026 groups, FIFA 2026 qualified teams, World Cup 2026 India group, World Cup 2026 format changes, World Cup format 2026 vs 2022, World Cup 2026 vs 2022 comparison, FIFA 2026 changes, World Cup 2026 team list, World Cup 2026 group stage, World Cup 2026 qualified nations, World Cup 2026 participating teams, interactive sports calendar, digital match calendar, football schedule tracker India, learning and general history platform, interactive calendar sports, FIFA 2026 calendar app, World Cup tracker app, football schedule app India, sports calendar tool, match calendar tool, interactive football calendar, sports event calendar, live football calendar, sports planner app, football fixtures tracker, sports schedule organizer, On This Day history, aaj ka itihas, today in history Hindi, on this day history Hindi, historical events today, history today, daily history facts, historical timeline, history explorer, on this day India, today in world history, history of today, historical anniversaries today, today's historical events, daily history feed, AI history storytelling tools, AI history tool, on this day AI, daily history AI feed, AI historian, AI history assistant, digital AI agent, storytelling AI agent, super intelligent historian, AI storytelling platform, AI powered history explorer, AI historical timeline, history chatbot, AI educational storyteller, AI learning platform, science discoveries today, scientific discoveries, famous birthdays today, anniversaries today, world history timeline, football history, sports history milestones, greatest World Cup moments, famous football moments, football history milestones, football historical moments, World Cup history, legendary football matches, football records history, sports anniversaries, educational platform, learning hub, daily knowledge feed, history explorer tool, science explorer, AI science assistant, AI learning assistant, knowledge discovery platform, knowledge explorer, daily learning platform, educational discovery tool, interactive learning hub, digital knowledge assistant">
 
   <meta name="author" content="Ankit Arora">
 
@@ -750,6 +750,7 @@
         font-size: 1rem;
         color: #1e293b;
       }
+
       .hero h1 {
         font-size: 1.3rem;
       }
@@ -992,8 +993,8 @@ ${getHolidayInfo(today)}`;
             query: `
                 You are a brilliant, super-intelligent AI agent with encyclopedic knowledge of all scientific and historical discoveries across every discipline and the world's greatest storyteller across verticals.
 
-                Your task: Answer the question **"What is so special about today?"**
-
+                Your task: Answer the question, "What is so special about today?" using the entire mainText and referenceText provided as input context. In addition, draw on your own knowledge to create a more meaningful, insightful, and engaging narrative. Connect relevant details, provide context where helpful, and present the answer as an intriguing story rather than a simple summary.
+ 
                 ---------------------------------------
                 INPUT DATA
                 ---------------------------------------
@@ -1486,6 +1487,8 @@ ${getHolidayInfo(today)}`;
         return [city, country].filter(Boolean).join(", ") || " ";
       }
 
+      let dailyInfo = '';
+
       async function updateSelectedDatePanel(dateObj, userLocation) {
         const ymd = formatYMD(dateObj);
         const matches = matchesByDate.get(ymd) || [];
@@ -1589,20 +1592,11 @@ ${getHolidayInfo(today)}`;
 
         const data = await fetchCompleteOnThisDay(month, day);
 
-
-
-        // const combined = `
-        // Selected: ${formatEvents(data?.selected)}
-        // Events: ${formatEvents(data?.events)}
-        // Holidays: ${formatEvents(data?.holidays)}
-        // `.trim();
-
         const todayInfo = getTodayInfo();
         const combined = `${formatEvents(data?.selected)} ${formatEvents(data?.events)} ${formatEvents(data?.holidays)}`;
-
+        debugger;
+        console.log(dailyInfo);
         const aiResponse = await fetchAIToday(todayInfo.mainText, combined);
-
-        console.log();
 
         const meaningfulText = combineAIToText(aiResponse?.completion)
 
