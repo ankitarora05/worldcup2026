@@ -2391,49 +2391,6 @@ ${getHolidayInfo(today)}`;
                     </div>
                 `;
 
-        // ===== MAIN GRID =====
-        html += `<div class="holiday-grid">`;
-
-        const wwEntries = Object.entries(worldwide.holidays || {});
-        html += `<div class="info-card">`;
-        html += `
-                    <div class="card-header">
-                        Worldwide
-                        <span class="badge-count">${worldwide.total_holidays || 0}</span>
-                    </div>
-                `;
-
-        if (wwEntries.length === 0) {
-          html += `
-                        <div class="empty-state">
-                            <i class="fas fa-globe empty-icon"></i> No global holidays
-                        </div>
-                    `;
-        } else {
-          html += `<div class="worldwide-list">`;
-          wwEntries.forEach(([code, entry]) => {
-            const h = entry.holidays[0];
-            html += `
-                            <div class="worldwide-item">
-                                <div class="country-name">
-                                    <i class="fas fa-flag country-flag-icon"></i> 
-                                    ${entry.country}
-                                    <span class="country-code">${code}</span>
-                                </div>
-                                <div class="world-holiday-info">
-                                    <div class="world-holiday-name">${h.name}</div>
-                                    <div class="world-holiday-type">${h.type}</div>
-                                    <div class="world-holiday-date">${h.date}</div>
-                                </div>
-                            </div>
-                        `;
-          });
-          html += `</div>`;
-        }
-        html += `</div>`;
-
-        html += `</div>`;
-
         // ===== UPCOMING SECTION =====
         html += `<div class="upcoming-section">`;
         html += `
@@ -2461,9 +2418,52 @@ ${getHolidayInfo(today)}`;
                   <span class="days-remaining">${h.days_until}d</span>
                 </div>
               `;
-            });
+          });
           html += `</div>`;
         }
+        html += `</div>`;
+
+        // ===== MAIN GRID =====
+        html += `<div class="holiday-grid">`;
+
+        const wwEntries = Object.entries(worldwide?.holidays || {});
+        html += `<div class="info-card">`;
+        html += `
+                    <div class="card-header">
+                        Worldwide
+                        <span class="badge-count">${worldwide?.total_holidays || 0}</span>
+                    </div>
+                `;
+
+        if (wwEntries.length === 0) {
+          // html += `
+          //               <div class="empty-state">
+          //                   <i class="fas fa-globe empty-icon"></i> No global holidays
+          //               </div>
+          //           `;
+        } else {
+          html += `<div class="worldwide-list">`;
+          wwEntries.forEach(([code, entry]) => {
+            const h = entry.holidays[0];
+            html += `
+                            <div class="worldwide-item">
+                                <div class="country-name">
+                                    <i class="fas fa-flag country-flag-icon"></i> 
+                                    ${entry.country}
+                                    <span class="country-code">${code}</span>
+                                </div>
+                                <div class="world-holiday-info">
+                                    <div class="world-holiday-name">${h.name}</div>
+                                    <div class="world-holiday-type">${h.type}</div>
+                                    <div class="world-holiday-date">${h.date}</div>
+                                </div>
+                            </div>
+                        `;
+          });
+          html += `</div>`;
+        }
+        html += `</div>`;
+
         html += `</div>`;
 
         root.innerHTML = html;
