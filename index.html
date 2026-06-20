@@ -2174,7 +2174,7 @@ ${getHolidayInfo(today)}`;
                 <h3>Previous Results</h3>
             </div>`;
 
-          for (let i = selectedIndex; i >= 0; i--) {
+          for (let i = selectedIndex-1; i >= 0; i--) {
             const dayData = allMatches[i];
             const dayDate = new Date(dayData.date);
             const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
