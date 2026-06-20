@@ -4,7 +4,7 @@
   <!-- Core -->
   <meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -21,7 +21,7 @@
     content="Follow the FIFA World Cup 2026 with interactive digital calendar and storytelling AI Agent On This Day feed featuring historical events, scientific discoveries, football milestones, famous birthdays, world history, and daily educational insights.">
 
   <meta name="keywords"
-    content="World Cup 2026 India time, World Cup 2026 IST timing, FIFA World Cup 2026 schedule, FIFA 2026 IST schedule, World Cup 2026 match time India, World Cup match time India, FIFA 2026 fixtures, World Cup 2026 fixtures, FIFA World Cup 2026 schedule India, World Cup 2026 dates India, FIFA 2026 calendar, World Cup 2026 matches, World Cup 2026 India time zone, FIFA 2026 match schedule, FIFA World Cup 2026 schedule India, World Cup 2026 schedule time India, World Cup 2026 kickoff times India, World Cup 2026 match tracker, World Cup 2026 countdown, World Cup 2026 tournament calendar, World Cup 2026 live India, FIFA 2026 streaming India, World Cup 2026 live streaming India, World Cup 2026 TV channels India, how to watch World Cup 2026 India, FIFA World Cup 2026 broadcast India, football live India World Cup 2026, World Cup 2026 streaming guide India, World Cup 2026 live scores India, World Cup 2026 watch online India, World Cup 2026 teams and groups, World Cup 2026 groups, FIFA 2026 qualified teams, World Cup 2026 India group, World Cup 2026 format changes, World Cup format 2026 vs 2022, World Cup 2026 vs 2022 comparison, FIFA 2026 changes, World Cup 2026 team list, World Cup 2026 group stage, World Cup 2026 qualified nations, World Cup 2026 participating teams, interactive sports calendar, digital match calendar, football schedule tracker India, learning and general history platform, interactive calendar sports, FIFA 2026 calendar app, World Cup tracker app, football schedule app India, sports calendar tool, match calendar tool, interactive football calendar, sports event calendar, live football calendar, sports planner app, football fixtures tracker, sports schedule organizer, On This Day history, aaj ka itihas, today in history Hindi, on this day history Hindi, historical events today, history today, daily history facts, historical timeline, history explorer, on this day India, today in world history, history of today, historical anniversaries today, today's historical events, daily history feed, AI history storytelling tools, AI history tool, on this day AI, daily history AI feed, AI historian, AI history assistant, digital AI agent, storytelling AI agent, super intelligent historian, AI storytelling platform, AI powered history explorer, AI historical timeline, history chatbot, AI educational storyteller, AI learning platform, science discoveries today, scientific discoveries, famous birthdays today, anniversaries today, world history timeline, football history, sports history milestones, greatest World Cup moments, famous football moments, football history milestones, football historical moments, World Cup history, legendary football matches, football records history, sports anniversaries, educational platform, learning hub, daily knowledge feed, history explorer tool, science explorer, AI science assistant, AI learning assistant, knowledge discovery platform, knowledge explorer, daily learning platform, educational discovery tool, interactive learning hub, digital knowledge assistant">
+    content="World Holiday Calendar, World Cup 2026 India time, World Cup 2026 IST timing, FIFA World Cup 2026 schedule, FIFA 2026 IST schedule, World Cup 2026 match time India, Free Online Calendar ,World Cup match time India, FIFA 2026 fixtures, World Cup 2026 fixtures, FIFA World Cup 2026 schedule India, World Cup 2026 dates India, Local Holiday Calendar, FIFA 2026 calendar, World Cup 2026 matches, World Cup 2026 India time zone, FIFA 2026 match schedule, FIFA World Cup 2026 schedule India, World Cup 2026 schedule time India, World Cup 2026 kickoff times India, World Cup 2026 match tracker, World Cup 2026 countdown, World Cup 2026 tournament calendar, World Cup 2026 live India, FIFA 2026 streaming India, World Cup 2026 live streaming India, World Cup 2026 TV channels India, how to watch World Cup 2026 India, FIFA World Cup 2026 broadcast India, football live India World Cup 2026, World Cup 2026 streaming guide India, World Cup 2026 live scores India, World Cup 2026 watch online India, World Cup 2026 teams and groups, World Cup 2026 groups, FIFA 2026 qualified teams, World Cup 2026 India group, World Cup 2026 format changes, World Cup format 2026 vs 2022, World Cup 2026 vs 2022 comparison, FIFA 2026 changes, World Cup 2026 team list, World Cup 2026 group stage, World Cup 2026 qualified nations, World Cup 2026 participating teams, interactive sports calendar, digital match calendar, football schedule tracker India, learning and general history platform, interactive calendar sports, FIFA 2026 calendar app, World Cup tracker app, football schedule app India, sports calendar tool, match calendar tool, interactive football calendar, sports event calendar, live football calendar, sports planner app, football fixtures tracker, sports schedule organizer, On This Day history, aaj ka itihas, today in history Hindi, on this day history Hindi, historical events today, history today, daily history facts, historical timeline, history explorer, on this day India, today in world history, history of today, historical anniversaries today, today's historical events, daily history feed, AI history storytelling tools, AI history tool, on this day AI, daily history AI feed, AI historian, AI history assistant, digital AI agent, storytelling AI agent, super intelligent historian, AI storytelling platform, AI powered history explorer, AI historical timeline, history chatbot, AI educational storyteller, AI learning platform, science discoveries today, scientific discoveries, famous birthdays today, anniversaries today, world history timeline, football history, sports history milestones, greatest World Cup moments, famous football moments, football history milestones, football historical moments, World Cup history, legendary football matches, football records history, sports anniversaries, educational platform, learning hub, daily knowledge feed, history explorer tool, science explorer, AI science assistant, AI learning assistant, knowledge discovery platform, knowledge explorer, daily learning platform, educational discovery tool, interactive learning hub, digital knowledge assistant">
 
   <meta name="author" content="Ankit Arora">
 
@@ -474,6 +474,7 @@
       padding: 0 0.5rem;
     }
 
+    .holiday-panel,
     .match-panel,
     .history-panel {
       flex: 1;
@@ -513,6 +514,7 @@
       font-weight: 500;
     }
 
+    .holiday-scroll,
     .matches-list,
     .history-scroll {
       max-height: 520px;
@@ -524,7 +526,8 @@
     }
 
     .matches-list::-webkit-scrollbar,
-    .history-scroll::-webkit-scrollbar {
+    .history-scroll::-webkit-scrollbar,
+    .holiday-scroll::-webkit-scrollbar {
       width: 4px;
     }
 
@@ -1263,6 +1266,421 @@
     #matchesContainer::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
+
+    .holiday-app {
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .holiday-dashboard {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 48px;
+      padding: 2rem 2.2rem 2.5rem;
+      box-shadow: 0 30px 60px -20px rgba(0, 20, 40, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* ===== HEADER / HERO ===== */
+    .hero-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-evenly;
+      flex-direction: column;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .hero-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .country-badge {
+      background: #1e293b;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .country-badge .flag-icon {
+      color: #fbbf24;
+    }
+
+    .date-display {
+      background: white;
+      padding: 0.4rem 1.4rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .date-display .calendar-icon {
+      margin-right: 8px;
+      color: #3b82f6;
+    }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .next-holiday-pill {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 0.4rem 1.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(37, 99, 235, 0.15);
+    }
+
+    .next-holiday-pill .clock-icon {
+      font-size: 0.9rem;
+    }
+
+    .yearly-count-pill {
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+
+    /* ===== MAIN GRID ===== */
+    .holiday-grid {
+      display: flex;
+      justify-content: first baseline;
+      flex-direction: column;
+    }
+
+    @media (max-width: 780px) {
+      .holiday-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+
+      .holiday-dashboard {
+        padding: 1.5rem;
+      }
+    }
+
+    /* ===== CARDS ===== */
+    .info-card {
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+      justify-content: flex-start;
+    }
+
+    .card-header .header-icon {
+      color: #2563eb;
+      font-size: 1.2rem;
+      width: 1.8rem;
+    }
+
+    .card-header .badge-count {
+      background: #e9edf4;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #334155;
+      margin-left: 6px;
+    }
+
+    /* ===== HOLIDAY LIST ===== */
+    .holiday-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .holiday-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: 0.15s;
+    }
+
+    .holiday-item:hover {
+      background: white;
+      border-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .holiday-name {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .holiday-name .star-icon {
+      color: #f97316;
+      font-size: 0.8rem;
+      width: 1.2rem;
+    }
+
+    .holiday-date {
+      font-size: 0.8rem;
+      background: #f1f5f9;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      color: #1e293b;
+    }
+
+    .weekend-badge {
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.15rem 0.6rem;
+      border-radius: 40px;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+
+    .weekday-badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 0.15rem 0.6rem;
+      border-radius: 40px;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 1.5rem 0;
+      color: #64748b;
+    }
+
+    .empty-state .empty-icon {
+      font-size: 2rem;
+      opacity: 0.3;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    /* ===== WORLDWIDE LIST ===== */
+    .worldwide-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .worldwide-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin: 0.5rem 0;
+    }
+
+    .country-name {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      color: #0f172a;
+    }
+
+    .country-name .country-flag-icon {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .country-code {
+      background: #e9edf4;
+      padding: 0.05rem 0.6rem;
+      border-radius: 40px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    .world-holiday-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .world-holiday-name {
+      margin: 0.5rem 0;
+      font-weight: 500;
+      color: #ffffff;
+      background: #b45309;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    .world-holiday-type {
+      font-size: 0.6rem;
+      background: #d1d5db;
+      border-radius: 30px;
+      color: #1f2937;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .world-holiday-date {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* ===== STATS ===== */
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.2rem;
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .stat-chip {
+      background: white;
+      border-radius: 40px;
+      padding: 0.25rem 1.2rem 0.25rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+    }
+
+    .stat-chip .stat-icon {
+      color: #64748b;
+    }
+
+    /* ===== UPCOMING SECTION ===== */
+    .upcoming-section {
+      margin-top: 0.8rem;
+    }
+
+    .upcoming-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #0f172a;
+      margin-bottom: 0.6rem;
+    }
+
+    .upcoming-header .upcoming-icon {
+      color: #2563eb;
+    }
+
+    .upcoming-header .upcoming-count {
+      background: #e9edf4;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .upcoming-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem 1.2rem;
+    }
+
+    .upcoming-chip {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+
+    .upcoming-chip .chip-icon {
+      color: #3b82f6;
+      font-size: 0.8rem;
+    }
+
+    .upcoming-chip .days-remaining {
+      background: #eef2f6;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      width: fit-content;
+      color: #1e293b;
+    }
+
+    .text-muted {
+      color: #64748b;
+    }
+
+    /* ===== WORLDWIDE SECTION ENHANCEMENTS ===== */
+    .worldwide-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .worldwide-stat-chip {
+      background: white;
+      border-radius: 40px;
+      padding: 0.2rem 1rem 0.2rem 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .worldwide-stat-chip .stat-icon {
+      color: #64748b;
+      font-size: 0.7rem;
+    }
+
+    .worldwide-stat-chip .stat-value {
+      font-weight: 600;
+      color: #0f172a;
+    }
   </style>
 </head>
 
@@ -1307,6 +1725,15 @@
         </div>
         <div id="matchesContainer" class="matches-list">
           <div class="no-matches"> Tap any day to see match schedule</div>
+        </div>
+      </div>
+      <div class="holiday-panel">
+        <div class="panel-header">
+          <h3>World Holiday Calendar</h3>
+          <span class="selected-date" id="selectedDateHolidayLabel"></span>
+        </div>
+        <div id="holidayContainer" class="holiday-scroll">
+          <div class="loader">📖 Loading World Holiday Calendar</div>
         </div>
       </div>
       <div class="history-panel">
@@ -1934,6 +2361,113 @@ ${getHolidayInfo(today)}`;
         return map;
       }
 
+      function renderHolidayContainer(data) {
+        const root = document.getElementById('holidayContainer');
+        debugger;
+        const user = data.user;
+        const date = data.date;
+        const worldwide = data.worldwide;
+        const allHolidays = user.all_holidays || [];
+        const upcoming = user.upcoming_holidays || [];
+        const next = user.next_holiday;
+        const stats = user.stats || {};
+
+        let html = '';
+
+        // ===== HERO SECTION =====
+        html += `
+                    <div class="hero-section">
+                        <div class="hero-center">
+                            <div class="country-badge">
+                                <i class="fas fa-flag flag-icon"></i> ${user.country.name} (${user.country.code})
+                            </div>
+                        </div>
+                        <div class="hero-right">
+                            <div class="yearly-count-pill">
+                                <i class="fas fa-calendar-alt" style="margin-right:6px;"></i> 
+                                ${user.message}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+        // ===== MAIN GRID =====
+        html += `<div class="holiday-grid">`;
+
+        const wwEntries = Object.entries(worldwide.holidays || {});
+        html += `<div class="info-card">`;
+        html += `
+                    <div class="card-header">
+                        Worldwide
+                        <span class="badge-count">${worldwide.total_holidays || 0}</span>
+                    </div>
+                `;
+
+        if (wwEntries.length === 0) {
+          html += `
+                        <div class="empty-state">
+                            <i class="fas fa-globe empty-icon"></i> No global holidays
+                        </div>
+                    `;
+        } else {
+          html += `<div class="worldwide-list">`;
+          wwEntries.forEach(([code, entry]) => {
+            const h = entry.holidays[0];
+            html += `
+                            <div class="worldwide-item">
+                                <div class="country-name">
+                                    <i class="fas fa-flag country-flag-icon"></i> 
+                                    ${entry.country}
+                                    <span class="country-code">${code}</span>
+                                </div>
+                                <div class="world-holiday-info">
+                                    <div class="world-holiday-name">${h.name}</div>
+                                    <div class="world-holiday-type">${h.type}</div>
+                                    <div class="world-holiday-date">${h.date}</div>
+                                </div>
+                            </div>
+                        `;
+          });
+          html += `</div>`;
+        }
+        html += `</div>`;
+
+        html += `</div>`;
+
+        // ===== UPCOMING SECTION =====
+        html += `<div class="upcoming-section">`;
+        html += `
+                    <div class="upcoming-header"> Upcoming holidays
+                    </div>
+                `;
+
+        if (upcoming.length === 0) {
+          html += `<span class="text-muted">No upcoming holidays</span>`;
+        } else {
+          html += `<div class="upcoming-list">`;
+          upcoming.slice(0, 6).forEach(h => {
+            html += `
+                            <div class="upcoming-chip">
+                                <h3>${h.name}</h3>
+                                <span style="font-size:0.75rem; color:#475569;">${h.formatted_date}</span>
+                                <span class="days-remaining">${h.days_until}d</span>
+                            </div>
+                        `;
+          });
+          html += `</div>`;
+        }
+        html += `</div>`;
+
+        root.innerHTML = html;
+      }
+
+      async function fetchAndRenderHolidayCalendar(params) {
+        const workerUrl = 'https://api-bmtdaily.koyeb.app/holidays';
+        const resp = await fetch(workerUrl);
+        const holidayList = await resp.json();
+        await renderHolidayContainer(holidayList)
+      }
+
       async function fetchWorldCupMatches() {
         try {
           loadRandomOpenverseImage("#calendarHero");
@@ -2084,8 +2618,10 @@ ${getHolidayInfo(today)}`;
 
         const container = document.getElementById("matchesContainer");
         const labelSpan = document.getElementById("selectedDateLabel");
+        const holidaySpan = document.getElementById("selectedDateHolidayLabel");
         const formatted = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         labelSpan.innerText = formatted;
+        holidaySpan.innerText = formatted;
 
         // Find the position of the selected date
         const selectedIndex = allMatches.findIndex(d => d.date === ymd);
@@ -2174,7 +2710,7 @@ ${getHolidayInfo(today)}`;
                 <h3>Previous Results</h3>
             </div>`;
 
-          for (let i = selectedIndex-1; i >= 0; i--) {
+          for (let i = selectedIndex - 1; i >= 0; i--) {
             const dayData = allMatches[i];
             const dayDate = new Date(dayData.date);
             const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -2581,6 +3117,7 @@ ${getHolidayInfo(today)}`;
       }
 
       const [worldCupMatches, userLocation] = await Promise.all([
+        await fetchAndRenderHolidayCalendar(),
         await fetchWorldCupMatches(),
         await fetchLocation()
       ]);
