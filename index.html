@@ -2444,16 +2444,24 @@ ${getHolidayInfo(today)}`;
         if (upcoming.length === 0) {
           html += `<span class="text-muted">No upcoming holidays</span>`;
         } else {
-          html += `<div class="upcoming-list">`;
-          upcoming.slice(0, 6).forEach(h => {
-            html += `
-                            <div class="upcoming-chip">
-                                <h3>${h.name}</h3>
-                                <span style="font-size:0.75rem; color:#475569;">${h.formatted_date}</span>
-                                <span class="days-remaining">${h.days_until}d</span>
-                            </div>
-                        `;
+          const seen = new Set();
+
+          const uniqueUpcoming = upcoming.filter(h => {
+            if (seen.has(h.name)) return false;
+            seen.add(h.name);
+            return true;
           });
+
+          html += `<div class="upcoming-list">`;
+          uniqueUpcoming.forEach(h => {
+            html += `
+                <div class="upcoming-chip">
+                  <h3>${h.name}</h3>
+                  <span style="font-size:0.75rem; color:#475569;">${h.formatted_date}</span>
+                  <span class="days-remaining">${h.days_until}d</span>
+                </div>
+              `;
+            });
           html += `</div>`;
         }
         html += `</div>`;
