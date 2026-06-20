@@ -14,6 +14,7 @@
 
   <meta name="format-detection" content="telephone=no,email=no,address=no">
 
+
   <title>Follow FIFA World Cup 2026 Interactive Calendar | On This Day History, Science & Daily Events</title>
 
   <meta name="description"
@@ -51,20 +52,21 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <meta name="apple-mobile-web-app-title" content="World Cup History Hub">
+  <meta name="apple-mobile-web-app-title" content="CalendarlyAI On this day">
 
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="./favicon.ico">
 
-  <link rel="icon" href="/favicon.ico">
-
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#0f2b3d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
 
-  <meta property="og:site_name" content="World Cup History Hub">
+  <meta property="og:site_name" content="CalendarlyAI On this day">
 
   <meta property="og:title" content="FIFA World Cup 2026 Interactive Calendar & On This Day History Feed">
 
@@ -90,7 +92,7 @@
   <meta name="twitter:image" content="https://ankitarora05.github.io/worldcup2026/fifa-worldcup.jpg">
 
   <!-- Discovery -->
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="sitemap" type="application/xml" href="./sitemap.xml">
 
   <link rel="alternate" hreflang="en" href="https://worldcup2026.05-ankitarora.workers.dev/">
 
@@ -1042,7 +1044,6 @@
     .match-stadium {
       font-size: 0.7rem;
       color: #64748b;
-      margin-left: auto;
       background: #f1f5f9;
       padding: 0.15rem 0.6rem;
       border-radius: 4px;
@@ -1296,6 +1297,8 @@
 
     <div class="calendar-grid" id="calendarGrid"></div>
 
+    <!-- <div id="holiday-list">Fetch Holidays...</div> -->
+
     <div class="double-panel">
       <div class="match-panel">
         <div class="panel-header">
@@ -1344,6 +1347,11 @@
         return `${y}-${m}-${d}`;
       }
 
+      /**
+ * Fetch worldwide holidays for today
+ * @returns {Promise<Array>} Array of holiday objects
+ */
+
       function getTodayInfo() {
         const today = new Date();
         const dateStr = today.toLocaleDateString('en-US', {
@@ -1352,6 +1360,8 @@
           month: 'long',
           day: 'numeric'
         });
+
+
 
         // Helper functions
         function getWeekNumber(date) {
@@ -1470,8 +1480,7 @@ ${getHolidayInfo(today)}`;
       async function fetchAIToday(mainText, refText) {
         const raw = JSON.stringify({
           prompt: {
-            query: `
-                You are a brilliant, super-intelligent AI agent with encyclopedic knowledge of all scientific and historical discoveries across every discipline and the world's greatest storyteller across verticals.
+            query: `You are a brilliant, super-intelligent AI agent with encyclopedic knowledge of all scientific and historical discoveries across every discipline and the world's greatest storyteller across verticals.
 
                 Your task: Answer the question, "What is so special about today?" using the entire mainText and referenceText provided as input context. In addition, draw on your own knowledge to create a more meaningful, insightful, and engaging narrative. Connect relevant details, provide context where helpful, and present the answer as an intriguing story rather than a simple summary.
  
@@ -1657,94 +1666,120 @@ ${getHolidayInfo(today)}`;
 
       function combineAIToText(response) {
         try {
-          // Parse the response if it's a string
-          const data = typeof response === 'string' ? JSON.parse(response) : response;
+          let data = response;
 
-          // Build meaningful text
+          // Parse string responses safely
+          if (typeof response === 'string') {
+            let cleaned = response.trim();
+
+            // Remove ```json and ``` wrappers
+            cleaned = cleaned
+              .replace(/^```json\s*/i, '')
+              .replace(/^```\s*/i, '')
+              .replace(/\s*```$/, '');
+
+            data = JSON.parse(cleaned);
+          }
+
           let text = '';
 
-          // 1. Headline
-          text += `<div><center><h2>📅 ${data?.date}\n</h2></center></div>`;
+          text += `<div><center><h2>📅 ${data?.date || ''}</h2></center></div>`;
 
-          // 2. What's special today
-          text += `<div>🌟 ${data?.whatIsSpecialToday?.headline}\n\n</div>`;
-          text += `<div>\n${data?.whatIsSpecialToday?.emotionalHook}\n\n</div>`;
+          text += `<div>🌟 ${data?.whatIsSpecialToday?.headline || ''}</div>`;
+          text += `<div>${data?.whatIsSpecialToday?.emotionalHook || ''}</div>`;
 
-          // 3. Hero section
-          text += `<div><b>📖 ${data?.hero?.title}\n</b></div>`;
-          text += `<div>${data?.hero?.subtitle}\n\n</div>`;
+          text += `<div><b>📖 ${data?.hero?.title || ''}</b></div>`;
+          text += `<div>${data?.hero?.subtitle || ''}</div>`;
 
-          // 4. Main narrative
-          text += data?.storyOfTheDay?.narrative;
+          text += data?.storyOfTheDay?.narrative || '';
 
-          // 5. Key turning points
-          text += `<div><b>🔑 KEY TURNING POINTS:\n\n</b></div>`;
-          data?.storyOfTheDay?.keyTurningPoints?.forEach((point, i) => {
-            text += `${i + 1}. ${point?.year}: ${point?.event}\n`;
-            text += `   Why it changed history: ${point?.whyItChangedHistory}\n`;
-            text += `   Emotional resonance: ${point?.emotionalResonance}\n\n`;
+          text += `<div><b>🔑 KEY TURNING POINTS:</b></div>`;
+
+          (data?.storyOfTheDay?.keyTurningPoints || []).forEach((point, i) => {
+            text += `
+        <div>
+          ${i + 1}. ${point?.year}: ${point?.event}<br>
+          Why it changed history: ${point?.whyItChangedHistory}<br>
+          Emotional resonance: ${point?.emotionalResonance}
+        </div>
+      `;
           });
 
-          // 6. Timeline highlights
-          text += `<div><b>⏳ TIMELINE HIGHLIGHTS:\n\n</b></div>`;
-          data?.timelineHighlights?.forEach(event => {
-            text += `📌 ${event?.year} - ${event?.title}\n`;
-            text += `   ${event?.oneLine}\n`;
-            text += `   Impact: ${event?.impact}\n\n`;
+          text += `<div><b>⏳ TIMELINE HIGHLIGHTS:</b></div>`;
+
+          (data?.timelineHighlights || []).forEach(event => {
+            text += `
+        <div>
+          📌 ${event?.year} - ${event?.title}<br>
+          ${event?.oneLine}<br>
+          Impact: ${event?.impact}
+        </div>
+      `;
           });
 
-          // 7. People spotlight
-          text += `<div><b>👤 PEOPLE SPOTLIGHT:\n\n</b></div>`;
+          text += `<div><b>👤 PEOPLE SPOTLIGHT</b></div>`;
 
-          if (data?.peopleSpotlight?.born?.length > 0) {
-            text += `<div><b>Born this day:\n</b></div>`;
-            data?.peopleSpotlight?.born?.forEach(person => {
-              text += `   • ${person?.name} (${person?.year}) - ${person?.identity}\n`;
-              text += `     ${person?.whyImportant}\n`;
-              text += `     💡 ${person?.humanDetail}\n\n`;
+          if ((data?.peopleSpotlight?.born || []).length) {
+            text += `<div><b>Born this day:</b></div>`;
+
+            data.peopleSpotlight.born.forEach(person => {
+              text += `
+          <div>
+            • ${person?.name} (${person?.year}) - ${person?.identity}<br>
+            ${person?.whyImportant}<br>
+            💡 ${person?.humanDetail}
+          </div>
+        `;
             });
           }
 
-          if (data?.peopleSpotlight?.died?.length > 0) {
-            text += `<div><b>Died this day:\n</b></div>`;
-            data?.peopleSpotlight?.died?.forEach(person => {
-              text += `   • ${person?.name} (${person?.year})\n`;
-              text += `     Legacy: ${person?.legacy}\n`;
-              text += `     ${person?.ironyOrMeaning}\n\n`;
+          if ((data?.peopleSpotlight?.died || []).length) {
+            text += `<div><b>Died this day:</b></div>`;
+
+            data.peopleSpotlight.died.forEach(person => {
+              text += `
+          <div>
+            • ${person?.name} (${person?.year})<br>
+            Legacy: ${person?.legacy}<br>
+            ${person?.ironyOrMeaning}
+          </div>
+        `;
             });
           }
 
-          // 8. Moments of change
-          text += `<div><b>💫 MOMENTS OF CHANGE:\n\n</b></div>`;
-          data?.momentsOfChange?.forEach(moment => {
-            text += `• ${moment?.year}: ${moment?.title}\n`;
-            text += `  ${moment?.description}\n`;
-            text += `  Modern relevance: ${moment?.modernRelevance}\n\n`;
+          text += `<div><b>💫 MOMENTS OF CHANGE</b></div>`;
+
+          (data?.momentsOfChange || []).forEach(moment => {
+            text += `
+        <div>
+          • ${moment?.year}: ${moment?.title}<br>
+          ${moment?.description}<br>
+          Modern relevance: ${moment?.modernRelevance}
+        </div>
+      `;
           });
 
-          // 9. Did you know
-          text += `<div><b>🤔 DID YOU KNOW?\n\n</b></div>`;
-          data?.didYouKnow?.forEach((fact, i) => {
-            text += `${i + 1}. ${fact}\n`;
-          });
-          text += `\n`;
+          text += `<div><b>🤔 DID YOU KNOW?</b></div>`;
 
-          // 10. Themes
-          text += `<div><b>🎯 THEMES:\n</b></div>`;
-          data?.storyOfTheDay?.themes?.forEach(theme => {
-            text += `   • ${theme}\n`;
+          (data?.didYouKnow || []).forEach((fact, i) => {
+            text += `<div>${i + 1}. ${fact}</div>`;
           });
-          text += `\n`;
 
-          // 11. Closing reflection
-          text += `<div>💭 ${data?.closingReflection?.summary}\n\n</div>`;
-          text += `<div>✨ ${data?.closingReflection?.takeaway}\n</div>`;
-          text += `\n<div><center>${'='.repeat(50)}</center></div>`;
+          text += `<div><b>🎯 THEMES</b></div>`;
+
+          (data?.storyOfTheDay?.themes || []).forEach(theme => {
+            text += `<div>• ${theme}</div>`;
+          });
+
+          text += `<div>💭 ${data?.closingReflection?.summary || ''}</div>`;
+          text += `<div>✨ ${data?.closingReflection?.takeaway || ''}</div>`;
 
           return text;
         } catch (error) {
-          console.error('Error combining AI response:', error);
-          return 'Error processing the response.';
+          console.error("combineAIToText error:", error);
+          console.error("response:", response);
+
+          return "Error processing the response.";
         }
       }
 
@@ -1882,26 +1917,6 @@ ${getHolidayInfo(today)}`;
         preload.src = fallback;
       }
 
-      async function getStadiumName(stadiumId) {
-        if (!stadiumId || stadiumId === '0' || stadiumId === 'null') return 'TBD';
-        if (stadiumCache.has(stadiumId)) return stadiumCache.get(stadiumId);
-        try {
-          const url = `https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadiumId}`;
-          const resp = await fetch(url);
-          if (resp.ok) {
-            try {
-              const data = await resp.json();
-              let name = data?.stadium?.name_en?.split(',')[0] || `Stadium ${stadiumId}`;
-              stadiumCache.set(stadiumId, name);
-              return name;
-            } catch (err) {
-              console.log(err);
-            }
-          }
-        } catch (e) { }
-        return `Stadium ${stadiumId}`;
-      }
-
       function groupMatchesByDate(matches) {
         const map = new Map();
         matches.forEach(m => {
@@ -1961,32 +1976,7 @@ ${getHolidayInfo(today)}`;
         return location;
       }
 
-      function formatLocation(locationData) {
-        const city = locationData?.city || "";
-        const country = locationData?.entireLocation?.country?.names?.en || "";
-        return [city, country].filter(Boolean).join(", ") || " ";
-      }
 
-      async function getStadiumName(stadiumId) {
-        if (!stadiumId || stadiumId === "0") return "TBD";
-
-        // Check cache first
-        if (stadiumCache.has(stadiumId)) {
-          return stadiumCache.get(stadiumId);
-        }
-
-        try {
-          const response = await fetch(`/api/stadiums/${stadiumId}`);
-          if (!response.ok) throw new Error('Stadium not found');
-          const data = await response.json();
-          const name = data.name || `Stadium ${stadiumId}`;
-          stadiumCache.set(stadiumId, name);
-          return name;
-        } catch (error) {
-          console.error('Error fetching stadium:', error);
-          return `Stadium ${stadiumId}`;
-        }
-      }
 
       async function getStadiumName(stadiumId) {
         if (!stadiumId || stadiumId === "0") return "TBD";
@@ -1994,12 +1984,13 @@ ${getHolidayInfo(today)}`;
           return stadiumCache.get(stadiumId);
         }
         try {
-          const response = await fetch(`/api/stadiums/${stadiumId}`);
+          const response = await fetch(`https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir/get/stadium/${stadiumId}`);
           if (!response.ok) throw new Error('Stadium not found');
           const data = await response.json();
-          const name = data.name || `Stadium ${stadiumId}`;
+          const name = data?.stadium?.fifa_name || data?.stadium?.name_en || `Stadium ${stadiumId}`;
+          const countryName = data?.stadium?.country_en || data?.stadium?.country_en || '';
           stadiumCache.set(stadiumId, name);
-          return name;
+          return (name + (countryName ? ', ' + countryName : ''));
         } catch (error) {
           console.error('Error fetching stadium:', error);
           return `Stadium ${stadiumId}`;
@@ -2041,24 +2032,6 @@ ${getHolidayInfo(today)}`;
         return { status: 'upcoming', label: '⏳ Upcoming', icon: '⏳' };
       }
 
-      async function getStadiumName(stadiumId) {
-        if (!stadiumId || stadiumId === "0") return "TBD";
-        if (stadiumCache.has(stadiumId)) {
-          return stadiumCache.get(stadiumId);
-        }
-        try {
-          const response = await fetch(`/api/stadiums/${stadiumId}`);
-          if (!response.ok) throw new Error('Stadium not found');
-          const data = await response.json();
-          const name = data.name || `Stadium ${stadiumId}`;
-          stadiumCache.set(stadiumId, name);
-          return name;
-        } catch (error) {
-          console.error('Error fetching stadium:', error);
-          return `Stadium ${stadiumId}`;
-        }
-      }
-
       function formatYMD(date) {
         let y = date.getFullYear();
         let m = String(date.getMonth() + 1).padStart(2, '0');
@@ -2093,6 +2066,8 @@ ${getHolidayInfo(today)}`;
         if (match?.time_elapsed === "live") return { status: 'live', label: '🔴 LIVE', icon: '🔴' };
         return { status: 'upcoming', label: '⏳ Upcoming', icon: '⏳' };
       }
+
+
 
       async function updateSelectedDatePanel(dateObj, userLocation) {
         const ymd = formatYMD(dateObj);
@@ -2139,9 +2114,11 @@ ${getHolidayInfo(today)}`;
             const status = getMatchStatus(match);
             const isFinished = match?.finished === "TRUE";
             const isLive = match?.time_elapsed === "live";
+            let stadium = '';
 
-            // Fetch stadium only for today
-            const stadium = isToday ? await getStadiumName(match.stadium_id) : "TBD";
+            if (isToday) {
+              stadium = await getStadiumName(match.stadium_id)
+            }
 
             // Get scorers for finished matches
             const homeScorers = parseScorers(match.home_scorers, home);
@@ -2168,7 +2145,6 @@ ${getHolidayInfo(today)}`;
                 <div class="match-header">
                     <span class="match-time">${timeStr}</span>
                     <span class="match-status ${status.status}">${status.label}</span>
-                    ${stadium !== "TBD" ? `<span class="match-stadium">🏟️ ${stadium}</span>` : ''}
                 </div>
                 <div class="match-teams">
                     <span class="team home">${home}</span>`;
@@ -2183,6 +2159,7 @@ ${getHolidayInfo(today)}`;
                 </div>
                 ${allScorers.length > 0 ? `<div class="scorers">⚽ ${allScorers.join(' | ')}</div>` : ''}
                 <div class="match-group">${match?.stageLabel || ''}</div>
+                ${stadium !== "TBD" ? `<span class="match-stadium">🏟️ ${stadium}</span>` : ''}
             </div>`;
           }
 
@@ -2197,7 +2174,7 @@ ${getHolidayInfo(today)}`;
                 <h3>Previous Results</h3>
             </div>`;
 
-          for (let i = 0; i < selectedIndex; i++) {
+          for (let i = selectedIndex; i >= 0; i--) {
             const dayData = allMatches[i];
             const dayDate = new Date(dayData.date);
             const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -2329,6 +2306,7 @@ ${getHolidayInfo(today)}`;
         });
 
         const location = formatLocation(userLocation);
+
         document.getElementById("monthYearDisplay").innerHTML = `${document.getElementById("selectedDateLabel").innerHTML} | ${location}`;
       }
 
@@ -2342,10 +2320,7 @@ ${getHolidayInfo(today)}`;
       }
 
       // Helper function to format location
-      function formatLocation(userLocation) {
-        if (!userLocation) return '📍 Location Unknown';
-        return `📍 ${userLocation.city || ''}, ${userLocation.country || ''}`.trim();
-      }
+
 
 
 
@@ -2405,11 +2380,6 @@ ${getHolidayInfo(today)}`;
 
         const todayInfo = getTodayInfo();
         const combined = `${formatEvents(data?.selected)} ${formatEvents(data?.events)} ${formatEvents(data?.holidays)}`;
-        const aiResponse = await fetchAIToday(todayInfo.mainText, combined);
-
-        const meaningfulText = combineAIToText(aiResponse?.completion)
-
-        document.getElementById('meaningfulText').innerHTML = meaningfulText;
 
         let html = '';
 
@@ -2531,6 +2501,21 @@ ${getHolidayInfo(today)}`;
           html = `<div class="no-matches">📭 No records found for this date. Try another day.</div>`;
         }
         container.innerHTML = html;
+
+        await Promise.all([
+          (async () => {
+            const aiResponse = await fetchAIToday(todayInfo.mainText, combined);
+            const meaningfulText = combineAIToText(aiResponse?.completion);
+            document.getElementById('meaningfulText').innerHTML = meaningfulText;
+          })()
+        ]);
+
+      }
+
+      function formatLocation(locationData) {
+        const city = locationData?.city || "";
+        const country = locationData?.entireLocation?.country?.names?.en || "";
+        return [city, country].filter(Boolean).join(", ") || " ";
       }
 
       // ======================= CALENDAR RENDER =======================
@@ -2619,8 +2604,10 @@ ${getHolidayInfo(today)}`;
       document.getElementById("goTodayBtn").addEventListener("click", goToday);
     })()
   </script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCHEPZX6W1"></script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
