@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ankitarora05.github.io/worldcup2026/sitemap.xml
+Sitemap: https://calendarlyai.netlify.app//sitemap.xml
