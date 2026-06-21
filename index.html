@@ -21,7 +21,7 @@
     content="Follow the FIFA World Cup 2026 with interactive digital calendar and storytelling AI Agent On This Day feed featuring historical events, scientific discoveries, football milestones, famous birthdays, world history, and daily educational insights.">
 
   <meta name="keywords"
-    content="World Holiday Calendar, World Cup 2026 India time, World Cup 2026 IST timing, FIFA World Cup 2026 schedule, FIFA 2026 IST schedule, World Cup 2026 match time India, Free Online Calendar ,World Cup match time India, FIFA 2026 fixtures, World Cup 2026 fixtures, FIFA World Cup 2026 schedule India, World Cup 2026 dates India, Local Holiday Calendar, FIFA 2026 calendar, World Cup 2026 matches, World Cup 2026 India time zone, FIFA 2026 match schedule, FIFA World Cup 2026 schedule India, World Cup 2026 schedule time India, World Cup 2026 kickoff times India, World Cup 2026 match tracker, World Cup 2026 countdown, World Cup 2026 tournament calendar, World Cup 2026 live India, FIFA 2026 streaming India, World Cup 2026 live streaming India, World Cup 2026 TV channels India, how to watch World Cup 2026 India, FIFA World Cup 2026 broadcast India, football live India World Cup 2026, World Cup 2026 streaming guide India, World Cup 2026 live scores India, World Cup 2026 watch online India, World Cup 2026 teams and groups, World Cup 2026 groups, FIFA 2026 qualified teams, World Cup 2026 India group, World Cup 2026 format changes, World Cup format 2026 vs 2022, World Cup 2026 vs 2022 comparison, FIFA 2026 changes, World Cup 2026 team list, World Cup 2026 group stage, World Cup 2026 qualified nations, World Cup 2026 participating teams, interactive sports calendar, digital match calendar, football schedule tracker India, learning and general history platform, interactive calendar sports, FIFA 2026 calendar app, World Cup tracker app, football schedule app India, sports calendar tool, match calendar tool, interactive football calendar, sports event calendar, live football calendar, sports planner app, football fixtures tracker, sports schedule organizer, On This Day history, aaj ka itihas, today in history Hindi, on this day history Hindi, historical events today, history today, daily history facts, historical timeline, history explorer, on this day India, today in world history, history of today, historical anniversaries today, today's historical events, daily history feed, AI history storytelling tools, AI history tool, on this day AI, daily history AI feed, AI historian, AI history assistant, digital AI agent, storytelling AI agent, super intelligent historian, AI storytelling platform, AI powered history explorer, AI historical timeline, history chatbot, AI educational storyteller, AI learning platform, science discoveries today, scientific discoveries, famous birthdays today, anniversaries today, world history timeline, football history, sports history milestones, greatest World Cup moments, famous football moments, football history milestones, football historical moments, World Cup history, legendary football matches, football records history, sports anniversaries, educational platform, learning hub, daily knowledge feed, history explorer tool, science explorer, AI science assistant, AI learning assistant, knowledge discovery platform, knowledge explorer, daily learning platform, educational discovery tool, interactive learning hub, digital knowledge assistant">
+    content="World Holiday Calendar, World Cup 2026 India time, World Cup 2026 IST timing,Watch HIGHLIGHTS,Fifa World Cup 2026 Latest Highlights, FIFA World Cup 2026 schedule, FIFA 2026 IST schedule, World Cup 2026 match time India, Free Online Calendar ,World Cup match time India, FIFA 2026 fixtures, World Cup 2026 fixtures, FIFA World Cup 2026 schedule India, World Cup 2026 dates India, Local Holiday Calendar, FIFA 2026 calendar, World Cup 2026 matches, World Cup 2026 India time zone, FIFA 2026 match schedule, FIFA World Cup 2026 schedule India, World Cup 2026 schedule time India, World Cup 2026 kickoff times India, World Cup 2026 match tracker, World Cup 2026 countdown, World Cup 2026 tournament calendar, World Cup 2026 live India, FIFA 2026 streaming India, World Cup 2026 live streaming India, World Cup 2026 TV channels India, how to watch World Cup 2026 India, FIFA World Cup 2026 broadcast India, football live India World Cup 2026, World Cup 2026 streaming guide India, World Cup 2026 live scores India, World Cup 2026 watch online India, World Cup 2026 teams and groups, World Cup 2026 groups, FIFA 2026 qualified teams, World Cup 2026 India group, World Cup 2026 format changes, World Cup format 2026 vs 2022, World Cup 2026 vs 2022 comparison, FIFA 2026 changes, World Cup 2026 team list, World Cup 2026 group stage, World Cup 2026 qualified nations, World Cup 2026 participating teams, interactive sports calendar, digital match calendar, football schedule tracker India, learning and general history platform, interactive calendar sports, FIFA 2026 calendar app, World Cup tracker app, football schedule app India, sports calendar tool, match calendar tool, interactive football calendar, sports event calendar, live football calendar, sports planner app, football fixtures tracker, sports schedule organizer, On This Day history, aaj ka itihas, today in history Hindi, on this day history Hindi, historical events today, history today, daily history facts, historical timeline, history explorer, on this day India, today in world history, history of today, historical anniversaries today, today's historical events, daily history feed, AI history storytelling tools, AI history tool, on this day AI, daily history AI feed, AI historian, AI history assistant, digital AI agent, storytelling AI agent, super intelligent historian, AI storytelling platform, AI powered history explorer, AI historical timeline, history chatbot, AI educational storyteller, AI learning platform, science discoveries today, scientific discoveries, famous birthdays today, anniversaries today, world history timeline, football history, sports history milestones, greatest World Cup moments, famous football moments, football history milestones, football historical moments, World Cup history, legendary football matches, football records history, sports anniversaries, educational platform, learning hub, daily knowledge feed, history explorer tool, science explorer, AI science assistant, AI learning assistant, knowledge discovery platform, knowledge explorer, daily learning platform, educational discovery tool, interactive learning hub, digital knowledge assistant">
 
   <meta name="author" content="Ankit Arora">
 
@@ -298,7 +298,6 @@
       font-size: 1.5rem;
       color: #1e293b;
       padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
       border-bottom: 1px solid #e2e8f0;
       letter-spacing: -0.02em;
     }
@@ -652,6 +651,9 @@
       padding: 1.5rem;
       color: #64748b;
       font-size: 0.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .loader {
@@ -1717,6 +1719,8 @@
 
     <!-- <div id="holiday-list">Fetch Holidays...</div> -->
 
+    <div id="yt-video" style="max-width:640px;margin:0.9rem auto; display: flex; justify-content: center; align-items: center; flex-direction: column;"></div>
+
     <div class="double-panel">
       <div class="match-panel">
         <div class="panel-header">
@@ -1766,6 +1770,67 @@
       let currentDisplayDate = new Date();
       let selectedDate = new Date();
       const stadiumCache = new Map();
+
+      function loadYTVideo(channelId, containerId = "yt-video") {
+        const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+
+        fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(RSS_URL))
+          .then(res => res.json())
+          .then(data => {
+            const item = data.items[0];
+            const videoId = item.link.split("v=")[1];
+
+            document.getElementById(containerId).innerHTML = `
+        <a href="${item.link}" target="_blank"
+           style="display:block;position:relative;text-decoration:none;">
+
+          <img
+            src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg"
+            style="width:100%;border-radius:12px;display:block;"
+          />
+
+          <div style="
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            width:72px;height:72px;
+            background:rgba(255,0,0,.9);
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+          ">
+            <div style="
+              width:0;height:0;
+              border-top:13px solid transparent;
+              border-bottom:13px solid transparent;
+              border-left:20px solid #fff;
+              margin-left:5px;
+            "></div>
+          </div>
+        </a>
+
+        <div style="margin-top:10px;font-family:Arial,sans-serif;">
+          <strong>${item.title}</strong>
+        </div>
+      `;
+          })
+          .catch(err => {
+            document.getElementById(containerId).innerHTML =
+              "<p>Unable to load video.</p>";
+            console.error(err);
+          });
+      }
+
+
+      loadYTVideo("UCpcTrCXblq78GZrTUTLWeBw", "yt-video");
+
+      async function fetchLocation() {
+        const response = await fetch("https://api-bmtdaily.koyeb.app/location");
+        const location = await response.json();
+        return location;
+      }
 
       function formatYMD(date) {
         let y = date.getFullYear();
@@ -2363,7 +2428,6 @@ ${getHolidayInfo(today)}`;
 
       function renderHolidayContainer(data) {
         const root = document.getElementById('holidayContainer');
-        debugger;
         const user = data.user;
         const date = data.date;
         const worldwide = data.worldwide;
@@ -2510,12 +2574,6 @@ ${getHolidayInfo(today)}`;
           document.getElementById("matchesContainer").innerHTML = `<div class="no-matches">⚠️ Unable to load match data. Please refresh.</div>`;
           document.getElementById("liveDateBadge").innerText = " Scheduling";
         }
-      }
-
-      async function fetchLocation() {
-        const response = await fetch("https://api-bmtdaily.koyeb.app/location");
-        const location = await response.json();
-        return location;
       }
 
 
@@ -2851,7 +2909,7 @@ ${getHolidayInfo(today)}`;
 
         const location = formatLocation(userLocation);
 
-        document.getElementById("monthYearDisplay").innerHTML = `${document.getElementById("selectedDateLabel").innerHTML} | ${location}`;
+        document.querySelector("#monthYearDisplay").innerHTML = `${document.querySelector("#selectedDateLabel").innerHTML} | ${location}`;
       }
 
       // Helper function to parse match datetime
@@ -3112,7 +3170,7 @@ ${getHolidayInfo(today)}`;
 
         const location = formatLocation(userLocation);
 
-        document.getElementById("monthYearDisplay").innerHTML = `${document.getElementById("selectedDateLabel").innerHTML} | ${location}`;
+        document.querySelector("#monthYearDisplay").innerHTML = `${document.querySelector("#selectedDateLabel").innerHTML} | ${location}`;
       }
 
       function updateLiveDateBadge() {
@@ -3124,7 +3182,7 @@ ${getHolidayInfo(today)}`;
         //document.getElementById("historyBadge")?.innerHTML = `📖 On this day daily feed`;
       }
 
-      const [worldCupMatches, userLocation] = await Promise.all([
+      const [holidayCalendar, worldCupMatches, userLocation] = await Promise.all([
         await fetchAndRenderHolidayCalendar(),
         await fetchWorldCupMatches(),
         await fetchLocation()
