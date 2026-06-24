@@ -102,6 +102,11 @@
 
   <title>CalendarlyAI World Cup 2026 & On This Day</title>
   <style>
+    :host,
+    :root {
+      color-scheme: only light;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -1440,7 +1445,7 @@
 
     .holiday-item:hover {
       background: white;
-      border-color: rgba(59, 130, 246, 0.1);
+      border-x: rgba(59, 130, 246, 0.1);
     }
 
     .holiday-name {
@@ -3569,9 +3574,6 @@ ${getHolidayInfo(today)}`;
         await fetchWorldCupMatches(),
         await fetchLocation()
       ]);
-
-
-
       const now = new Date();
       currentDisplayDate = new Date(now.getFullYear(), now.getMonth(), 1);
       selectedDate = new Date(now);
@@ -3588,7 +3590,8 @@ ${getHolidayInfo(today)}`;
       document.getElementById("nextMonthBtn").addEventListener("click", goNextMonth);
       document.getElementById("goTodayBtn").addEventListener("click", goToday);
     })()
-  </>
+
+  </script>
 
   <script>
       (async function () {
