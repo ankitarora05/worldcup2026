@@ -777,7 +777,7 @@
 
       .match-card {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
       }
 
       .history-img {
@@ -933,17 +933,18 @@
     /* Match Cards */
     .match-card {
       background: white;
-      border-radius: 10px;
-      padding: 0.5rem 0.1rem;
-      margin: 0.4rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      transition: all 0.25s ease;
-      cursor: pointer;
-      border-left: 4px solid #e2e8f0;
+      border-radius: 0.2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid #edf2f7;
+      transition: all 0.3s ease;
       position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      flex-wrap: nowrap;
     }
 
     .match-card:last-child {
@@ -1177,11 +1178,6 @@
         padding: 0.6rem 1rem;
       }
 
-      .match-card {
-        padding: 0.75rem 1rem;
-        margin: 0.5rem 0.5rem;
-      }
-
       .match-teams {
         flex-wrap: wrap;
         justify-content: center;
@@ -1225,10 +1221,6 @@
     }
 
     @media (max-width: 480px) {
-      .match-card {
-        padding: 0.6rem 0.75rem;
-      }
-
       .team {
         font-size: 0.8rem;
       }
@@ -2205,14 +2197,13 @@
 
     .matches-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 8px;
     }
 
     .match-card {
       background: white;
       border-radius: 0.2rem;
-      padding: 1rem;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
       border: 1px solid #edf2f7;
       transition: all 0.3s ease;
@@ -2244,7 +2235,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin: 10px;
       font-size: 0.7rem;
       color: #6b7a9f;
       text-transform: uppercase;
@@ -2263,6 +2254,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 0.65rem;
     }
 
     .match-card .card-top .status .dot {
@@ -2317,6 +2309,7 @@
       font-weight: 500;
       font-size: 0.9rem;
       flex: 1;
+      flex-direction: column;
     }
 
     .match-card .team-row .team-info .flag {
@@ -4906,9 +4899,9 @@ ${getHolidayInfo(today)}`;
                             <div class="teams">
                                 <div class="team-row ${homeWinner ? 'winner' : ''}">
                                     <span class="team-info">
-                                        <span class="flag">${homeFlag}</span>
-                                        <span class="team-name">${homeName}</span>
-                                        ${homeGroup ? `<span class="group-tag">${homeGroup}</span>` : ''}
+                                        
+                                        <span class="team-name"><span class="flag">${homeFlag}</span> ${homeName}</span>
+                                        ${homeGroup ? `<span class="group-tag">Group ${homeGroup}</span>` : ''}
                                         ${!isHomeKnown ? '<span class="unknown-tag">TBD</span>' : ''}
                                         ${homeWinner ? '<span class="winner-tag">✓</span>' : ''}
                                     </span>
@@ -4916,9 +4909,8 @@ ${getHolidayInfo(today)}`;
                                 <div class="group-stage-match-divider">VS</div>
                                 <div class="team-row ${awayWinner ? 'winner' : ''}">
                                     <span class="team-info">
-                                        <span class="flag">${awayFlag}</span>
-                                        <span class="team-name">${awayName}</span>
-                                        ${awayGroup ? `<span class="group-tag">${awayGroup}</span>` : ''}
+                                        <span class="team-name"><span class="flag">${awayFlag}</span> ${awayName}</span>
+                                        ${awayGroup ? `<span class="group-tag">Group ${awayGroup}</span>` : ''}
                                         ${!isAwayKnown ? '<span class="unknown-tag">TBD</span>' : ''}
                                         ${awayWinner ? '<span class="winner-tag">✓</span>' : ''}
                                     </span>
@@ -5140,10 +5132,10 @@ ${getHolidayInfo(today)}`;
           const d = new Date(str);
           if (!isNaN(d.getTime())) {
             return d.toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
             });
           }
           return str;
@@ -5156,7 +5148,12 @@ ${getHolidayInfo(today)}`;
         const total = matches.filter(m => TYPE_MAP[m.type]).length;
         const finished = matches.filter(m => (m.finished === 'TRUE' || m.finished === true) && TYPE_MAP[m.type])
           .length;
-        liveStatusEl.textContent = `${finished}/${total} matches · ${new Date().toLocaleDateString()}`;
+        liveStatusEl.textContent = `${finished}/${total} matches · ${new Date().toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}`;
       }
 
       // ============================================================
