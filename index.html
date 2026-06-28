@@ -2195,6 +2195,11 @@
       }
     }
 
+    .box-container {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+    }
+
     .matches-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -2989,6 +2994,7 @@
       async function fetchLocation() {
         const response = await fetch("https://api-bmtdaily.koyeb.app/location");
         const location = await response.json();
+
         return location;
       }
 
@@ -3903,7 +3909,7 @@ ${getHolidayInfo(today)}`;
             });
             const escapedDetail = detailData.replace(/"/g, '&quot;');
 
-            html += `<div class="match-card ${status.status}" data-detail="${escapedDetail}">
+            html += `<div class="match-card ${status.status} box-container" data-detail="${escapedDetail}">
                 <div class="match-header">
                     <span class="match-time">${timeStr}</span>
                     <span class="match-status ${status.status}">${status.label}</span>
@@ -3971,7 +3977,7 @@ ${getHolidayInfo(today)}`;
               });
               const escapedDetail = detailData.replace(/"/g, '&quot;');
 
-              html += `<div class="match-card finished" data-detail="${escapedDetail}">
+              html += `<div class="match-card finished box-container" data-detail="${escapedDetail}">
                     <div class="match-header">
                         <span class="match-time">${timeStr}</span>
                         <span class="match-status ${status.status}">${status.label}</span>
@@ -4030,7 +4036,7 @@ ${getHolidayInfo(today)}`;
               });
               const escapedDetail = detailData.replace(/"/g, '&quot;');
 
-              html += `<div class="match-card upcoming" data-detail="${escapedDetail}">
+              html += `<div class="match-card upcoming box-container" data-detail="${escapedDetail}">
                     <div class="match-header">
                         <span class="match-time">${timeStr}</span>
                         <span class="match-status ${status.status}">${status.label}</span>
