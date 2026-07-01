@@ -3833,8 +3833,6 @@ ${getHolidayInfo(today)}`;
         return { status: 'upcoming', label: '⏳ Upcoming', icon: '⏳' };
       }
 
-
-
       async function updateSelectedDatePanel(dateObj, userLocation) {
         const ymd = formatYMD(dateObj);
         const today = new Date();
@@ -3864,83 +3862,156 @@ ${getHolidayInfo(today)}`;
 
         let html = '';
 
-        // Show today's matches
+        // --- Helper to build a match card HTML (shared for today, previous, upcoming) ---
+        function buildMatchCard(match, isFinishedOverride, stadiumName) {
+          const home = match?.homeTeamDisplay || match?.home_team_name_en || '';
+          const away = match?.awayTeamDisplay || match?.away_team_name_en || '';
+          const timeStr = formatMatchTime(match.local_date);
+          const status = getMatchStatus(match);
+          const isFinished = isFinishedOverride !== undefined ? isFinishedOverride : (match?.finished === "TRUE");
+          const isLive = match?.time_elapsed === "live";
+          let stadium = stadiumName || '';
+
+          // Regular scorers
+          const homeScorers = parseScorers(match.home_scorers, home);
+          const awayScorers = parseScorers(match.away_scorers, away);
+          const allScorers = [...homeScorers, ...awayScorers];
+
+          // ----- Robust penalty detection -----
+          function isValidPenaltyScore(val) {
+            if (val === undefined || val === null || val === 'null' || val === '' || val === 'undefined') return false;
+            const num = Number(val);
+            return !isNaN(num) && num >= 0;
+          }
+
+          const hasPenalties = isValidPenaltyScore(match.home_penalty_score) &&
+            isValidPenaltyScore(match.away_penalty_score);
+
+          let penaltyDisplay = '';
+          let penaltyScorersDisplay = '';
+          if (hasPenalties) {
+            const homePenScore = match.home_penalty_score;
+            const awayPenScore = match.away_penalty_score;
+            penaltyDisplay = `Penalties: ${homePenScore}–${awayPenScore}`;
+
+            // Parse penalty scorers and misses (same helper)
+            const homePenScorers = parseScorers(match.home_penalty_scorers, home);
+            const awayPenScorers = parseScorers(match.away_penalty_scorers, away);
+            const homePenMisses = parseScorers(match.home_penalty_misses, home);
+            const awayPenMisses = parseScorers(match.away_penalty_misses, away);
+
+            const formatPenaltyList = (scorers, misses) => {
+              let parts = [];
+              if (scorers && scorers.length) parts.push(`✅ ${scorers.join(', ')}`);
+              if (misses && misses.length) parts.push(`❌ ${misses.join(', ')}`);
+              return parts.join(' ');
+            };
+            const homePenDetails = formatPenaltyList(homePenScorers, homePenMisses);
+            const awayPenDetails = formatPenaltyList(awayPenScorers, awayPenMisses);
+            if (homePenDetails || awayPenDetails) {
+              penaltyScorersDisplay = `⚽ ${home} ${homePenDetails} | ${away} ${awayPenDetails}`;
+            }
+          }
+
+          // Status label – append (Penalties) only if real penalties exist
+          let statusLabel = status.label;
+          if (hasPenalties) {
+            statusLabel = statusLabel + ' (Penalties)';
+          }
+
+          // Build detail object (same as before, but includes penalty fields only if hasPenalties)
+          const detailData = {
+            home,
+            away,
+            dateTime: match.local_date,
+            stage: match.stageLabel || match.group || '',
+            stadium: stadium || 'TBD',
+            homeScore: match?.home_score || '0',
+            awayScore: match?.away_score || '0',
+            homeScorers: match?.home_scorers || '—',
+            awayScorers: match?.away_scorers || '—',
+            finished: isFinished,
+            status: statusLabel,
+            // Always include, but only use if hasPenalties
+            hasPenalties: hasPenalties,
+            homePenScore: hasPenalties ? match.home_penalty_score : null,
+            awayPenScore: hasPenalties ? match.away_penalty_score : null,
+            homePenScorers: hasPenalties ? match.home_penalty_scorers : null,
+            awayPenScorers: hasPenalties ? match.away_penalty_scorers : null,
+            homePenMisses: hasPenalties ? match.home_penalty_misses : null,
+            awayPenMisses: hasPenalties ? match.away_penalty_misses : null,
+          };
+          const escapedDetail = JSON.stringify(detailData).replace(/"/g, '&quot;');
+
+          // Build the card HTML (score line now shows penalty only if hasPenalties)
+          let cardHtml = `<div class="match-card ${status.status} box-container" data-detail="${escapedDetail}">
+    <div class="match-header">
+      <span class="match-time">${timeStr}</span>
+      <span class="match-status ${status.status}">${statusLabel}</span>
+    </div>
+    <div class="match-teams">
+      <span class="team home">${home}</span>`;
+
+          if (isFinished || isLive) {
+            cardHtml += `<span class="score ${status.status}">${match?.home_score || '0'} – ${match?.away_score || '0'}</span>`;
+            if (hasPenalties) {
+              cardHtml += `<span class="penalty-score"> (${match.home_penalty_score}–${match.away_penalty_score})</span>`;
+            }
+          } else {
+            cardHtml += `<span class="score upcoming">vs</span>`;
+          }
+
+          cardHtml += `<span class="team away">${away}</span>
+    </div>`;
+
+          // Regular scorers
+          if (allScorers.length > 0) {
+            cardHtml += `<div class="scorers">⚽ ${allScorers.join(' | ')}</div>`;
+          }
+
+          // Penalty details (only if we have them)
+          if (hasPenalties && penaltyScorersDisplay) {
+            cardHtml += `<div class="penalty-scorers">${penaltyScorersDisplay}</div>`;
+          }
+
+          cardHtml += `<div class="match-group">${match?.stageLabel || match?.group || ''}</div>`;
+          if (stadium && stadium !== "TBD") {
+            cardHtml += `<span class="match-stadium">🏟️ ${stadium}</span>`;
+          }
+
+          cardHtml += `</div>`;
+          return cardHtml;
+        }
+
+        // --- Today's matches ---
         const todayMatches = allMatches[selectedIndex]?.matches || [];
         if (todayMatches.length > 0) {
           html += `<div class="feed-section today">
-            <div class="section-header">
-                <span class="section-icon">📌</span>
-                <h3>Today's Matches</h3>
-                <span class="today-date">${formatted}</span>
-            </div>
-            <div class="day-group">`;
+      <div class="section-header">
+        <span class="section-icon">📌</span>
+        <h3>Today's Matches</h3>
+        <span class="today-date">${formatted}</span>
+      </div>
+      <div class="day-group">`;
 
           for (let match of todayMatches) {
-            const home = match?.homeTeamDisplay || '';
-            const away = match?.awayTeamDisplay || '';
-            const timeStr = formatMatchTime(match.local_date);
-            const status = getMatchStatus(match);
-            const isFinished = match?.finished === "TRUE";
-            const isLive = match?.time_elapsed === "live";
             let stadium = '';
-
             if (isToday) {
-              stadium = await getStadiumName(match.stadium_id)
+              stadium = await getStadiumName(match.stadium_id);
             }
-
-            // Get scorers for finished matches
-            const homeScorers = parseScorers(match.home_scorers, home);
-            const awayScorers = parseScorers(match.away_scorers, away);
-            const allScorers = [...homeScorers, ...awayScorers];
-
-            // Create detail data for click
-            const detailData = JSON.stringify({
-              home,
-              away,
-              dateTime: match.local_date,
-              stage: match.stageLabel,
-              stadium: stadium,
-              homeScore: match?.home_score || '0',
-              awayScore: match?.away_score || '0',
-              homeScorers: match?.home_scorers || '—',
-              awayScorers: match?.away_scorers || '—',
-              finished: isFinished,
-              status: status.label
-            });
-            const escapedDetail = detailData.replace(/"/g, '&quot;');
-
-            html += `<div class="match-card ${status.status} box-container" data-detail="${escapedDetail}">
-                <div class="match-header">
-                    <span class="match-time">${timeStr}</span>
-                    <span class="match-status ${status.status}">${status.label}</span>
-                </div>
-                <div class="match-teams">
-                    <span class="team home">${home}</span>`;
-
-            if (isFinished || isLive) {
-              html += `<span class="score ${status.status}">${match?.home_score || '0'} - ${match?.away_score || '0'}</span>`;
-            } else {
-              html += `<span class="score upcoming">vs</span>`;
-            }
-
-            html += `<span class="team away">${away}</span>
-                </div>
-                ${allScorers.length > 0 ? `<div class="scorers">⚽ ${allScorers.join(' | ')}</div>` : ''}
-                <div class="match-group">${match?.stageLabel || ''}</div>
-                ${stadium !== "TBD" ? `<span class="match-stadium">🏟️ ${stadium}</span>` : ''}
-            </div>`;
+            html += buildMatchCard(match, undefined, stadium);
           }
 
           html += `</div></div>`;
         }
 
-        // Show previous days (finished matches)
+        // --- Previous days (finished matches) ---
         if (selectedIndex > 0) {
           html += `<div class="feed-section">
-            <div class="section-header">
-                <span class="section-icon">📅</span>
-                <h3>Previous Results</h3>
-            </div>`;
+      <div class="section-header">
+        <span class="section-icon">📅</span>
+        <h3>Previous Results</h3>
+      </div>`;
 
           for (let i = selectedIndex - 1; i >= 0; i--) {
             const dayData = allMatches[i];
@@ -3948,48 +4019,11 @@ ${getHolidayInfo(today)}`;
             const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
             html += `<div class="day-group">
-                <div class="day-header">${dayFormatted}</div>`;
+        <div class="day-header">${dayFormatted}</div>`;
 
             for (let match of dayData.matches) {
-              const home = match?.homeTeamDisplay || '';
-              const away = match?.awayTeamDisplay || '';
-              const timeStr = formatMatchTime(match.local_date);
-              const status = getMatchStatus(match);
-
-              // Get scorers
-              const homeScorers = parseScorers(match.home_scorers, home);
-              const awayScorers = parseScorers(match.away_scorers, away);
-              const allScorers = [...homeScorers, ...awayScorers];
-
-              // Create detail data for click
-              const detailData = JSON.stringify({
-                home,
-                away,
-                dateTime: match.local_date,
-                stage: match.stageLabel,
-                stadium: "TBD",
-                homeScore: match?.home_score || '0',
-                awayScore: match?.away_score || '0',
-                homeScorers: match?.home_scorers || '—',
-                awayScorers: match?.away_scorers || '—',
-                finished: true,
-                status: 'Finished'
-              });
-              const escapedDetail = detailData.replace(/"/g, '&quot;');
-
-              html += `<div class="match-card finished box-container" data-detail="${escapedDetail}">
-                    <div class="match-header">
-                        <span class="match-time">${timeStr}</span>
-                        <span class="match-status ${status.status}">${status.label}</span>
-                    </div>
-                    <div class="match-teams">
-                        <span class="team home">${home}</span>
-                        <span class="score finished">${match?.home_score || '0'} - ${match?.away_score || '0'}</span>
-                        <span class="team away">${away}</span>
-                    </div>
-                    ${allScorers.length > 0 ? `<div class="scorers">⚽ ${allScorers.join(' | ')}</div>` : ''}
-                    <div class="match-group">${match?.stageLabel || ''}</div>
-                </div>`;
+              // For previous days, we treat them as finished (even if data says otherwise)
+              html += buildMatchCard(match, true, '');
             }
 
             html += `</div>`;
@@ -3998,13 +4032,13 @@ ${getHolidayInfo(today)}`;
           html += `</div>`;
         }
 
-        // Show upcoming days
+        // --- Upcoming days ---
         if (selectedIndex < allMatches.length - 1) {
           html += `<div class="feed-section upcoming">
-            <div class="section-header">
-                <span class="section-icon">🔮</span>
-                <h3>Upcoming Fixtures</h3>
-            </div>`;
+      <div class="section-header">
+        <span class="section-icon">🔮</span>
+        <h3>Upcoming Fixtures</h3>
+      </div>`;
 
           for (let i = selectedIndex + 1; i < allMatches.length; i++) {
             const dayData = allMatches[i];
@@ -4012,42 +4046,11 @@ ${getHolidayInfo(today)}`;
             const dayFormatted = dayDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
             html += `<div class="day-group">
-                <div class="day-header">${dayFormatted}</div>`;
+        <div class="day-header">${dayFormatted}</div>`;
 
             for (let match of dayData.matches) {
-              const home = match?.homeTeamDisplay || '';
-              const away = match?.awayTeamDisplay || '';
-              const timeStr = formatMatchTime(match.local_date);
-              const status = getMatchStatus(match);
-
-              // Create detail data for click
-              const detailData = JSON.stringify({
-                home,
-                away,
-                dateTime: match.local_date,
-                stage: match.stageLabel,
-                stadium: "TBD",
-                homeScore: match?.home_score || '0',
-                awayScore: match?.away_score || '0',
-                homeScorers: match?.home_scorers || '—',
-                awayScorers: match?.away_scorers || '—',
-                finished: false,
-                status: 'Upcoming'
-              });
-              const escapedDetail = detailData.replace(/"/g, '&quot;');
-
-              html += `<div class="match-card upcoming box-container" data-detail="${escapedDetail}">
-                    <div class="match-header">
-                        <span class="match-time">${timeStr}</span>
-                        <span class="match-status ${status.status}">${status.label}</span>
-                    </div>
-                    <div class="match-teams">
-                        <span class="team home">${home}</span>
-                        <span class="score upcoming">vs</span>
-                        <span class="team away">${away}</span>
-                    </div>
-                    <div class="match-group">${match?.stageLabel || ''}</div>
-                </div>`;
+              // For upcoming, force not finished and no stadium
+              html += buildMatchCard(match, false, '');
             }
 
             html += `</div>`;
@@ -4058,14 +4061,27 @@ ${getHolidayInfo(today)}`;
 
         container.innerHTML = html;
 
-        // Add click listeners for match details
+        // --- Click listeners for match details (including penalties) ---
         document.querySelectorAll('.match-card').forEach(card => {
           card.addEventListener('click', function (e) {
             const raw = this.getAttribute('data-detail');
             if (raw) {
               try {
                 const m = JSON.parse(raw);
-                alert(`📋 ${m.home} vs ${m.away}\n🕒 ${m.dateTime}\n🏆 ${m.stage}\n🏟️ ${m.stadium}\n📊 ${m.status}\n⚽ ${m.homeScore} - ${m.awayScore}\n🥅 Scorers: ${m.homeScorers} | ${m.awayScorers}`);
+                let msg = `📋 ${m.home} vs ${m.away}\n🕒 ${m.dateTime}\n🏆 ${m.stage}\n🏟️ ${m.stadium}\n📊 ${m.status}\n⚽ ${m.homeScore} – ${m.awayScore}`;
+                if (m.hasPenalties) {
+                  msg += `\n🔴 Penalties: ${m.homePenScore} – ${m.awayPenScore}`;
+                  // Show scorers and misses if available
+                  if (m.homePenScorers || m.awayPenScorers) {
+                    msg += `\n✅ Scorers: ${m.home} ${m.homePenScorers || '—'} | ${m.away} ${m.awayPenScorers || '—'}`;
+                  }
+                  if (m.homePenMisses || m.awayPenMisses) {
+                    msg += `\n❌ Misses: ${m.home} ${m.homePenMisses || '—'} | ${m.away} ${m.awayPenMisses || '—'}`;
+                  }
+                }
+                // Add regular scorers (already in detail)
+                msg += `\n🥅 Scorers: ${m.homeScorers} | ${m.awayScorers}`;
+                alert(msg);
               } catch (error) {
                 console.error('Error parsing match detail:', error);
               }
@@ -4074,7 +4090,6 @@ ${getHolidayInfo(today)}`;
         });
 
         const location = formatLocation(userLocation);
-
         document.querySelector("#monthYearDisplay").innerHTML = `${document.querySelector("#selectedDateLabel").innerHTML} | ${location}`;
       }
 
@@ -4880,10 +4895,56 @@ ${getHolidayInfo(today)}`;
         const homeGroup = getTeamGroup(m.home_team_id);
         const awayGroup = getTeamGroup(m.away_team_id);
 
-        const homeScore = m.home_score !== undefined && m.home_score !== null && m.home_score !== '0' ? m.home_score :
-          '—';
-        const awayScore = m.away_score !== undefined && m.away_score !== null && m.away_score !== '0' ? m.away_score :
-          '—';
+        const homeScore = m.home_score !== undefined && m.home_score !== null && m.home_score !== '0' ? m.home_score : '-';
+        const awayScore = m.away_score !== undefined && m.away_score !== null && m.away_score !== '0' ? m.away_score : '-';
+
+        function isValidPenaltyScore(val) {
+          if (val === undefined || val === null || val === 'null' || val === '' || val === 'undefined') return false;
+          const num = Number(val);
+          return !isNaN(num) && num >= 0;
+        }
+
+        const hasPenalties = isValidPenaltyScore(m.home_penalty_score) &&
+          isValidPenaltyScore(m.away_penalty_score);
+
+        let penaltyDisplay = '';
+        let penaltyScorersDisplay = '';
+        if (hasPenalties) {
+          const homePenScore = m.home_penalty_score;
+          const awayPenScore = m.away_penalty_score;
+          penaltyDisplay = `Penalties: ${homePenScore}–${awayPenScore}`;
+
+          // Parse penalty scorers and misses (same helper)
+          const homePenScorers = parseScorers(m.home_penalty_scorers, m.home_team_name_en);
+          const awayPenScorers = parseScorers(m.away_penalty_scorers, m.away_team_name_en);
+          const homePenMisses = parseScorers(m.home_penalty_misses,  m.home_team_name_en);
+          const awayPenMisses = parseScorers(m.away_penalty_misses, m.away_team_name_en);
+
+          const formatPenaltyList = (scorers, misses) => {
+            let parts = [];
+            if (scorers && scorers.length) parts.push(`✅ ${scorers.join(', ')}`);
+            if (misses && misses.length) parts.push(`❌ ${misses.join(', ')}`);
+            return parts.join(' ');
+          };
+          const homePenDetails = formatPenaltyList(homePenScorers, homePenMisses);
+          const awayPenDetails = formatPenaltyList(awayPenScorers, awayPenMisses);
+          if (homePenDetails || awayPenDetails) {
+            penaltyScorersDisplay = `⚽ ${ m.home_team_name_en} ${homePenDetails} | ${m.away_team_name_en} ${awayPenDetails}`;
+          }
+        }
+
+        // Status label – append (Penalties) only if real penalties exist
+        let statusLabel = status.label;
+        if (hasPenalties) {
+          statusLabel = statusLabel + ' (Penalties)';
+        }
+
+        const homePenScore = (hasPenalties ? m.home_penalty_score : null);
+        const awayPenScore = (hasPenalties ? m.away_penalty_score : null);
+        const homePenScorers = (hasPenalties ? m.conhome_penalty_scorers : null);
+        const awayPenScorers = (hasPenalties ? m.away_penalty_scorers : null);
+        const homePenMisses = (hasPenalties ? m.home_penalty_misses : null);
+        const awayPenMisses = (hasPenalties ? m.away_penalty_misses : null);
 
         const isFinished = m.finished === 'TRUE' || m.finished === true;
         const isLive = m.time_elapsed && m.time_elapsed !== 'finished' && m.time_elapsed !== 'notstarted';
@@ -4905,6 +4966,13 @@ ${getHolidayInfo(today)}`;
         if (isFinished && homeScore !== '—' && awayScore !== '—') {
           const h = parseInt(homeScore);
           const a = parseInt(awayScore);
+          if (h > a) homeWinner = true;
+          else if (a > h) awayWinner = true;
+        }
+
+        if (isFinished && (homeScore === awayScore) && (homeScore !== '—' && awayScore !== '—')) {
+          const h = parseInt(m.home_penalty_score);
+          const a = parseInt(m.away_penalty_score);
           if (h > a) homeWinner = true;
           else if (a > h) awayWinner = true;
         }
@@ -4946,6 +5014,7 @@ ${getHolidayInfo(today)}`;
                                         ${awayWinner ? '<span class="winner-tag">✓</span>' : ''}
                                     </span>
                                 </div>
+                                <span class="penalty-score"> ${hasPenalties ? `Penalties (${homePenScore}–${awayPenScore})` : ''}</span>
                             </div>
 
                             <div class="card-footer">
