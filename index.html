@@ -4556,10 +4556,8 @@ ${getHolidayInfo(today)}`;
 
   <script>
     (async () => {
-      // ============================================================
-      //  CONFIG - Only Knockout Rounds (Starting from R32)
-      // ============================================================
-      const API_BASE = 'https://worldcup26.ir';
+
+      const API_BASE = 'https://worldcup2026.05-ankitarora.workers.dev/?url=https://worldcup26.ir';
       const MATCHES_URL = API_BASE + '/get/games';
       const GROUPS_URL = API_BASE + '/get/groups';
 
@@ -4581,9 +4579,6 @@ ${getHolidayInfo(today)}`;
         'third': 'third',
       };
 
-      // ============================================================
-      //  STATE
-      // ============================================================
       let matches = [];
       let groups = [];
       let teamMap = {};
@@ -4591,16 +4586,10 @@ ${getHolidayInfo(today)}`;
       let currentRound = 'r32';
       let isLoading = true;
 
-      // ============================================================
-      //  DOM REFS
-      // ============================================================
       const tabsEl = document.getElementById('roundTabs');
       const containerEl = document.getElementById('roundContainer');
       const liveStatusEl = document.getElementById('liveStatus');
 
-      // ============================================================
-      //  FETCH DATA
-      // ============================================================
       async function fetchData() {
         try {
           const [matchesRes, groupsRes] = await Promise.all([
