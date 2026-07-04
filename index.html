@@ -4570,6 +4570,43 @@ ${getHolidayInfo(today)}`;
         { key: 'third', label: '3rd Place', icon: '🥉' },
       ];
 
+
+      function getCurrentRound(games, roundsOrder, defaultRound = 'r32') {
+        // If no matches, return defaultRound (or the first round in order)
+        if (!games || games.length === 0) {
+          return defaultRound;
+        }
+
+        // Use provided order or fallback to chronological order including group
+        const order = roundsOrder || ['r32', 'r16', 'qf', 'sf', 'final', 'third'];
+
+        // Filter out duplicate rounds (just in case)
+        const uniqueRounds = [...new Set(order)];
+
+        // Find the first round that is not fully completed
+        for (const round of uniqueRounds) {
+          // Get real matches for this round (ignore placeholders)
+          const realMatches = games.filter(
+            (g) => g.type === round && g.home_team_id !== '0' && g.away_team_id !== '0'
+          );
+
+          if (realMatches.length === 0) {
+            // No real matches yet → this round is upcoming (active)
+            return round;
+          }
+
+          // Check if all real matches in this round are finished
+          const allFinished = realMatches.every((m) => m.finished === 'TRUE');
+          if (!allFinished) {
+            return round; // active round found
+          }
+          // Otherwise, all finished → continue to next round
+        }
+
+        // All rounds (including final) are finished
+        return 'r32';
+      }
+
       const TYPE_MAP = {
         'r32': 'r32',
         'r16': 'r16',
@@ -4825,6 +4862,8 @@ ${getHolidayInfo(today)}`;
       }
 
       function renderRound(roundKey) {
+
+
         // Validate roundKey
         if (!roundKey || !TYPE_MAP[roundKey]) {
           console.warn('Invalid or unknown roundKey:', roundKey);
@@ -4867,6 +4906,20 @@ ${getHolidayInfo(today)}`;
 
         html += `</div>`;
         containerEl.innerHTML = html;
+        setCurrentRound(getCurrentRound(matches));
+      }
+
+      function setCurrentRound(round) {
+        document.querySelectorAll('.round-tab').forEach((btn) => {
+          const isActive = btn.dataset.round === round;
+          btn.classList.toggle('active', isActive);
+        });
+
+        // Trigger a click on the active tab (so any attached handlers run)
+        const activeTab = document.querySelector(`.round-tab[data-round="${round}"]`);
+        if (activeTab) {
+          activeTab.click(); // fires the click listener
+        }
       }
 
       // ============================================================
@@ -4883,8 +4936,6 @@ ${getHolidayInfo(today)}`;
 
         const homeGroup = getTeamGroup(m.home_team_id);
         const awayGroup = getTeamGroup(m.away_team_id);
-
-        console.log(m);
 
         const homeScore = m.home_score !== undefined && m.home_score !== null ? m.home_score : '-';
         const awayScore = m.away_score !== undefined && m.away_score !== null ? m.away_score : '-';
@@ -4908,7 +4959,7 @@ ${getHolidayInfo(today)}`;
           // Parse penalty scorers and misses (same helper)
           const homePenScorers = parseScorers(m.home_penalty_scorers, m.home_team_name_en);
           const awayPenScorers = parseScorers(m.away_penalty_scorers, m.away_team_name_en);
-          const homePenMisses = parseScorers(m.home_penalty_misses,  m.home_team_name_en);
+          const homePenMisses = parseScorers(m.home_penalty_misses, m.home_team_name_en);
           const awayPenMisses = parseScorers(m.away_penalty_misses, m.away_team_name_en);
 
           const formatPenaltyList = (scorers, misses) => {
@@ -4920,7 +4971,7 @@ ${getHolidayInfo(today)}`;
           const homePenDetails = formatPenaltyList(homePenScorers, homePenMisses);
           const awayPenDetails = formatPenaltyList(awayPenScorers, awayPenMisses);
           if (homePenDetails || awayPenDetails) {
-            penaltyScorersDisplay = `⚽ ${ m.home_team_name_en} ${homePenDetails} | ${m.away_team_name_en} ${awayPenDetails}`;
+            penaltyScorersDisplay = `⚽ ${m.home_team_name_en} ${homePenDetails} | ${m.away_team_name_en} ${awayPenDetails}`;
           }
         }
 
