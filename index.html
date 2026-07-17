@@ -4801,8 +4801,40 @@ ${getHolidayInfo(today)}`;
       function resolveTeamFromLabel(label) {
         if (!label || label === 'null' || label === '0' || label === '' || label === 'undefined') return null;
 
-        // 1) Simple cases: "Winner Group A", "Runner-up Group B", "3rd Group C"
-        const simpleMatch = label.match(/^(Winner|Runner-up|3rd) Group ([A-Z])$/);
+        const normalizedLabel = String(label).trim();
+
+        // 1) Match references such as "Winner Match 86" or "Loser Match 88"
+        const matchRef = normalizedLabel.match(/^(Winner|Loser) Match (\d+)$/i);
+        if (matchRef) {
+          const relation = matchRef[1].toLowerCase();
+          const refId = matchRef[2];
+          const refMatch = matches.find((m) => String(m.id) === refId || String(m.match_id) === refId);
+
+          if (refMatch) {
+            const homeInfo = getTeamInfo(refMatch.home_team_id, refMatch.home_team_name_en, refMatch.home_team_label);
+            const awayInfo = getTeamInfo(refMatch.away_team_id, refMatch.away_team_name_en, refMatch.away_team_label);
+            const homeScore = Number(refMatch.home_score);
+            const awayScore = Number(refMatch.away_score);
+            const homePenalty = Number(refMatch.home_penalty_score);
+            const awayPenalty = Number(refMatch.away_penalty_score);
+            const isFinished = refMatch.finished === 'TRUE' || refMatch.finished === true;
+
+            const pickWinner = (homeScore > awayScore) || (!Number.isNaN(homePenalty) && !Number.isNaN(awayPenalty) && homePenalty > awayPenalty);
+            const pickLoser = (homeScore < awayScore) || (!Number.isNaN(homePenalty) && !Number.isNaN(awayPenalty) && homePenalty < awayPenalty);
+
+            if (isFinished && ((homeScore !== awayScore && !Number.isNaN(homeScore) && !Number.isNaN(awayScore)) || (homePenalty !== awayPenalty && !Number.isNaN(homePenalty) && !Number.isNaN(awayPenalty)))) {
+              if (relation === 'winner') {
+                return pickWinner ? { teamId: refMatch.home_team_id, name: homeInfo.name, flag: homeInfo.flag } : { teamId: refMatch.away_team_id, name: awayInfo.name, flag: awayInfo.flag };
+              }
+              return pickLoser ? { teamId: refMatch.home_team_id, name: homeInfo.name, flag: homeInfo.flag } : { teamId: refMatch.away_team_id, name: awayInfo.name, flag: awayInfo.flag };
+            }
+
+            return relation === 'winner' ? { teamId: refMatch.home_team_id, name: homeInfo.name, flag: homeInfo.flag } : { teamId: refMatch.away_team_id, name: awayInfo.name, flag: awayInfo.flag };
+          }
+        }
+
+        // 2) Simple cases: "Winner Group A", "Runner-up Group B", "3rd Group C"
+        const simpleMatch = normalizedLabel.match(/^(Winner|Runner-up|3rd) Group ([A-Z])$/);
         if (simpleMatch) {
           const position = simpleMatch[1];
           const group = simpleMatch[2];
@@ -4825,8 +4857,8 @@ ${getHolidayInfo(today)}`;
           return null;
         }
 
-        // 2) Combined 3rd-place labels: "3rd Group A/B/C/D/F"
-        const combinedMatch = label.match(/^3rd Group ([A-Z\/]+)$/);
+        // 3) Combined 3rd-place labels: "3rd Group A/B/C/D/F"
+        const combinedMatch = normalizedLabel.match(/^3rd Group ([A-Z\/]+)$/);
         if (combinedMatch) {
           const groups = combinedMatch[1].split('/');
           const candidates = [];
@@ -4852,10 +4884,10 @@ ${getHolidayInfo(today)}`;
           return candidates.length > 0 ? candidates[0] : null;
         }
 
-        // 3) Fallback: if label is just a team name, use it as-is
+        // 4) Fallback: if label is just a team name, use it as-is
         return {
           teamId: null,
-          name: label,
+          name: normalizedLabel,
           flag: '🏳️',
           group: null,
           position: null
@@ -5010,6 +5042,18 @@ ${getHolidayInfo(today)}`;
         }
       }
 
+      function getStageLabel(match) {
+        const type = match?.type;
+        if (type === 'r32') return 'Round of 32';
+        if (type === 'r16') return 'Round of 16';
+        if (type === 'qf') return 'Quarter Finals';
+        if (type === 'sf') return 'Semi Finals';
+        if (type === 'final') return 'Final';
+        if (type === 'third') return '3rd Place';
+        if (type === 'group') return `Group ${match.group || ''}`.trim();
+        return match?.group || type || 'Match';
+      }
+
       // ============================================================
       //  MATCH CARD
       // ============================================================
@@ -5115,10 +5159,12 @@ ${getHolidayInfo(today)}`;
         const isHomeKnown = (m.home_team_id && m.home_team_id !== '0' && m.home_team_id !== 0) || (m.home_team_name_en && m.home_team_name_en !== 'null');
         const isAwayKnown = (m.away_team_id && m.away_team_id !== '0' && m.away_team_id !== 0) || (m.away_team_name_en && m.away_team_name_en !== 'null');
 
+        const stageLabel = getStageLabel(m);
+
         return `
                         <div class="match-card">
                             <div class="card-top">
-                                <span class="round-label">${m.group || m.type || 'Match'} ${m.matchday ? '· Day ' + m.matchday : ''}</span>
+                                <span class="round-label">${stageLabel}${m.matchday ? ' · Day ' + m.matchday : ''}</span>
                                 <span class="status">
                                     <span class="dot ${statusClass}"></span>
                                     ${statusText}
